@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "538379106091",
+    "project_id": "marketplace-treads-soci-612o7d",
+    "storage_bucket": "marketplace-treads-soci-612o7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538379106091:android:e9d45c0bee31df2fc1376e",
+        "android_client_info": {
+          "package_name": "com.flutterflow.sniffsocial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjW3jIJAv6o3Ienq0njC_lYdW7BiIOnlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
