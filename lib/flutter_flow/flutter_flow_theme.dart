@@ -3,33 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-const kThemeModeKey = '__theme_mode__';
-
-SharedPreferences? _prefs;
-
 abstract class FlutterFlowTheme {
-  static Future initialize() async =>
-      _prefs = await SharedPreferences.getInstance();
-
-  static ThemeMode get themeMode {
-    final darkMode = _prefs?.getBool(kThemeModeKey);
-    return darkMode == null
-        ? ThemeMode.system
-        : darkMode
-            ? ThemeMode.dark
-            : ThemeMode.light;
-  }
-
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? _prefs?.remove(kThemeModeKey)
-      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
-
   static FlutterFlowTheme of(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? DarkModeTheme()
-        : LightModeTheme();
+    return LightModeTheme();
   }
 
   @Deprecated('Use primary instead')
@@ -146,21 +122,21 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF6F61EF);
-  late Color secondary = const Color(0xFF39D2C0);
-  late Color tertiary = const Color(0xFFEE8B60);
+  late Color primary = const Color(0xFF6C5CE7);
+  late Color secondary = const Color(0xFF3157E4);
+  late Color tertiary = const Color(0xFF0B1324);
   late Color alternate = const Color(0xFFE5E7EB);
-  late Color primaryText = const Color(0xFF15161E);
-  late Color secondaryText = const Color(0xFF606A85);
-  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color primaryText = const Color(0xFF111827);
+  late Color secondaryText = const Color(0xFF667085);
+  late Color primaryBackground = const Color(0xFFF3F5F2);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
   late Color accent1 = const Color(0x4D9489F5);
   late Color accent2 = const Color(0x4C39D2C0);
   late Color accent3 = const Color(0x4CEE8B60);
   late Color accent4 = const Color(0x9AFFFFFF);
-  late Color success = const Color(0xFF048178);
-  late Color warning = const Color(0xFFFCDC0C);
-  late Color error = const Color(0xFFFF5963);
+  late Color success = const Color(0xFF16B881);
+  late Color warning = const Color(0xFFF59E0B);
+  late Color error = const Color(0xFFDC2626);
   late Color info = const Color(0xFFFFFFFF);
 
   late Color dark800Persist = const Color(0xFF15161E);
@@ -219,51 +195,51 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Outfit';
+  String get displayLargeFamily => 'Figtree';
   bool get displayLargeIsCustom => false;
-  TextStyle get displayLarge => GoogleFonts.outfit(
+  TextStyle get displayLarge => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
-  String get displayMediumFamily => 'Outfit';
+  String get displayMediumFamily => 'Figtree';
   bool get displayMediumIsCustom => false;
-  TextStyle get displayMedium => GoogleFonts.outfit(
+  TextStyle get displayMedium => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
-  String get displaySmallFamily => 'Outfit';
+  String get displaySmallFamily => 'Figtree';
   bool get displaySmallIsCustom => false;
-  TextStyle get displaySmall => GoogleFonts.outfit(
+  TextStyle get displaySmall => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get headlineLargeFamily => 'Outfit';
+  String get headlineLargeFamily => 'Figtree';
   bool get headlineLargeIsCustom => false;
-  TextStyle get headlineLarge => GoogleFonts.outfit(
+  TextStyle get headlineLarge => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Outfit';
+  String get headlineMediumFamily => 'Figtree';
   bool get headlineMediumIsCustom => false;
-  TextStyle get headlineMedium => GoogleFonts.outfit(
+  TextStyle get headlineMedium => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'Outfit';
+  String get headlineSmallFamily => 'Figtree';
   bool get headlineSmallIsCustom => false;
-  TextStyle get headlineSmall => GoogleFonts.outfit(
+  TextStyle get headlineSmall => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.bold,
         fontSize: 22.0,
       );
-  String get titleLargeFamily => 'Outfit';
+  String get titleLargeFamily => 'Figtree';
   bool get titleLargeIsCustom => false;
-  TextStyle get titleLarge => GoogleFonts.outfit(
+  TextStyle get titleLarge => GoogleFonts.figtree(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
@@ -324,34 +300,6 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
-}
-
-class DarkModeTheme extends FlutterFlowTheme {
-  @Deprecated('Use primary instead')
-  Color get primaryColor => primary;
-  @Deprecated('Use secondary instead')
-  Color get secondaryColor => secondary;
-  @Deprecated('Use tertiary instead')
-  Color get tertiaryColor => tertiary;
-
-  late Color primary = const Color(0xFF6F61EF);
-  late Color secondary = const Color(0xFF39D2C0);
-  late Color tertiary = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFF313442);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFFA9ADC6);
-  late Color primaryBackground = const Color(0xFF15161E);
-  late Color secondaryBackground = const Color(0xFF1B1D27);
-  late Color accent1 = const Color(0x4D9489F5);
-  late Color accent2 = const Color(0x4C39D2C0);
-  late Color accent3 = const Color(0x4CEE8B60);
-  late Color accent4 = const Color(0x981D2428);
-  late Color success = const Color(0xFF048178);
-  late Color warning = const Color(0xFFFCDC0C);
-  late Color error = const Color(0xFFFF5963);
-  late Color info = const Color(0xFFFFFFFF);
-
-  late Color dark800Persist = const Color(0xFF15161E);
 }
 
 class FFDesignTokens {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:ops_fix/flutter_flow/flutter_flow_drop_down.dart';
 import 'package:ops_fix/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:ops_fix/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ops_fix/flutter_flow/flutter_flow_theme.dart';
@@ -11,28 +12,35 @@ import 'package:ops_fix/index.dart';
 import 'package:ops_fix/main.dart';
 import 'package:ops_fix/flutter_flow/flutter_flow_util.dart';
 
-import 'package:ops_fix/backend/firebase/firebase_config.dart';
-import 'package:ops_fix/auth/firebase_auth/auth_util.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+import 'package:ops_fix/backend/supabase/supabase.dart';
+import 'package:ops_fix/auth/supabase_auth/auth_util.dart';
+
+import 'package:ops_fix/backend/supabase/supabase.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-    await initFirebase();
-
-    await FlutterFlowTheme.initialize();
+    await SupaFlow.initialize();
   });
 
   setUp(() async {
     await authManager.signOut();
+    FFAppState.reset();
+    final appState = FFAppState();
+    await appState.initializePersistedState();
   });
 
   testWidgets('ahhhh', (WidgetTester tester) async {
     _overrideOnError();
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await SupaFlow.client.auth.signInWithPassword(
         email: 'andrew@flutterflow.', password: 'andrew123');
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(ChangeNotifierProvider(
+      create: (context) => FFAppState(),
+      child: const MyApp(),
+    ));
     await GoogleFonts.pendingFonts();
   });
 }

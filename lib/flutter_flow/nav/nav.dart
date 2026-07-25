@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import '/backend/backend.dart';
+
+import '/backend/supabase/supabase.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -83,197 +84,257 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? entryPage ?? NavBarPage() : LoginWidget(),
+      errorBuilder: (context, state) => appStateNotifier.loggedIn
+          ? entryPage ?? LaunchPageWidget()
+          : LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? entryPage ?? NavBarPage()
-              : LoginWidget(),
+              ? entryPage ?? LaunchPageWidget()
+              : LoginPageWidget(),
         ),
         FFRoute(
-          name: LoginWidget.routeName,
-          path: LoginWidget.routePath,
-          builder: (context, params) => LoginWidget(),
+          name: HomeUserPageCopyWidget.routeName,
+          path: HomeUserPageCopyWidget.routePath,
+          builder: (context, params) => HomeUserPageCopyWidget(),
         ),
         FFRoute(
-          name: CreateAccountWidget.routeName,
-          path: CreateAccountWidget.routePath,
-          builder: (context, params) => CreateAccountWidget(),
+          name: MyTicketsPageCopyWidget.routeName,
+          path: MyTicketsPageCopyWidget.routePath,
+          builder: (context, params) => MyTicketsPageCopyWidget(),
         ),
         FFRoute(
-          name: CreateDogProfileWidget.routeName,
-          path: CreateDogProfileWidget.routePath,
-          builder: (context, params) => CreateDogProfileWidget(),
+          name: RegisterPageCopyWidget.routeName,
+          path: RegisterPageCopyWidget.routePath,
+          builder: (context, params) => RegisterPageCopyWidget(),
         ),
         FFRoute(
-          name: CreateYourProfileWidget.routeName,
-          path: CreateYourProfileWidget.routePath,
-          builder: (context, params) => CreateYourProfileWidget(),
+          name: ReportIssuePageCopyWidget.routeName,
+          path: ReportIssuePageCopyWidget.routePath,
+          builder: (context, params) => ReportIssuePageCopyWidget(),
         ),
         FFRoute(
-          name: ForgotPasswordWidget.routeName,
-          path: ForgotPasswordWidget.routePath,
-          builder: (context, params) => ForgotPasswordWidget(),
+          name: TechnicianHistoryPageCopyWidget.routeName,
+          path: TechnicianHistoryPageCopyWidget.routePath,
+          builder: (context, params) => TechnicianHistoryPageCopyWidget(),
         ),
         FFRoute(
-          name: MainFeedWidget.routeName,
-          path: MainFeedWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'main_Feed')
-              : MainFeedWidget(),
+          name: TechnicianTasksPageCopyWidget.routeName,
+          path: TechnicianTasksPageCopyWidget.routePath,
+          builder: (context, params) => TechnicianTasksPageCopyWidget(),
         ),
         FFRoute(
-          name: MainProfileWidget.routeName,
-          path: MainProfileWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'main_Profile')
-              : MainProfileWidget(),
+          name: TechnicianTicketDetailPageCopyWidget.routeName,
+          path: TechnicianTicketDetailPageCopyWidget.routePath,
+          builder: (context, params) => TechnicianTicketDetailPageCopyWidget(),
         ),
         FFRoute(
-          name: CreateStoryWidget.routeName,
-          path: CreateStoryWidget.routePath,
-          builder: (context, params) => CreateStoryWidget(),
+          name: TicketDetailPageCopyWidget.routeName,
+          path: TicketDetailPageCopyWidget.routePath,
+          builder: (context, params) => TicketDetailPageCopyWidget(),
         ),
         FFRoute(
-          name: CreatePostWidget.routeName,
-          path: CreatePostWidget.routePath,
-          builder: (context, params) => CreatePostWidget(),
+          name: LoginPageWidget.routeName,
+          path: LoginPageWidget.routePath,
+          builder: (context, params) => LoginPageWidget(),
         ),
         FFRoute(
-          name: PostDetailsPageWidget.routeName,
-          path: PostDetailsPageWidget.routePath,
-          asyncParams: {
-            'postReference':
-                getDoc(['userPosts'], UserPostsRecord.fromSnapshot),
-            'userRecord': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => PostDetailsPageWidget(
-            postReference: params.getParam(
-              'postReference',
-              ParamType.Document,
-            ),
-            userRecord: params.getParam(
-              'userRecord',
-              ParamType.Document,
-            ),
-          ),
-        ),
-        FFRoute(
-          name: StoryDetailsWidget.routeName,
-          path: StoryDetailsWidget.routePath,
-          builder: (context, params) => StoryDetailsWidget(
-            initialStoryIndex: params.getParam(
-              'initialStoryIndex',
-              ParamType.int,
-            ),
-          ),
-        ),
-        FFRoute(
-          name: EditSettingsWidget.routeName,
-          path: EditSettingsWidget.routePath,
-          builder: (context, params) => EditSettingsWidget(),
-        ),
-        FFRoute(
-          name: EditUserProfileWidget.routeName,
-          path: EditUserProfileWidget.routePath,
-          builder: (context, params) => EditUserProfileWidget(),
-        ),
-        FFRoute(
-          name: EditDogProfileWidget.routeName,
-          path: EditDogProfileWidget.routePath,
-          asyncParams: {
-            'dogProfile': getDoc(['dogs'], DogsRecord.fromSnapshot),
-          },
-          builder: (context, params) => EditDogProfileWidget(
-            dogProfile: params.getParam(
-              'dogProfile',
-              ParamType.Document,
-            ),
-          ),
-        ),
-        FFRoute(
-          name: ChangePasswordWidget.routeName,
-          path: ChangePasswordWidget.routePath,
-          builder: (context, params) => ChangePasswordWidget(),
-        ),
-        FFRoute(
-          name: ViewProfilePageOtherWidget.routeName,
-          path: ViewProfilePageOtherWidget.routePath,
-          asyncParams: {
-            'userDetails': getDoc(['users'], UsersRecord.fromSnapshot),
-          },
-          builder: (context, params) => ViewProfilePageOtherWidget(
-            userDetails: params.getParam(
-              'userDetails',
-              ParamType.Document,
-            ),
-            showPage: params.getParam(
-              'showPage',
-              ParamType.bool,
-            ),
-            pageTitle: params.getParam(
-              'pageTitle',
+          name: TicketDetailPageWidget.routeName,
+          path: TicketDetailPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => TicketDetailPageWidget(
+            ticketId: params.getParam(
+              'ticketId',
               ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: CreateDogProfileNewWidget.routeName,
-          path: CreateDogProfileNewWidget.routePath,
-          builder: (context, params) => CreateDogProfileNewWidget(),
+          name: AdminWorkBoardPageWidget.routeName,
+          path: AdminWorkBoardPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminWorkBoardPageWidget(),
         ),
         FFRoute(
-          name: Chat2DetailsWidget.routeName,
-          path: Chat2DetailsWidget.routePath,
-          asyncParams: {
-            'chatRef': getDoc(['chats'], ChatsRecord.fromSnapshot),
-          },
-          builder: (context, params) => Chat2DetailsWidget(
-            chatRef: params.getParam(
-              'chatRef',
-              ParamType.Document,
+          name: LoginPageCopyWidget.routeName,
+          path: LoginPageCopyWidget.routePath,
+          builder: (context, params) => LoginPageCopyWidget(),
+        ),
+        FFRoute(
+          name: UpdatePasswordPageWidget.routeName,
+          path: UpdatePasswordPageWidget.routePath,
+          builder: (context, params) => UpdatePasswordPageWidget(),
+        ),
+        FFRoute(
+          name: AdminTicketsPageWidget.routeName,
+          path: AdminTicketsPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminTicketsPageWidget(),
+        ),
+        FFRoute(
+          name: LocationEntryPageWidget.routeName,
+          path: LocationEntryPageWidget.routePath,
+          builder: (context, params) => LocationEntryPageWidget(
+            slug: params.getParam(
+              'slug',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: MainChatWidget.routeName,
-          path: MainChatWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'main_Chat')
-              : MainChatWidget(),
-        ),
-        FFRoute(
-          name: Chat2InviteUsersWidget.routeName,
-          path: Chat2InviteUsersWidget.routePath,
-          asyncParams: {
-            'chatRef': getDoc(['chats'], ChatsRecord.fromSnapshot),
-          },
-          builder: (context, params) => Chat2InviteUsersWidget(
-            chatRef: params.getParam(
-              'chatRef',
-              ParamType.Document,
+          name: AdminTicketDetailPageWidget.routeName,
+          path: AdminTicketDetailPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminTicketDetailPageWidget(
+            ticketId: params.getParam(
+              'ticketId',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: ImageDetailsWidget.routeName,
-          path: ImageDetailsWidget.routePath,
-          asyncParams: {
-            'chatMessage':
-                getDoc(['chat_messages'], ChatMessagesRecord.fromSnapshot),
-          },
-          builder: (context, params) => ImageDetailsWidget(
-            chatMessage: params.getParam(
-              'chatMessage',
-              ParamType.Document,
+          name: LaunchPageWidget.routeName,
+          path: LaunchPageWidget.routePath,
+          builder: (context, params) => LaunchPageWidget(),
+        ),
+        FFRoute(
+          name: AdminProfilePageWidget.routeName,
+          path: AdminProfilePageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminProfilePageWidget(),
+        ),
+        FFRoute(
+          name: ForgotPasswordPageWidget.routeName,
+          path: ForgotPasswordPageWidget.routePath,
+          builder: (context, params) => ForgotPasswordPageWidget(),
+        ),
+        FFRoute(
+          name: AdminAssetsLocationsPageWidget.routeName,
+          path: AdminAssetsLocationsPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminAssetsLocationsPageWidget(),
+        ),
+        FFRoute(
+          name: RegisterPageWidget.routeName,
+          path: RegisterPageWidget.routePath,
+          builder: (context, params) => RegisterPageWidget(),
+        ),
+        FFRoute(
+          name: AdminDashboardPageWidget.routeName,
+          path: AdminDashboardPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminDashboardPageWidget(),
+        ),
+        FFRoute(
+          name: ProfilePageWidget.routeName,
+          path: ProfilePageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => ProfilePageWidget(),
+        ),
+        FFRoute(
+          name: HomeUserPageWidget.routeName,
+          path: HomeUserPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => HomeUserPageWidget(),
+        ),
+        FFRoute(
+          name: TechnicianTasksPageWidget.routeName,
+          path: TechnicianTasksPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => TechnicianTasksPageWidget(),
+        ),
+        FFRoute(
+          name: ReportIssuePageWidget.routeName,
+          path: ReportIssuePageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => ReportIssuePageWidget(
+            unitId: params.getParam(
+              'unitId',
+              ParamType.String,
+            ),
+            locationId: params.getParam(
+              'locationId',
+              ParamType.String,
+            ),
+            unitCode: params.getParam(
+              'unitCode',
+              ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: MyTicketsPageWidget.routeName,
+          path: MyTicketsPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => MyTicketsPageWidget(),
+        ),
+        FFRoute(
+          name: AdminActivityLogPageWidget.routeName,
+          path: AdminActivityLogPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminActivityLogPageWidget(),
+        ),
+        FFRoute(
+          name: TechnicianTicketDetailPageWidget.routeName,
+          path: TechnicianTicketDetailPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => TechnicianTicketDetailPageWidget(
+            ticketId: params.getParam(
+              'ticketId',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TechnicianHistoryPageWidget.routeName,
+          path: TechnicianHistoryPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => TechnicianHistoryPageWidget(),
+        ),
+        FFRoute(
+          name: AdminAssetLocationDetailPageWidget.routeName,
+          path: AdminAssetLocationDetailPageWidget.routePath,
+          builder: (context, params) => AdminAssetLocationDetailPageWidget(
+            locationId: params.getParam(
+              'locationId',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: AdminAssetDetailPageWidget.routeName,
+          path: AdminAssetDetailPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdminAssetDetailPageWidget(
+            assetCode: params.getParam(
+              'assetCode',
+              ParamType.String,
+            ),
+            unitId: params.getParam(
+              'unitId',
+              ParamType.String,
+            ),
+            locationId: params.getParam(
+              'locationId',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TechnicianProfilePageWidget.routeName,
+          path: TechnicianProfilePageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => TechnicianProfilePageWidget(),
+        ),
+        FFRoute(
+          name: NotificationsPageWidget.routeName,
+          path: NotificationsPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => NotificationsPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
-      observers: [routeObserver],
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -390,7 +451,6 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
-    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -408,7 +468,6 @@ class FFParameters {
       param,
       type,
       isList,
-      collectionNamePath: collectionNamePath,
     );
   }
 }
@@ -457,14 +516,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).primary,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/app_social_Splash@1x.png',
-                      width: 600.0,
-                      height: 600.0,
-                      fit: BoxFit.scaleDown,
-                    ),
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/OpsFix_Logo_-_Copy_(2).png',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;
