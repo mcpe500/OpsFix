@@ -68,7 +68,9 @@ class _UpdatePasswordPageWidgetState extends State<UpdatePasswordPageWidget> {
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                 automaticallyImplyLeading: true,
                 title: Text(
-                  'Update password',
+                  FFLocalizations.of(context).getText(
+                    't1dfm82l' /* Update password */,
+                  ),
                   style: FlutterFlowTheme.of(context).titleLarge.override(
                         font: GoogleFonts.figtree(
                           fontWeight: FontWeight.w600,
@@ -97,7 +99,9 @@ class _UpdatePasswordPageWidgetState extends State<UpdatePasswordPageWidget> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Choose a new password',
+                  FFLocalizations.of(context).getText(
+                    'pbir1ssv' /* Choose a new password */,
+                  ),
                   style: FlutterFlowTheme.of(context).headlineSmall.override(
                         font: GoogleFonts.figtree(
                           fontWeight: FlutterFlowTheme.of(context)
@@ -130,7 +134,9 @@ class _UpdatePasswordPageWidgetState extends State<UpdatePasswordPageWidget> {
                   ),
                   obscureText: !_model.newPasswordFieldVisibility,
                   decoration: InputDecoration(
-                    labelText: 'New password',
+                    labelText: FFLocalizations.of(context).getText(
+                      'io7h8q0c' /* New password */,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0x00000000),
@@ -204,7 +210,9 @@ class _UpdatePasswordPageWidgetState extends State<UpdatePasswordPageWidget> {
                   ),
                   obscureText: !_model.confirmNewPasswordFieldVisibility,
                   decoration: InputDecoration(
-                    labelText: 'Confirm password',
+                    labelText: FFLocalizations.of(context).getText(
+                      '6wc3rmoa' /* Confirm password */,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0x00000000),
@@ -287,7 +295,9 @@ class _UpdatePasswordPageWidgetState extends State<UpdatePasswordPageWidget> {
                     context.goNamedAuth(
                         LaunchPageWidget.routeName, context.mounted);
                   },
-                  text: 'Save new password',
+                  text: FFLocalizations.of(context).getText(
+                    'hphz4vjx' /* Save new password */,
+                  ),
                   options: FFButtonOptions(
                     width: double.infinity,
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

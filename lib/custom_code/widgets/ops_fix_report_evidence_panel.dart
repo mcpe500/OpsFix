@@ -15,6 +15,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
+Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
+
 class OpsFixReportEvidencePanel extends StatefulWidget {
   const OpsFixReportEvidencePanel({
     super.key,
@@ -188,7 +196,7 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
         _busy = false;
         _message = 'Ticket ${created['ticket_code']} created successfully.';
       });
-      context.pushNamed('myTicketsPage');
+      context.goNamed('myTicketsPage', extra: _opsFixReporterFade());
     } catch (error) {
       debugPrint('OpsFix ticket creation failed: ${error.runtimeType}');
       if (!mounted) return;

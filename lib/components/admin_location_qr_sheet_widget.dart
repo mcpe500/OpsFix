@@ -73,7 +73,9 @@ class _AdminLocationQrSheetWidgetState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'QR lokasi',
+              FFLocalizations.of(context).getText(
+                '28pgiw77' /* QR lokasi */,
+              ),
               style: FlutterFlowTheme.of(context).titleLarge.override(
                     font: GoogleFonts.figtree(
                       fontWeight:
@@ -89,7 +91,9 @@ class _AdminLocationQrSheetWidgetState
                   ),
             ),
             Text(
-              'Satu QR membuka seluruh lokasi dan daftar unitnya.',
+              FFLocalizations.of(context).getText(
+                '2j7d8l2r' /* Satu QR membuka seluruh lokasi... */,
+              ),
               maxLines: 2,
               style: TextStyle(
                 color: FlutterFlowTheme.of(context).secondaryText,
@@ -97,7 +101,9 @@ class _AdminLocationQrSheetWidgetState
             ),
             if (widget!.qrUrl == '')
               Text(
-                'Simpan URL publik HTTPS terlebih dahulu untuk membuat QR.',
+                FFLocalizations.of(context).getText(
+                  'l1qoisie' /* Simpan URL publik HTTPS terleb... */,
+                ),
                 style: TextStyle(
                   color: FlutterFlowTheme.of(context).warning,
                 ),
@@ -135,7 +141,9 @@ class _AdminLocationQrSheetWidgetState
                     ),
                   );
                 },
-                text: 'Salin tautan',
+                text: FFLocalizations.of(context).getText(
+                  'l4s5pfjs' /* Salin tautan */,
+                ),
                 options: FFButtonOptions(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   iconPadding:
@@ -157,7 +165,9 @@ class _AdminLocationQrSheetWidgetState
               focusNode: _model.adminSitePublicUrlFieldFocusNode,
               obscureText: false,
               decoration: InputDecoration(
-                labelText: 'URL publik aplikasi (https://...)',
+                labelText: FFLocalizations.of(context).getText(
+                  'y3iuybm0' /* URL publik aplikasi (https://.... */,
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color(0x00000000),
@@ -268,7 +278,9 @@ class _AdminLocationQrSheetWidgetState
 
                 safeSetState(() {});
               },
-              text: 'Simpan URL publik',
+              text: FFLocalizations.of(context).getText(
+                'oerdnbmm' /* Simpan URL publik */,
+              ),
               options: FFButtonOptions(
                 width: double.infinity,
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

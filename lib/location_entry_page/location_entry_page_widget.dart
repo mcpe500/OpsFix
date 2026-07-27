@@ -43,17 +43,41 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().pendingLocationSlug = widget!.slug!;
       safeSetState(() {});
-      _model.sourceLocationEntryRole = await actions.resolveOpsFixSession();
-      _model.sourceDeepLinkResolution = await actions.resolveOpsFixLocation(
+      _model.locationEntryRole = await actions.resolveOpsFixSession();
+      _model.locationEntryResolution = await actions.resolveOpsFixLocation(
         widget!.slug,
       );
-      if (_model.sourceDeepLinkResolution == 'ok') {
-        if (FFAppState().currentUserRole == 'manager') {
+      if (_model.locationEntryResolution == 'ok') {
+        if (_model.locationEntryRole == 'manager') {
           context.goNamed(AdminDashboardPageWidget.routeName);
-        } else if (FFAppState().currentUserRole == 'technician') {
-          context.goNamed(TechnicianTasksPageWidget.routeName);
         } else {
-          context.goNamed(HomeUserPageWidget.routeName);
+          if (_model.locationEntryRole == 'technician') {
+            context.goNamed(TechnicianTasksPageWidget.routeName);
+          } else {
+            context.goNamed(
+              ReportIssuePageWidget.routeName,
+              queryParameters: {
+                'locationId': serializeParam(
+                  FFAppState().currentLocationId,
+                  ParamType.String,
+                ),
+              }.withoutNulls,
+            );
+          }
+        }
+      } else {
+        if (_model.locationEntryResolution == 'unauthenticated') {
+          context.goNamed(LoginPageWidget.routeName);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Lokasi dari QR tidak ditemukan. Pastikan tautan berasal dari OpsFix.',
+                style: TextStyle(),
+              ),
+              duration: Duration(milliseconds: 4000),
+            ),
+          );
         }
       }
     });
@@ -92,7 +116,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                 automaticallyImplyLeading: true,
                 title: Text(
-                  'OpsFix Location',
+                  FFLocalizations.of(context).getText(
+                    '1prjy5yo' /* OpsFix Location */,
+                  ),
                   style: FlutterFlowTheme.of(context).titleLarge.override(
                         font: GoogleFonts.figtree(
                           fontWeight: FontWeight.w600,
@@ -126,7 +152,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                   size: 56.0,
                 ),
                 Text(
-                  'Pilih lokasi OpsFix',
+                  FFLocalizations.of(context).getText(
+                    '4vp2c9em' /* Pilih lokasi OpsFix */,
+                  ),
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).headlineSmall.override(
                         font: GoogleFonts.figtree(
@@ -160,7 +188,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                   ),
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Kode, slug, atau URL lokasi',
+                    labelText: FFLocalizations.of(context).getText(
+                      '02atrcmy' /* Kode, slug, atau URL lokasi */,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0x00000000),
@@ -254,7 +284,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
 
                     safeSetState(() {});
                   },
-                  text: 'Gunakan lokasi',
+                  text: FFLocalizations.of(context).getText(
+                    '3ngcjyqd' /* Gunakan lokasi */,
+                  ),
                   options: FFButtonOptions(
                     width: double.infinity,
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -271,7 +303,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                   onPressed: () async {
                     context.pushNamed(LoginPageWidget.routeName);
                   },
-                  text: 'Masuk terlebih dahulu',
+                  text: FFLocalizations.of(context).getText(
+                    'hfkt0x32' /* Masuk terlebih dahulu */,
+                  ),
                   options: FFButtonOptions(
                     width: double.infinity,
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -290,7 +324,9 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                   ),
                 ),
                 Text(
-                  'Pemindaian QR dan input manual menggunakan resolver database yang sama.',
+                  FFLocalizations.of(context).getText(
+                    'vpubcim7' /* Pemindaian QR dan input manual... */,
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 3,
                   style: FlutterFlowTheme.of(context).bodySmall.override(

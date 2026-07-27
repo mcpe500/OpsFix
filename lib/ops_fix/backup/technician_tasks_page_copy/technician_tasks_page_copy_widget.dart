@@ -598,7 +598,9 @@ class _TechnicianTasksPageCopyWidgetState
                             size: 24.0,
                           ),
                           Text(
-                            'OpsFix',
+                            FFLocalizations.of(context).getText(
+                              '5lkxob14' /* OpsFix */,
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
@@ -629,7 +631,9 @@ class _TechnicianTasksPageCopyWidgetState
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   8.0, 4.0, 8.0, 4.0),
                               child: Text(
-                                'Teknisi',
+                                FFLocalizations.of(context).getText(
+                                  'ft3v3c2v' /* Teknisi */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(
@@ -695,7 +699,9 @@ class _TechnicianTasksPageCopyWidgetState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'PORTAL TEKNISI',
+                                  FFLocalizations.of(context).getText(
+                                    '39sie4a6' /* PORTAL TEKNISI */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -720,7 +726,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ),
                                 ),
                                 Text(
-                                  'Selamat bertugas, Dimas Pratama',
+                                  FFLocalizations.of(context).getText(
+                                    'v3o7d0nx' /* Selamat bertugas, Dimas Pratam... */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .headlineSmall
                                       .override(
@@ -745,7 +753,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ),
                                 ),
                                 Text(
-                                  'Ada 3 pekerjaan aktif yang memerlukan tindakan Anda hari ini.',
+                                  FFLocalizations.of(context).getText(
+                                    'c4okczve' /* Ada 3 pekerjaan aktif yang mem... */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodySmall
                                       .override(
@@ -792,7 +802,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Tugas Aktif',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'y82owiz3' /* Tugas Aktif */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -824,7 +837,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '3',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '11ztgil8' /* 3 */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .titleLarge
@@ -873,7 +889,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'SLA Terjaga',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '8oild873' /* SLA Terjaga */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -905,7 +924,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '100%',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '1tkw7fg8' /* 100% */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleLarge
@@ -953,7 +975,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Selesai Hari Ini',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'gd24oi1w' /* Selesai Hari Ini */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -985,7 +1010,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '4',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'mlhei723' /* 4 */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .titleLarge
@@ -1033,7 +1061,11 @@ class _TechnicianTasksPageCopyWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             FlutterFlowChoiceChips(
-                              options: [ChipData('Semua (3)')],
+                              options: [
+                                ChipData(FFLocalizations.of(context).getText(
+                                  'v1cx1qnc' /* Semua (3) */,
+                                ))
+                              ],
                               onChanged: (val) => safeSetState(
                                   () => _model.chipValue1 = val?.firstOrNull),
                               selectedChipStyle: ChipStyle(
@@ -1065,12 +1097,20 @@ class _TechnicianTasksPageCopyWidgetState
                               initialized: _model.chipValue1 != null,
                               controller: _model.chipValueController1 ??=
                                   FormFieldController<List<String>>(
-                                ['Semua (3)'],
+                                [
+                                  FFLocalizations.of(context).getText(
+                                    'h13tvgdj' /* Semua (3) */,
+                                  )
+                                ],
                               ),
                               wrapped: false,
                             ),
                             FlutterFlowChoiceChips(
-                              options: [ChipData('In Progress (1)')],
+                              options: [
+                                ChipData(FFLocalizations.of(context).getText(
+                                  '3ns5tkuk' /* In Progress (1) */,
+                                ))
+                              ],
                               onChanged: (val) => safeSetState(
                                   () => _model.chipValue2 = val?.firstOrNull),
                               selectedChipStyle: ChipStyle(
@@ -1102,7 +1142,11 @@ class _TechnicianTasksPageCopyWidgetState
                               wrapped: false,
                             ),
                             FlutterFlowChoiceChips(
-                              options: [ChipData('Assigned (2)')],
+                              options: [
+                                ChipData(FFLocalizations.of(context).getText(
+                                  'dp7vmxii' /* Assigned (2) */,
+                                ))
+                              ],
                               onChanged: (val) => safeSetState(
                                   () => _model.chipValue3 = val?.firstOrNull),
                               selectedChipStyle: ChipStyle(
@@ -1146,7 +1190,9 @@ class _TechnicianTasksPageCopyWidgetState
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Tugas Aktif (3)',
+                                  FFLocalizations.of(context).getText(
+                                    'urxk3n2x' /* Tugas Aktif (3) */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
                                       .override(
@@ -1171,7 +1217,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ),
                                 ),
                                 Text(
-                                  'Urutkan: SLA Terdekat',
+                                  FFLocalizations.of(context).getText(
+                                    'znege5f0' /* Urutkan: SLA Terdekat */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -1232,7 +1280,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'OPS-24016',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'c0zl9drx' /* OPS-24016 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1276,7 +1327,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'In Progress',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'fzd6tjl7' /* In Progress */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1312,7 +1366,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ],
                                     ),
                                     Text(
-                                      'PC-12 · CPU',
+                                      FFLocalizations.of(context).getText(
+                                        'ex0lt8wb' /* PC-12 · CPU */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -1339,7 +1395,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           ),
                                     ),
                                     Text(
-                                      'Restart berulang saat digunakan',
+                                      FFLocalizations.of(context).getText(
+                                        'jeey27ia' /* Restart berulang saat digunaka... */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
                                           .override(
@@ -1378,7 +1436,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           size: 16.0,
                                         ),
                                         Text(
-                                          'Lab Komputer A · Gedung Teknik L2',
+                                          FFLocalizations.of(context).getText(
+                                            'yqazumlv' /* Lab Komputer A · Gedung Teknik... */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
@@ -1426,7 +1486,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'Critical Priority',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'rthp13a9' /* Critical Priority */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1472,7 +1535,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               size: 16.0,
                                             ),
                                             Text(
-                                              'SLA sisa: 2j 23m',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'hyyv3zq2' /* SLA sisa: 2j 23m */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1511,7 +1577,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       onPressed: () {
                                         print('DetailTask1Button pressed ...');
                                       },
-                                      text: 'Kerjakan / Detail Pekerjaan',
+                                      text: FFLocalizations.of(context).getText(
+                                        'i9lhmogd' /* Kerjakan / Detail Pekerjaan */,
+                                      ),
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 42.0,
@@ -1567,7 +1635,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'OPS-24018',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '7jm4s54s' /* OPS-24018 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1611,7 +1682,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'Assigned',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '11afw0q2' /* Assigned */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1647,7 +1721,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ],
                                     ),
                                     Text(
-                                      'AC Ruang Dosen 204',
+                                      FFLocalizations.of(context).getText(
+                                        '1aryohaf' /* AC Ruang Dosen 204 */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -1674,7 +1750,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           ),
                                     ),
                                     Text(
-                                      'Bising dan kurang dingin',
+                                      FFLocalizations.of(context).getText(
+                                        'eqzllujk' /* Bising dan kurang dingin */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
                                           .override(
@@ -1713,7 +1791,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           size: 16.0,
                                         ),
                                         Text(
-                                          'Gedung Utama · Lantai 2',
+                                          FFLocalizations.of(context).getText(
+                                            'ywdn32px' /* Gedung Utama · Lantai 2 */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
@@ -1761,7 +1841,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'High Priority',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'k4tfbv2o' /* High Priority */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1807,7 +1890,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               size: 16.0,
                                             ),
                                             Text(
-                                              'SLA sisa: 4j 15m',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'j83ymmqm' /* SLA sisa: 4j 15m */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1846,7 +1932,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       onPressed: () {
                                         print('StartTask2Button pressed ...');
                                       },
-                                      text: 'Mulai Pekerjaan',
+                                      text: FFLocalizations.of(context).getText(
+                                        'nqbo55dp' /* Mulai Pekerjaan */,
+                                      ),
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 42.0,
@@ -1907,7 +1995,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'OPS-24019',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'qeanrr9s' /* OPS-24019 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1951,7 +2042,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'Assigned',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '4ck5ye19' /* Assigned */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1987,7 +2081,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       ],
                                     ),
                                     Text(
-                                      'Projector R. Meeting B',
+                                      FFLocalizations.of(context).getText(
+                                        'efxn8a41' /* Projector R. Meeting B */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -2014,7 +2110,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           ),
                                     ),
                                     Text(
-                                      'Lampu indikator merah / tidak menyala',
+                                      FFLocalizations.of(context).getText(
+                                        'hz26n6n9' /* Lampu indikator merah / tidak ... */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
                                           .override(
@@ -2053,7 +2151,9 @@ class _TechnicianTasksPageCopyWidgetState
                                           size: 16.0,
                                         ),
                                         Text(
-                                          'Gedung Rektorat · Lantai 3',
+                                          FFLocalizations.of(context).getText(
+                                            '89gjma1c' /* Gedung Rektorat · Lantai 3 */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
@@ -2101,7 +2201,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 4.0, 8.0, 4.0),
                                             child: Text(
-                                              'Medium Priority',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'bo7g16hb' /* Medium Priority */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -2147,7 +2250,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               size: 16.0,
                                             ),
                                             Text(
-                                              'SLA sisa: 6j 00m',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                's9po670a' /* SLA sisa: 6j 00m */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -2186,7 +2292,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       onPressed: () {
                                         print('StartTask3Button pressed ...');
                                       },
-                                      text: 'Mulai Pekerjaan',
+                                      text: FFLocalizations.of(context).getText(
+                                        'bzzcwa6b' /* Mulai Pekerjaan */,
+                                      ),
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 42.0,
@@ -2242,7 +2350,9 @@ class _TechnicianTasksPageCopyWidgetState
                                       size: 20.0,
                                     ),
                                     Text(
-                                      'Performa Hari Ini',
+                                      FFLocalizations.of(context).getText(
+                                        'eqliz46k' /* Performa Hari Ini */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -2293,7 +2403,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Waktu Respon Rata-rata',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'bhyu5bsm' /* Waktu Respon Rata-rata */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2325,7 +2438,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '8 menit',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '6w4gmh6r' /* 8 menit */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2372,7 +2488,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Resolusi Tepat Waktu',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '2qenuf7z' /* Resolusi Tepat Waktu */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2404,7 +2523,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '100%',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'lvd69f58' /* 100% */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2451,7 +2573,10 @@ class _TechnicianTasksPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Kepuasan Pelapor',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'gee1v3o4' /* Kepuasan Pelapor */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2483,7 +2608,10 @@ class _TechnicianTasksPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '4.9 / 5.0 ⭐',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'y83l6t8a' /* 4.9 / 5.0 ⭐ */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2559,7 +2687,9 @@ class _TechnicianTasksPageCopyWidgetState
                             size: 22.0,
                           ),
                           Text(
-                            'Tugas',
+                            FFLocalizations.of(context).getText(
+                              'kvuor58r' /* Tugas */,
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .labelSmall
                                 .override(
@@ -2594,7 +2724,9 @@ class _TechnicianTasksPageCopyWidgetState
                             size: 22.0,
                           ),
                           Text(
-                            'Riwayat',
+                            FFLocalizations.of(context).getText(
+                              '6m5eobqq' /* Riwayat */,
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .labelSmall
                                 .override(

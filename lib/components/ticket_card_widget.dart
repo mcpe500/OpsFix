@@ -450,7 +450,9 @@ class _TicketCardWidgetState extends State<TicketCardWidget> {
                               size: 16.0,
                             ),
                             Text(
-                              'Target respons',
+                              FFLocalizations.of(context).getText(
+                                'nh0nmohl' /* Target respons */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .labelSmall
                                   .override(
@@ -477,7 +479,9 @@ class _TicketCardWidgetState extends State<TicketCardWidget> {
                           ].divide(SizedBox(width: 4.0)),
                         ),
                         Text(
-                          'Dalam target',
+                          FFLocalizations.of(context).getText(
+                            'i6mfspku' /* Dalam target */,
+                          ),
                           style:
                               FlutterFlowTheme.of(context).labelSmall.override(
                                     font: GoogleFonts.figtree(

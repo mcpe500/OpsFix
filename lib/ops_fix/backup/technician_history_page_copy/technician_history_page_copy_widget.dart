@@ -209,7 +209,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'OpsFix',
+                                    FFLocalizations.of(context).getText(
+                                      '2frlm53y' /* OpsFix */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
@@ -241,7 +243,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                           6.0, 2.0, 6.0, 2.0),
                                       child: Container(
                                         child: Text(
-                                          'TEKNISI',
+                                          FFLocalizations.of(context).getText(
+                                            'w5cd9qpx' /* TEKNISI */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -297,7 +301,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                 ),
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
-                                  'DP',
+                                  FFLocalizations.of(context).getText(
+                                    '2fzkqxpp' /* DP */,
+                                  ),
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   style: FlutterFlowTheme.of(context)
@@ -363,7 +369,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Teknisi · Dimas Pratama',
+                                    FFLocalizations.of(context).getText(
+                                      'ed59qcg2' /* Teknisi · Dimas Pratama */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -385,7 +393,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                         ),
                                   ),
                                   Text(
-                                    'Riwayat pekerjaan saya.',
+                                    FFLocalizations.of(context).getText(
+                                      'xsqst04x' /* Riwayat pekerjaan saya. */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .headlineMedium
                                         .override(
@@ -407,7 +417,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                         ),
                                   ),
                                   Text(
-                                    'Lihat dan pantau semua tiket pemeliharaan aktif maupun yang telah selesai Anda tangani.',
+                                    FFLocalizations.of(context).getText(
+                                      '8gmrl4jn' /* Lihat dan pantau semua tiket p... */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -467,7 +479,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '8 Total tiket ditangani',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'kk9pidox' /* 8 Total tiket ditangani */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleMedium
@@ -494,7 +509,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Performa bulan ini',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'ql3qh7nq' /* Performa bulan ini */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -541,7 +559,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                         16.0, 8.0, 16.0, 8.0),
                                                 child: Container(
                                                   child: Text(
-                                                    '87% SLA',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '5i8cdo8w' /* 87% SLA */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelLarge
@@ -595,7 +616,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '5',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'ahx9duq3' /* 5 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleLarge
@@ -624,7 +648,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Selesai',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'vo6g5zug' /* Selesai */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -666,7 +693,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '2',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '9sy0qbxh' /* 2 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleLarge
@@ -695,7 +725,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Aktif',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'vs3ztch5' /* Aktif */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -737,7 +770,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '1',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '90trwtoq' /* 1 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleLarge
@@ -766,7 +802,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Reopened',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '8hiujgbi' /* Reopened */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -940,7 +979,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Periode',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'uug3l447' /* Periode */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1013,7 +1055,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          '7 hari',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            '65y33yt4' /* 7 hari */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1092,7 +1138,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                           size: 16.0,
                                                         ),
                                                         Text(
-                                                          '30 hari',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'o7upmtlp' /* 30 hari */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1166,7 +1216,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          '90 hari',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'a5ah308i' /* 90 hari */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1240,7 +1294,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Semua waktu',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'dn86gw1r' /* Semua waktu */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1290,7 +1348,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Status',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'ci77qvyx' /* Status */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -1368,7 +1429,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                           size: 16.0,
                                                         ),
                                                         Text(
-                                                          'Semua',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            '44zpfqto' /* Semua */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1442,7 +1507,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Assigned',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            '7ys6tnq6' /* Assigned */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1516,7 +1585,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'In Progress',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'hv74px1z' /* In Progress */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1590,7 +1663,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Fixed',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            '3s5p71hb' /* Fixed */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1664,7 +1741,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Reopened',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'oqjiv9r8' /* Reopened */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -1717,7 +1798,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
-                                    'Masih aktif',
+                                    FFLocalizations.of(context).getText(
+                                      'klxgwek6' /* Masih aktif */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
@@ -1768,7 +1851,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'OPS-24017',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'nz00y7ni' /* OPS-24017 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelLarge
@@ -1818,7 +1904,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'PC-05 · Keyboard',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'b3yhtwkf' /* PC-05 · Keyboard */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleMedium
@@ -1847,7 +1936,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Tidak berfungsi',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '6vmgv0gm' /* Tidak berfungsi */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -1896,7 +1988,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   size: 16.0,
                                                 ),
                                                 Text(
-                                                  'Lab Komputer A',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'qpx5domi' /* Lab Komputer A */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodySmall
@@ -1956,7 +2051,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      'Pelapor: Nadia',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'hq41qqoi' /* Pelapor: Nadia */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1989,7 +2088,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Target: 20 Jul 2026 · 16:18',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '5k2ma62s' /* Target: 20 Jul 2026 · 16:18 */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .labelSmall
@@ -2070,7 +2173,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'OPS-24016',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'ytip0xyx' /* OPS-24016 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelLarge
@@ -2120,7 +2226,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'PC-12 · CPU',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'no156yic' /* PC-12 · CPU */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleMedium
@@ -2149,7 +2258,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Restart berulang',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'kvzetg2q' /* Restart berulang */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -2212,7 +2324,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   ),
                                                 ),
                                                 Text(
-                                                  '55%',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '8vgpu632' /* 55% */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -2255,7 +2370,9 @@ class _TechnicianHistoryPageCopyWidgetState
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
-                                    'Pekerjaan selesai',
+                                    FFLocalizations.of(context).getText(
+                                      'piabkx7t' /* Pekerjaan selesai */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
@@ -2306,7 +2423,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'OPS-24015',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'e96dd5bm' /* OPS-24015 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelLarge
@@ -2356,7 +2476,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'AC-01 · Drainase',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'vrrir1ap' /* AC-01 · Drainase */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleMedium
@@ -2385,7 +2508,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Air menetes',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'z06kj423' /* Air menetes */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -2466,7 +2592,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        'Catatan teknisi:',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'efr6zea4' /* Catatan teknisi: */,
+                                                        ),
                                                         style: FlutterFlowTheme
                                                                 .of(context)
                                                             .labelSmall
@@ -2497,7 +2627,11 @@ class _TechnicianHistoryPageCopyWidgetState
                                                             ),
                                                       ),
                                                       Text(
-                                                        'Penyumbatan pada pipa pembuangan sudah dibersihkan. Drainase kembali lancar.',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'f24glde4' /* Penyumbatan pada pipa pembuang... */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -2545,7 +2679,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Selesai: 19 Jul 2026 · 16:42',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'iba7w3vb' /* Selesai: 19 Jul 2026 · 16:42 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -2580,7 +2717,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Durasi: 2j 14m',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '7ax5pu0r' /* Durasi: 2j 14m */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -2652,7 +2792,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'OPS-24009 Perlu perhatian',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'rlab5cpl' /* OPS-24009 Perlu perhatian */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2679,7 +2822,10 @@ class _TechnicianHistoryPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'Tiket ini dibuka kembali oleh user.',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '2zm642r6' /* Tiket ini dibuka kembali oleh ... */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall

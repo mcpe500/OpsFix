@@ -29,3 +29,5 @@ export '/custom_code/actions/resolve_ops_fix_unit_location_id.dart'
     show resolveOpsFixUnitLocationId;
 export '/custom_code/actions/open_ops_fix_asset_detail.dart'
     show openOpsFixAssetDetail;
+export '/custom_code/actions/open_ops_fix_unit_editor.dart'
+    show openOpsFixUnitEditor;

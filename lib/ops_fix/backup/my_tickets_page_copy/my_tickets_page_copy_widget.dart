@@ -202,7 +202,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Nadia · Ticket Tracking',
+                              FFLocalizations.of(context).getText(
+                                'avmmmq9s' /* Nadia · Ticket Tracking */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
@@ -222,7 +224,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                   ),
                             ),
                             Text(
-                              'Pantau laporan saya.',
+                              FFLocalizations.of(context).getText(
+                                'pdk2j1n0' /* Pantau laporan saya. */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .headlineMedium
                                   .override(
@@ -242,7 +246,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                   ),
                             ),
                             Text(
-                              'Lihat status terbaru, teknisi yang menangani, dan histori laporan fasilitasmu.',
+                              FFLocalizations.of(context).getText(
+                                '3iynyyge' /* Lihat status terbaru, teknisi ... */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -302,7 +308,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         size: 16.0,
                                       ),
                                       Text(
-                                        'Semua',
+                                        FFLocalizations.of(context).getText(
+                                          'xvwmgc95' /* Semua */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -359,7 +367,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Reported',
+                                        FFLocalizations.of(context).getText(
+                                          '1upn2kce' /* Reported */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -416,7 +426,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Assigned',
+                                        FFLocalizations.of(context).getText(
+                                          '7dzertp3' /* Assigned */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -473,7 +485,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'In Progress',
+                                        FFLocalizations.of(context).getText(
+                                          'm7lf4cs3' /* In Progress */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -530,7 +544,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Pending Verification',
+                                        FFLocalizations.of(context).getText(
+                                          '9y8h2dig' /* Pending Verification */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -587,7 +603,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Fixed',
+                                        FFLocalizations.of(context).getText(
+                                          'p2wfhsub' /* Fixed */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -630,7 +648,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '1 tiket ditemukan',
+                              FFLocalizations.of(context).getText(
+                                'zwmakbcl' /* 1 tiket ditemukan */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
@@ -739,7 +759,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                     ),
                                   ),
                                   Text(
-                                    'OpsFix',
+                                    FFLocalizations.of(context).getText(
+                                      '4d2qr9kq' /* OpsFix */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .titleLarge
                                         .override(
@@ -789,7 +811,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                     ),
                                     alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Text(
-                                      'N',
+                                      FFLocalizations.of(context).getText(
+                                        '71ozsyfj' /* N */,
+                                      ),
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       style: FlutterFlowTheme.of(context)
@@ -871,7 +895,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                 size: 24.0,
                               ),
                               Text(
-                                'Beranda',
+                                FFLocalizations.of(context).getText(
+                                  'igzhzamp' /* Beranda */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(
@@ -916,7 +942,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                 ),
                               ),
                               Text(
-                                'Lapor',
+                                FFLocalizations.of(context).getText(
+                                  'hdom4owe' /* Lapor */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(
@@ -948,7 +976,9 @@ class _MyTicketsPageCopyWidgetState extends State<MyTicketsPageCopyWidget> {
                                 size: 24.0,
                               ),
                               Text(
-                                'Tiket',
+                                FFLocalizations.of(context).getText(
+                                  'o11xaqlo' /* Tiket */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(

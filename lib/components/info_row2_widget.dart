@@ -138,7 +138,9 @@ class _InfoRow2WidgetState extends State<InfoRow2Widget> {
                             EdgeInsetsDirectional.fromSTEB(8.0, 4.0, 8.0, 4.0),
                         child: Container(
                           child: Text(
-                            'High',
+                            FFLocalizations.of(context).getText(
+                              '4lvt72fz' /* High */,
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .labelSmall
                                 .override(

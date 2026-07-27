@@ -333,6 +333,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           path: NotificationsPageWidget.routePath,
           requireAuth: true,
           builder: (context, params) => NotificationsPageWidget(),
+        ),
+        FFRoute(
+          name: ReporterQrScannerPageWidget.routeName,
+          path: ReporterQrScannerPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => ReporterQrScannerPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -518,7 +524,7 @@ class FFRoute {
               ? Container(
                   color: Colors.transparent,
                   child: Image.asset(
-                    'assets/images/OpsFix_Logo_-_Copy_(2).png',
+                    'assets/images/OpsFix_Logo_New.png',
                     fit: BoxFit.contain,
                   ),
                 )

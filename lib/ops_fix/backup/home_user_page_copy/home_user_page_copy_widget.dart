@@ -147,7 +147,9 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                 ),
                               ),
                               Text(
-                                'OpsFix',
+                                FFLocalizations.of(context).getText(
+                                  'jhlxr3kt' /* OpsFix */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .titleMedium
                                     .override(
@@ -235,7 +237,9 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                   ),
                                   alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
-                                    'N',
+                                    FFLocalizations.of(context).getText(
+                                      '96bl50az' /* N */,
+                                    ),
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     style: FlutterFlowTheme.of(context)
@@ -328,7 +332,10 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Portal Pengguna',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'fobqlqwa' /* Portal Pengguna */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelMedium
@@ -361,7 +368,10 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Selamat datang, Nadia.',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'racv4rx4' /* Selamat datang, Nadia. */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .headlineSmall
@@ -386,7 +396,10 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Pantau fasilitas yang kamu laporkan dan buka lokasi sebelum mengirim laporan baru.',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'wufoou20' /* Pantau fasilitas yang kamu lap... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -487,7 +500,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                   .center,
                                                           children: [
                                                             Text(
-                                                              'Lokasi aktif / terakhir',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                'pasmhqas' /* Lokasi aktif / terakhir */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .labelSmall
@@ -520,7 +537,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                   ),
                                                             ),
                                                             Text(
-                                                              'Lab Komputer A',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                'ue6mn122' /* Lab Komputer A */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -551,7 +572,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                   ),
                                                             ),
                                                             Text(
-                                                              'Gedung Teknik · Lantai 2 · LAB-A',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                '9tmjfaqr' /* Gedung Teknik · Lantai 2 · LAB... */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .labelSmall
@@ -671,7 +696,10 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Tiket terbaru saya',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '8ub9jf9t' /* Tiket terbaru saya */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleMedium
@@ -696,7 +724,10 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Lihat semua',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'h0eupk7z' /* Lihat semua */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelLarge
@@ -767,7 +798,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        'OPS-24017',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '9osmt8ok' /* OPS-24017 */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -821,7 +856,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                       4.0),
                                                           child: Container(
                                                             child: Text(
-                                                              'Assigned',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                '8lvb0rwd' /* Assigned */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .labelSmall
@@ -912,7 +951,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                   .center,
                                                           children: [
                                                             Text(
-                                                              'PC-05 · Keyboard',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                '2t4lab0h' /* PC-05 · Keyboard */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -941,7 +984,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                                   ),
                                                             ),
                                                             Text(
-                                                              'Tidak berfungsi',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                'i3szjoo4' /* Tidak berfungsi */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodySmall
@@ -1014,7 +1061,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                             AlignmentDirectional(
                                                                 0.0, 0.0),
                                                         child: Text(
-                                                          'DP',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'k17rejdu' /* DP */,
+                                                          ),
                                                           textAlign:
                                                               TextAlign.center,
                                                           maxLines: 1,
@@ -1052,7 +1103,11 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        'Teknisi: Dimas Pratama',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'mkzpl2ok' /* Teknisi: Dimas Pratama */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1160,7 +1215,9 @@ class _HomeUserPageCopyWidgetState extends State<HomeUserPageCopyWidget> {
                                       ),
                                     ),
                                     Text(
-                                      'Lapor',
+                                      FFLocalizations.of(context).getText(
+                                        'm0p3vuro' /* Lapor */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .labelSmall
                                           .override(

@@ -12,55 +12,84 @@ import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 Future<String> resolveOpsFixSession() async {
-  final userId = SupaFlow.client.auth.currentUser?.id;
-  if (userId == null || userId.isEmpty) {
-    return '';
-  }
+  final user = SupaFlow.client.auth.currentUser;
+  if (user == null || user.id.isEmpty) return '';
 
   final profile = await SupaFlow.client
       .from('users')
-      .select('role, is_active')
-      .eq('id', userId)
+      .select('role,is_active')
+      .eq('id', user.id)
       .maybeSingle();
-  if (profile == null || profile['is_active'] != true) {
-    return '';
+  if (profile == null || profile['is_active'] != true) return '';
+
+  final scopeRows = await SupaFlow.client
+      .from('user_site_scopes')
+      .select('site_id,is_default')
+      .eq('user_id', user.id)
+      .order('is_default', ascending: false);
+  final scopes = (scopeRows as List)
+      .map((row) => Map<String, dynamic>.from(row as Map))
+      .where((row) => (row['site_id']?.toString() ?? '').isNotEmpty)
+      .toList();
+  final allowedSites =
+      scopes.map((row) => row['site_id'].toString()).toSet().toList();
+  final defaultSite = allowedSites.isEmpty ? '' : allowedSites.first;
+  final role = profile['role']?.toString().trim().toLowerCase() ?? '';
+  final isReporter = role == 'reporter' || role == 'user';
+  Map<String, dynamic>? selected;
+
+  Future<Map<String, dynamic>?> activeLocation(String id) async {
+    if (id.isEmpty || allowedSites.isEmpty) return null;
+    final row = await SupaFlow.client
+        .from('locations')
+        .select('id,site_id,slug,code,name')
+        .eq('id', id)
+        .eq('is_active', true)
+        .inFilter('site_id', allowedSites)
+        .maybeSingle();
+    return row == null ? null : Map<String, dynamic>.from(row);
   }
 
-  final scopes = await SupaFlow.client
-      .from('user_site_scopes')
-      .select('site_id, is_default')
-      .eq('user_id', userId)
-      .order('is_default', ascending: false)
-      .limit(1);
+  if (isReporter &&
+      FFAppState().currentLocationOwnerId == user.id &&
+      FFAppState().currentLocationId.trim().isNotEmpty) {
+    selected = await activeLocation(FFAppState().currentLocationId.trim());
+  }
 
-  final role = profile['role']?.toString() ?? '';
-  final siteId =
-      scopes.isEmpty ? '' : scopes.first['site_id']?.toString() ?? '';
+  if (isReporter && selected == null && allowedSites.isNotEmpty) {
+    final ticketRows = await SupaFlow.client
+        .from('tickets')
+        .select('location_id,site_id,created_at')
+        .eq('reporter_id', user.id)
+        .inFilter('site_id', allowedSites)
+        .order('created_at', ascending: false)
+        .limit(1);
+    if (ticketRows.isNotEmpty) {
+      selected = await activeLocation(
+          ticketRows.first['location_id']?.toString() ?? '');
+    }
+  }
 
-  Map<String, dynamic>? defaultLocation;
-  if (siteId.isNotEmpty) {
-    final locations = await SupaFlow.client
+  if (selected == null && defaultSite.isNotEmpty) {
+    final rows = await SupaFlow.client
         .from('locations')
-        .select('id, site_id, slug, code, name')
-        .eq('site_id', siteId)
+        .select('id,site_id,slug,code,name')
+        .eq('site_id', defaultSite)
         .eq('is_active', true)
         .order('created_at', ascending: true)
         .limit(1);
-    if (locations.isNotEmpty) {
-      defaultLocation = Map<String, dynamic>.from(locations.first);
-    }
+    if (rows.isNotEmpty) selected = Map<String, dynamic>.from(rows.first);
   }
 
   FFAppState().update(() {
     FFAppState().currentUserRole = role;
-    FFAppState().currentSiteId = siteId;
-    FFAppState().currentLocationId = defaultLocation?['id']?.toString() ?? '';
-    FFAppState().currentLocationSlug =
-        defaultLocation?['slug']?.toString() ?? '';
-    FFAppState().currentLocationCode =
-        defaultLocation?['code']?.toString() ?? '';
-    FFAppState().currentLocationName =
-        defaultLocation?['name']?.toString() ?? '';
+    FFAppState().currentSiteId =
+        selected?['site_id']?.toString() ?? defaultSite;
+    FFAppState().currentLocationId = selected?['id']?.toString() ?? '';
+    FFAppState().currentLocationSlug = selected?['slug']?.toString() ?? '';
+    FFAppState().currentLocationCode = selected?['code']?.toString() ?? '';
+    FFAppState().currentLocationName = selected?['name']?.toString() ?? '';
+    FFAppState().currentLocationOwnerId = user.id;
   });
   return role;
 }

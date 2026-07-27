@@ -24,6 +24,8 @@ void main() async {
 
   setUpAll(() async {
     await SupaFlow.initialize();
+
+    await FFLocalizations.initialize();
   });
 
   setUp(() async {

@@ -212,7 +212,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                         },
                       ),
                       Text(
-                        'Buat Laporan',
+                        FFLocalizations.of(context).getText(
+                          'kjqk2vwz' /* Buat Laporan */,
+                        ),
                         style:
                             FlutterFlowTheme.of(context).titleMedium.override(
                                   font: GoogleFonts.figtree(
@@ -273,7 +275,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Buat Laporan · LAB-A',
+                                  FFLocalizations.of(context).getText(
+                                    's3onbyav' /* Buat Laporan · LAB-A */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -298,7 +302,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       ),
                                 ),
                                 Text(
-                                  'Apa yang bermasalah?',
+                                  FFLocalizations.of(context).getText(
+                                    'ckg9t1cr' /* Apa yang bermasalah? */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .headlineMedium
                                       .override(
@@ -323,7 +329,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       ),
                                 ),
                                 Text(
-                                  'Pilih fasilitas secara bertahap. Lokasi sudah terisi agar teknisi menerima konteks yang tepat.',
+                                  FFLocalizations.of(context).getText(
+                                    '2ewz31m0' /* Pilih fasilitas secara bertaha... */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodySmall
                                       .override(
@@ -393,7 +401,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Lokasi laporan',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'icpal9fx' /* Lokasi laporan */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -427,7 +438,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Lab Komputer A',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'y3ouk864' /* Lab Komputer A */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodySmall
@@ -460,7 +474,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Gedung Teknik · Lantai 2 · 34 unit',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'oxp75gsa' /* Gedung Teknik · Lantai 2 · 34 ... */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -502,7 +519,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                             print(
                                                 'ChangeLocationButton pressed ...');
                                           },
-                                          text: 'Ganti lokasi',
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            '14gbg0sh' /* Ganti lokasi */,
+                                          ),
                                           options: FFButtonOptions(
                                             height: 32.0,
                                             padding:
@@ -563,7 +583,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Buat laporan terstruktur',
+                                          FFLocalizations.of(context).getText(
+                                            '7fl3jp8d' /* Buat laporan terstruktur */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .titleMedium
                                               .override(
@@ -592,7 +614,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               ),
                                         ),
                                         Text(
-                                          'Pilih bertahap agar lokasi dan aset tidak ambigu.',
+                                          FFLocalizations.of(context).getText(
+                                            'z7le8gx2' /* Pilih bertahap agar lokasi dan... */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
@@ -632,7 +656,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             8.0, 4.0, 8.0, 4.0),
                                         child: Text(
-                                          'LAB-A',
+                                          FFLocalizations.of(context).getText(
+                                            '0104eqgg' /* LAB-A */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall
                                               .override(
@@ -688,7 +714,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Text(
-                                            '1',
+                                            FFLocalizations.of(context).getText(
+                                              'lilojdeo' /* 1 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -720,7 +748,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           ),
                                         ),
                                         Text(
-                                          'Target',
+                                          FFLocalizations.of(context).getText(
+                                            '365k0jgs' /* Target */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall
                                               .override(
@@ -768,7 +798,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Text(
-                                            '2',
+                                            FFLocalizations.of(context).getText(
+                                              'stvie4ia' /* 2 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -800,7 +832,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           ),
                                         ),
                                         Text(
-                                          'Unit',
+                                          FFLocalizations.of(context).getText(
+                                            'xs9lz1i4' /* Unit */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall
                                               .override(
@@ -848,7 +882,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Text(
-                                            '3',
+                                            FFLocalizations.of(context).getText(
+                                              'e16hoi2n' /* 3 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -880,7 +916,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           ),
                                         ),
                                         Text(
-                                          'Detail',
+                                          FFLocalizations.of(context).getText(
+                                            'rnoje8oz' /* Detail */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall
                                               .override(
@@ -928,7 +966,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
                                           child: Text(
-                                            '4',
+                                            FFLocalizations.of(context).getText(
+                                              'frcg4psc' /* 4 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -960,7 +1000,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           ),
                                         ),
                                         Text(
-                                          'Kirim',
+                                          FFLocalizations.of(context).getText(
+                                            'afnm98lq' /* Kirim */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall
                                               .override(
@@ -999,7 +1041,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                   ),
                                 ),
                                 Text(
-                                  'Pilih jenis target',
+                                  FFLocalizations.of(context).getText(
+                                    '06zfsnmd' /* Pilih jenis target */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -1061,7 +1105,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Workstation',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'vxo1r2nu' /* Workstation */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodySmall
@@ -1095,7 +1142,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  '34 unit bernomor',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'rxhr5bci' /* 34 unit bernomor */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -1177,7 +1227,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Air Conditioner',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '1srs8j92' /* Air Conditioner */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1209,7 +1263,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Pendingin ruangan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'wz17q8so' /* Pendingin ruangan */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1283,7 +1341,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Projector',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '81cmdeyx' /* Projector */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1315,7 +1377,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Presentasi & kabel',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '8iqd5i1i' /* Presentasi & kabel */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1398,7 +1464,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Display',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'dzovr6k6' /* Display */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1430,7 +1500,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Layar ruang rapat',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'yfe2y6p4' /* Layar ruang rapat */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1504,7 +1578,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Masalah Ruangan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          's4naxbzr' /* Masalah Ruangan */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1536,7 +1614,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Lampu, plafon, area',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'v9rf0uc9' /* Lampu, plafon, area */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1596,8 +1678,14 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           _model.searchUnitFieldFocusNode,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Pilih unit atau posisi',
-                                        hintText: 'Cari PC-17 atau meja 17',
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          'pulxh7c6' /* Pilih unit atau posisi */,
+                                        ),
+                                        hintText:
+                                            FFLocalizations.of(context).getText(
+                                          'r7kay9d4' /* Cari PC-17 atau meja 17 */,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -1654,12 +1742,24 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               .selectUnitDropdownValueController ??=
                                           FormFieldController<String>(null),
                                       options: [
-                                        'PC-01',
-                                        'PC-02',
-                                        'PC-03',
-                                        'PC-04',
-                                        'PC-05',
-                                        'PC-06'
+                                        FFLocalizations.of(context).getText(
+                                          'xlj5lclg' /* PC-01 */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          't7kdaj93' /* PC-02 */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'jq5v8z4a' /* PC-03 */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          '2rd6c8ab' /* PC-04 */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'yfyvbgmp' /* PC-05 */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          '7hpidjo0' /* PC-06 */,
+                                        )
                                       ],
                                       onChanged: (val) => safeSetState(() =>
                                           _model.selectUnitDropdownValue = val),
@@ -1687,7 +1787,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     .fontStyle,
                                           ),
                                       hintText:
-                                          'Pilih nomor unit (misal PC-05)',
+                                          FFLocalizations.of(context).getText(
+                                        'iadpka2f' /* Pilih nomor unit (misal PC-05) */,
+                                      ),
                                       icon: Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: FlutterFlowTheme.of(context)
@@ -1707,7 +1809,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       isOverButton: false,
                                       isSearchable: false,
                                       isMultiSelect: false,
-                                      labelText: 'Pilih unit',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'pqiv03pd' /* Pilih unit */,
+                                      ),
                                       labelTextStyle: TextStyle(),
                                     ),
                                     Column(
@@ -1718,7 +1823,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Pilih komponen terdampak',
+                                          FFLocalizations.of(context).getText(
+                                            'bocjp8rv' /* Pilih komponen terdampak */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium
                                               .override(
@@ -1754,7 +1861,13 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             FlutterFlowChoiceChips(
-                                              options: [ChipData('CPU')],
+                                              options: [
+                                                ChipData(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'vmv9bsj3' /* CPU */,
+                                                ))
+                                              ],
                                               onChanged: (val) => safeSetState(
                                                   () => _model.chipValue1 =
                                                       val?.firstOrNull),
@@ -1797,7 +1910,13 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               wrapped: false,
                                             ),
                                             FlutterFlowChoiceChips(
-                                              options: [ChipData('Monitor')],
+                                              options: [
+                                                ChipData(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'dagz61io' /* Monitor */,
+                                                ))
+                                              ],
                                               onChanged: (val) => safeSetState(
                                                   () => _model.chipValue2 =
                                                       val?.firstOrNull),
@@ -1840,7 +1959,13 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               wrapped: false,
                                             ),
                                             FlutterFlowChoiceChips(
-                                              options: [ChipData('Keyboard')],
+                                              options: [
+                                                ChipData(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'q8a7dowr' /* Keyboard */,
+                                                ))
+                                              ],
                                               onChanged: (val) => safeSetState(
                                                   () => _model.chipValue3 =
                                                       val?.firstOrNull),
@@ -1884,12 +2009,23 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                       .chipValueController3 ??=
                                                   FormFieldController<
                                                       List<String>>(
-                                                ['Keyboard'],
+                                                [
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '1e8hihvl' /* Keyboard */,
+                                                  )
+                                                ],
                                               ),
                                               wrapped: false,
                                             ),
                                             FlutterFlowChoiceChips(
-                                              options: [ChipData('Mouse')],
+                                              options: [
+                                                ChipData(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  '0fijrpbe' /* Mouse */,
+                                                ))
+                                              ],
                                               onChanged: (val) => safeSetState(
                                                   () => _model.chipValue4 =
                                                       val?.firstOrNull),
@@ -1940,10 +2076,18 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               .categoryDropdownValueController ??=
                                           FormFieldController<String>(null),
                                       options: [
-                                        'Hardware',
-                                        'Software',
-                                        'Jaringan',
-                                        'Fisik/Ruangan'
+                                        FFLocalizations.of(context).getText(
+                                          'hj42ds08' /* Hardware */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'uws2tzas' /* Software */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'kxvz5i8l' /* Jaringan */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'jsd3opfb' /* Fisik/Ruangan */,
+                                        )
                                       ],
                                       onChanged: (val) => safeSetState(() =>
                                           _model.categoryDropdownValue = val),
@@ -1970,7 +2114,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                      hintText: 'Pilih kategori gangguan',
+                                      hintText:
+                                          FFLocalizations.of(context).getText(
+                                        'qfogn211' /* Pilih kategori gangguan */,
+                                      ),
                                       icon: Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: FlutterFlowTheme.of(context)
@@ -1990,7 +2137,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       isOverButton: false,
                                       isSearchable: false,
                                       isMultiSelect: false,
-                                      labelText: 'Kategori masalah',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'aw7kj00y' /* Kategori masalah */,
+                                      ),
                                       labelTextStyle: TextStyle(),
                                     ),
                                     FlutterFlowDropDown<String>(
@@ -1998,11 +2148,21 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               .issueTypeDropdownValueController ??=
                                           FormFieldController<String>(null),
                                       options: [
-                                        'Restart berulang',
-                                        'Tidak ada tampilan',
-                                        'Mati total',
-                                        'Kipas bising',
-                                        'Lainnya'
+                                        FFLocalizations.of(context).getText(
+                                          'q84eyjcl' /* Restart berulang */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'fshv2459' /* Tidak ada tampilan */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          '1xlalmkv' /* Mati total */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'zlbmo731' /* Kipas bising */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'jxxwz8c9' /* Lainnya */,
+                                        )
                                       ],
                                       onChanged: (val) => safeSetState(() =>
                                           _model.issueTypeDropdownValue = val),
@@ -2029,7 +2189,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                      hintText: 'Pilih jenis gangguan',
+                                      hintText:
+                                          FFLocalizations.of(context).getText(
+                                        'x616hgm8' /* Pilih jenis gangguan */,
+                                      ),
                                       icon: Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: FlutterFlowTheme.of(context)
@@ -2049,7 +2212,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       isOverButton: false,
                                       isSearchable: false,
                                       isMultiSelect: false,
-                                      labelText: 'Jenis gangguan',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'iadi2rpx' /* Jenis gangguan */,
+                                      ),
                                       labelTextStyle: TextStyle(),
                                     ),
                                     TextFormField(
@@ -2059,9 +2225,14 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           _model.descriptionFieldFocusNode,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Jelaskan gejalanya',
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          'uxjw3com' /* Jelaskan gejalanya */,
+                                        ),
                                         hintText:
-                                            'Contoh: monitor tidak menampilkan gambar meski CPU menyala.',
+                                            FFLocalizations.of(context).getText(
+                                          'ygrbb6by' /* Contoh: monitor tidak menampil... */,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -2115,10 +2286,18 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               .impactDropdownValueController ??=
                                           FormFieldController<String>(null),
                                       options: [
-                                        'Low',
-                                        'Medium',
-                                        'High',
-                                        'Critical'
+                                        FFLocalizations.of(context).getText(
+                                          'zu5vd7xy' /* Low */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'qwvhfryu' /* Medium */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'ey10islc' /* High */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          's05foc22' /* Critical */,
+                                        )
                                       ],
                                       onChanged: (val) => safeSetState(() =>
                                           _model.impactDropdownValue = val),
@@ -2145,7 +2324,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                      hintText: 'Pilih tingkat dampak',
+                                      hintText:
+                                          FFLocalizations.of(context).getText(
+                                        'wenrc3tq' /* Pilih tingkat dampak */,
+                                      ),
                                       icon: Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: FlutterFlowTheme.of(context)
@@ -2165,7 +2347,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       isOverButton: false,
                                       isSearchable: false,
                                       isMultiSelect: false,
-                                      labelText: 'Dampak',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        '9vw7ggmo' /* Dampak */,
+                                      ),
                                       labelTextStyle: TextStyle(),
                                     ),
                                     TextFormField(
@@ -2175,8 +2360,14 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           _model.incidentTimeFieldFocusNode,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Waktu kejadian',
-                                        hintText: '20 Jul 2026 · 12:45',
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          'q050o0ch' /* Waktu kejadian */,
+                                        ),
+                                        hintText:
+                                            FFLocalizations.of(context).getText(
+                                          'k5nwhdkc' /* 20 Jul 2026 · 12:45 */,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -2235,8 +2426,14 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           _model.optionalContactFieldFocusNode,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Kontak opsional',
-                                        hintText: 'Nomor HP atau Ext.',
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          'um34bqpi' /* Kontak opsional */,
+                                        ),
+                                        hintText:
+                                            FFLocalizations.of(context).getText(
+                                          'u8v7yjzj' /* Nomor HP atau Ext. */,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -2295,9 +2492,14 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           _model.accessNotesFieldFocusNode,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Petunjuk akses',
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          '3j7nxiu3' /* Petunjuk akses */,
+                                        ),
                                         hintText:
-                                            'Contoh: Kunci di resepsionis lantai 2',
+                                            FFLocalizations.of(context).getText(
+                                          'qpi0v7mp' /* Contoh: Kunci di resepsionis l... */,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -2357,7 +2559,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Bukti foto awal',
+                                          FFLocalizations.of(context).getText(
+                                            'mils7qxn' /* Bukti foto awal */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium
                                               .override(
@@ -2412,7 +2616,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                 size: 24.0,
                                               ),
                                               Text(
-                                                'Tambahkan foto bukti awal',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '63f4xasr' /* Tambahkan foto bukti awal */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2444,7 +2651,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     ),
                                               ),
                                               Text(
-                                                'Maks. 2 MB · JPG, PNG, atau WebP',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'ggra6crl' /* Maks. 2 MB · JPG, PNG, atau We... */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -2492,7 +2702,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   print(
                                                       'CameraUploadButton pressed ...');
                                                 },
-                                                text: 'Buka kamera',
+                                                text:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'n2tfced7' /* Buka kamera */,
+                                                ),
                                                 icon: Icon(
                                                   Icons.photo_camera_outlined,
                                                   size: 20.0,
@@ -2529,7 +2743,11 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   print(
                                                       'GalleryUploadButton pressed ...');
                                                 },
-                                                text: 'Pilih galeri',
+                                                text:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  '36r11nhi' /* Pilih galeri */,
+                                                ),
                                                 icon: Icon(
                                                   Icons.photo_library_outlined,
                                                   size: 20.0,
@@ -2597,7 +2815,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                       size: 20.0,
                                     ),
                                     Text(
-                                      'Ringkasan laporan',
+                                      FFLocalizations.of(context).getText(
+                                        '0uuy5d4q' /* Ringkasan laporan */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -2648,7 +2868,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Lokasi',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'w8lqcfe8' /* Lokasi */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2680,7 +2903,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Lab Komputer A',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'mgl5w5r3' /* Lab Komputer A */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2727,7 +2953,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Target',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'lwdqaca1' /* Target */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2759,7 +2988,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'PC-05 · Workstation',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '9mf9l2o8' /* PC-05 · Workstation */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2806,7 +3038,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Komponen',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '67nj26d3' /* Komponen */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2838,7 +3073,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Keyboard',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'eru89go0' /* Keyboard */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2885,7 +3123,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Gangguan',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'ou7434bh' /* Gangguan */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2917,7 +3158,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              'Restart berulang',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '7tajxv8i' /* Restart berulang */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -2964,7 +3208,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Dampak',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '66m9846b' /* Dampak */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -3006,7 +3253,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                     .fromSTEB(
                                                         6.0, 2.0, 6.0, 2.0),
                                                 child: Text(
-                                                  'Medium',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'o0ii9jjt' /* Medium */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -3057,7 +3307,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Bukti awal',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'qkozy0zx' /* Bukti awal */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -3089,7 +3342,10 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                                   ),
                                             ),
                                             Text(
-                                              '1 foto terlampir',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'xq8betm1' /* 1 foto terlampir */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -3130,7 +3386,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                   onPressed: () {
                                     print('SubmitReportButton pressed ...');
                                   },
-                                  text: 'Kirim laporan',
+                                  text: FFLocalizations.of(context).getText(
+                                    'ryxfhese' /* Kirim laporan */,
+                                  ),
                                   options: FFButtonOptions(
                                     width: double.infinity,
                                     height: 52.0,
@@ -3149,7 +3407,9 @@ class _ReportIssuePageCopyWidgetState extends State<ReportIssuePageCopyWidget> {
                                   onPressed: () {
                                     print('ClearSelectionButton pressed ...');
                                   },
-                                  text: 'Bersihkan pilihan',
+                                  text: FFLocalizations.of(context).getText(
+                                    'ioar8nrx' /* Bersihkan pilihan */,
+                                  ),
                                   options: FFButtonOptions(
                                     width: double.infinity,
                                     height: 44.0,

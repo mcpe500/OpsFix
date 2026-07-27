@@ -19,9 +19,9 @@ class LocationEntryPageModel extends FlutterFlowModel<LocationEntryPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - resolveOpsFixSession] action in LocationEntryPage widget.
-  String? sourceLocationEntryRole;
+  String? locationEntryRole;
   // Stores action output result for [Custom Action - resolveOpsFixLocation] action in LocationEntryPage widget.
-  String? sourceDeepLinkResolution;
+  String? locationEntryResolution;
   // State field(s) for SourceLocationInputField widget.
   FocusNode? sourceLocationInputFieldFocusNode;
   TextEditingController? sourceLocationInputFieldTextController;

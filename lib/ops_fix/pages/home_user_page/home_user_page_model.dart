@@ -1,16 +1,12 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import '/custom_code/actions/index.dart' as actions;
-import '/index.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'home_user_page_widget.dart' show HomeUserPageWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -68,9 +64,6 @@ class HomeUserPageModel extends FlutterFlowModel<HomeUserPageWidget> {
   List<MaintenanceUnitsRow>? sourceHomeUnits;
   // Stores action output result for [Backend Call - Query Rows] action in homeUserPage widget.
   List<ReporterSiteKpisVRow>? sourceReporterKpiRows;
-  var reporterLocationScan = '';
-  // Stores action output result for [Custom Action - resolveOpsFixLocation] action in UserHomeScanButton widget.
-  String? locationResolution;
 
   @override
   void initState(BuildContext context) {}

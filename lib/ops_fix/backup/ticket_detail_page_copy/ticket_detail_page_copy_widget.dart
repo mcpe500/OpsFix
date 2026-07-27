@@ -484,7 +484,9 @@ class _TicketDetailPageCopyWidgetState
                               },
                             ),
                             Text(
-                              'Detail Tiket',
+                              FFLocalizations.of(context).getText(
+                                'rxozyd3b' /* Detail Tiket */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .titleLarge
                                   .override(
@@ -572,7 +574,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'TIKET FASILITAS',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '06cjnlme' /* TIKET FASILITAS */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -610,7 +615,10 @@ class _TicketDetailPageCopyWidgetState
                                                         12.0, 6.0, 12.0, 6.0),
                                                 child: Container(
                                                   child: Text(
-                                                    'Assigned',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '14kwpr25' /* Assigned */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -651,7 +659,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'OPS-24017',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'jn5p2gll' /* OPS-24017 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -677,7 +688,10 @@ class _TicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'PC-05 · Keyboard',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '149c1181' /* PC-05 · Keyboard */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
@@ -706,7 +720,10 @@ class _TicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Tidak berfungsi',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'zt1t8jha' /* Tidak berfungsi */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
@@ -782,7 +799,10 @@ class _TicketDetailPageCopyWidgetState
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    'Lab Komputer A',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'x5nm717z' /* Lab Komputer A */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -812,7 +832,10 @@ class _TicketDetailPageCopyWidgetState
                                                         ),
                                                   ),
                                                   Text(
-                                                    'Gedung Teknik · Lantai 2 · LAB-A',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'mloe5va9' /* Gedung Teknik · Lantai 2 · LAB... */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -879,7 +902,10 @@ class _TicketDetailPageCopyWidgetState
                                                       AlignmentDirectional(
                                                           0.0, 0.0),
                                                   child: Text(
-                                                    'N',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'wo6r2nb9' /* N */,
+                                                    ),
                                                     textAlign: TextAlign.center,
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
@@ -920,7 +946,11 @@ class _TicketDetailPageCopyWidgetState
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      'Dilaporkan oleh Nadia',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '5iscs6og' /* Dilaporkan oleh Nadia */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -954,7 +984,11 @@ class _TicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      '20 Jul 2026 · 14:18',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'a83v3y2y' /* 20 Jul 2026 · 14:18 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1004,7 +1038,10 @@ class _TicketDetailPageCopyWidgetState
                                                         12.0, 6.0, 12.0, 6.0),
                                                 child: Container(
                                                   child: Text(
-                                                    'High',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '9tsd2ntd' /* High */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1074,7 +1111,10 @@ class _TicketDetailPageCopyWidgetState
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Status penanganan',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '7arcu5q6' /* Status penanganan */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleMedium
@@ -1101,7 +1141,10 @@ class _TicketDetailPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Perkembangan terbaru laporan',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'gcbpxdhi' /* Perkembangan terbaru laporan */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodySmall
@@ -1152,7 +1195,10 @@ class _TicketDetailPageCopyWidgetState
                                                         8.0, 4.0, 8.0, 4.0),
                                                 child: Container(
                                                   child: Text(
-                                                    'Assigned',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '0bza4838' /* Assigned */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1213,7 +1259,11 @@ class _TicketDetailPageCopyWidgetState
                                                         AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
-                                                      'DP',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'dqbd3436' /* DP */,
+                                                      ),
                                                       textAlign:
                                                           TextAlign.center,
                                                       maxLines: 1,
@@ -1261,7 +1311,11 @@ class _TicketDetailPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Dimas Pratama',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'mx5rm89s' /* Dimas Pratama */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyLarge
@@ -1289,7 +1343,11 @@ class _TicketDetailPageCopyWidgetState
                                                               ),
                                                         ),
                                                         Text(
-                                                          'Teknisi fasilitas',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'hf38ouew' /* Teknisi fasilitas */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodySmall
@@ -1347,7 +1405,11 @@ class _TicketDetailPageCopyWidgetState
                                                               ),
                                                             ),
                                                             Text(
-                                                              'Sudah menerima penugasan',
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .getText(
+                                                                'qw97fli7' /* Sudah menerima penugasan */,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .labelSmall
@@ -1432,7 +1494,10 @@ class _TicketDetailPageCopyWidgetState
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Dilaporkan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'wdrmlqoy' /* Dilaporkan */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1511,7 +1576,11 @@ class _TicketDetailPageCopyWidgetState
                                                         AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
-                                                      '2',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'mwikx17x' /* 2 */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .labelSmall
@@ -1541,7 +1610,10 @@ class _TicketDetailPageCopyWidgetState
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Ditugaskan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'xi1nih2c' /* Ditugaskan */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1614,7 +1686,11 @@ class _TicketDetailPageCopyWidgetState
                                                         AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
-                                                      '3',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '6cxp3xo2' /* 3 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1649,7 +1725,10 @@ class _TicketDetailPageCopyWidgetState
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Dikerjakan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '569tjtzc' /* Dikerjakan */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1728,7 +1807,11 @@ class _TicketDetailPageCopyWidgetState
                                                         AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
-                                                      '4',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'q0k2iwls' /* 4 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1763,7 +1846,10 @@ class _TicketDetailPageCopyWidgetState
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Selesai',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'x1p3op23' /* Selesai */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -1843,7 +1929,11 @@ class _TicketDetailPageCopyWidgetState
                                                       size: 18.0,
                                                     ),
                                                     Text(
-                                                      'Target respons',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'oq3r029p' /* Target respons */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1888,7 +1978,11 @@ class _TicketDetailPageCopyWidgetState
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '20 Jul 2026 · 16:18',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'nt45aie5' /* 20 Jul 2026 · 16:18 */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -1935,7 +2029,11 @@ class _TicketDetailPageCopyWidgetState
                                                                     4.0),
                                                         child: Container(
                                                           child: Text(
-                                                            'Dalam target',
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                              '11kyhyow' /* Dalam target */,
+                                                            ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .labelSmall
@@ -1999,7 +2097,11 @@ class _TicketDetailPageCopyWidgetState
                                                       size: 18.0,
                                                     ),
                                                     Text(
-                                                      'Target resolusi',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'k7l5dtu7' /* Target resolusi */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -2036,7 +2138,10 @@ class _TicketDetailPageCopyWidgetState
                                                       SizedBox(width: 8.0)),
                                                 ),
                                                 Text(
-                                                  '20 Jul 2026 · 22:18',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '16erojrn' /* 20 Jul 2026 · 22:18 */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -2089,7 +2194,9 @@ class _TicketDetailPageCopyWidgetState
                                           CrossAxisAlignment.stretch,
                                       children: [
                                         Text(
-                                          'Informasi laporan',
+                                          FFLocalizations.of(context).getText(
+                                            'gdztzzp6' /* Informasi laporan */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .titleMedium
                                               .override(
@@ -2330,7 +2437,11 @@ class _TicketDetailPageCopyWidgetState
                                                               .center,
                                                       children: [
                                                         Text(
-                                                          'Petunjuk akses',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'dk6z2in3' /* Petunjuk akses */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelSmall
@@ -2363,7 +2474,11 @@ class _TicketDetailPageCopyWidgetState
                                                               ),
                                                         ),
                                                         Text(
-                                                          'Lab dibuka oleh petugas lantai 2. Hubungi resepsionis sebelum masuk.',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'zk9myxrt' /* Lab dibuka oleh petugas lantai... */,
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium
@@ -2441,7 +2556,10 @@ class _TicketDetailPageCopyWidgetState
                                               size: 20.0,
                                             ),
                                             Text(
-                                              'Deskripsi gangguan',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'n60txuih' /* Deskripsi gangguan */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleMedium
@@ -2482,7 +2600,10 @@ class _TicketDetailPageCopyWidgetState
                                             padding: EdgeInsets.all(14.0),
                                             child: Container(
                                               child: Text(
-                                                'Tombol spasi tidak merespons saat digunakan. Keyboard sudah dicoba dilepas dan dipasang kembali, tetapi masalah masih terjadi.',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'ps2phld0' /* Tombol spasi tidak merespons s... */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyMedium
@@ -2560,7 +2681,11 @@ class _TicketDetailPageCopyWidgetState
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        '1 unit terdampak',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'o1llx76z' /* 1 unit terdampak */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -2632,7 +2757,11 @@ class _TicketDetailPageCopyWidgetState
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        'Dilaporkan 8 menit lalu',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          's5kck2aa' /* Dilaporkan 8 menit lalu */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -2706,7 +2835,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Bukti foto',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'p905nnco' /* Bukti foto */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleMedium
@@ -2731,7 +2863,10 @@ class _TicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              '1 dari 2 tersedia',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '7rrpkit1' /* 1 dari 2 tersedia */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -2775,7 +2910,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Foto awal',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'kaf165az' /* Foto awal */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -2843,7 +2981,10 @@ class _TicketDetailPageCopyWidgetState
                                                   size: 14.0,
                                                 ),
                                                 Text(
-                                                  'Diunggah oleh Nadia · 20 Jul 2026 · 14:18',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'p06xlew0' /* Diunggah oleh Nadia · 20 Jul 2... */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -2891,7 +3032,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Foto hasil pekerjaan',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '9xr0il0v' /* Foto hasil pekerjaan */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -2945,7 +3089,10 @@ class _TicketDetailPageCopyWidgetState
                                                     size: 32.0,
                                                   ),
                                                   Text(
-                                                    'Belum ada foto hasil',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '7gi0hbhd' /* Belum ada foto hasil */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -2974,7 +3121,10 @@ class _TicketDetailPageCopyWidgetState
                                                         ),
                                                   ),
                                                   Text(
-                                                    'Foto akan tersedia setelah teknisi menyelesaikan pekerjaan.',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'r1dnje2a' /* Foto akan tersedia setelah tek... */,
+                                                    ),
                                                     textAlign: TextAlign.center,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -3051,7 +3201,10 @@ class _TicketDetailPageCopyWidgetState
                                               size: 20.0,
                                             ),
                                             Text(
-                                              'Catatan teknisi',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'trppoeb1' /* Catatan teknisi */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleMedium
@@ -3105,7 +3258,11 @@ class _TicketDetailPageCopyWidgetState
                                                       size: 28.0,
                                                     ),
                                                     Text(
-                                                      'Belum ada catatan teknisi',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'irufe6xj' /* Belum ada catatan teknisi */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -3135,7 +3292,11 @@ class _TicketDetailPageCopyWidgetState
                                                           ),
                                                     ),
                                                     Text(
-                                                      'Catatan pemeriksaan akan muncul setelah teknisi memulai pekerjaan.',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'erhhuz1b' /* Catatan pemeriksaan akan muncu... */,
+                                                      ),
                                                       textAlign:
                                                           TextAlign.center,
                                                       style:
@@ -3206,7 +3367,10 @@ class _TicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Timeline tiket',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '5vnhxlou' /* Timeline tiket */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .titleMedium
@@ -3231,7 +3395,10 @@ class _TicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Riwayat aktivitas dan perubahan status',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'okz9cok3' /* Riwayat aktivitas dan perubaha... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -3330,7 +3497,9 @@ class _TicketDetailPageCopyWidgetState
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     Text(
-                                      'Edit hanya tersedia sebelum teknisi memulai pekerjaan.',
+                                      FFLocalizations.of(context).getText(
+                                        '04b9jjta' /* Edit hanya tersedia sebelum te... */,
+                                      ),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .labelSmall

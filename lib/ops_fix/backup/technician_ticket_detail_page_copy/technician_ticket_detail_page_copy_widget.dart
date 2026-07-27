@@ -65,7 +65,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
                 automaticallyImplyLeading: true,
                 title: Text(
-                  'Detail Pekerjaan',
+                  FFLocalizations.of(context).getText(
+                    '2sgwotdu' /* Detail Pekerjaan */,
+                  ),
                   style: FlutterFlowTheme.of(context).titleLarge.override(
                         font: GoogleFonts.figtree(
                           fontWeight: FontWeight.w600,
@@ -125,7 +127,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                           },
                         ),
                         Text(
-                          'Detail Pekerjaan',
+                          FFLocalizations.of(context).getText(
+                            '3dq5o1xq' /* Detail Pekerjaan */,
+                          ),
                           style:
                               FlutterFlowTheme.of(context).titleMedium.override(
                                     font: GoogleFonts.figtree(
@@ -193,7 +197,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'PEKERJAAN AKTIF',
+                                        FFLocalizations.of(context).getText(
+                                          'jwl9g1dv' /* PEKERJAAN AKTIF */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -230,7 +236,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 4.0, 10.0, 4.0),
                                           child: Text(
-                                            'In Progress',
+                                            FFLocalizations.of(context).getText(
+                                              'frj56p0o' /* In Progress */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelMedium
                                                 .override(
@@ -265,7 +273,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                     ],
                                   ),
                                   Text(
-                                    'OPS-24016',
+                                    FFLocalizations.of(context).getText(
+                                      'gdtixooo' /* OPS-24016 */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
@@ -292,7 +302,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         ),
                                   ),
                                   Text(
-                                    'PC-12 · CPU',
+                                    FFLocalizations.of(context).getText(
+                                      'ajxff45t' /* PC-12 · CPU */,
+                                    ),
                                     maxLines: 2,
                                     style: FlutterFlowTheme.of(context)
                                         .headlineMedium
@@ -320,7 +332,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         ),
                                   ),
                                   Text(
-                                    'Restart berulang',
+                                    FFLocalizations.of(context).getText(
+                                      '5s13l6re' /* Restart berulang */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -385,7 +399,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Lab Komputer A',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '48zw5mdn' /* Lab Komputer A */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -418,7 +435,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       ),
                                             ),
                                             Text(
-                                              'Baris B · Gedung Teknik · Lantai 2 · LAB-A',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'v6u6gnud' /* Baris B · Gedung Teknik · Lant... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -463,7 +483,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 4.0, 10.0, 4.0),
                                           child: Text(
-                                            'Critical',
+                                            FFLocalizations.of(context).getText(
+                                              'q74tznhl' /* Critical */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -522,7 +544,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              'F',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'n21gso2e' /* F */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .titleSmall
@@ -563,7 +588,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Dilaporkan oleh Fajar',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'tnpzqed8' /* Dilaporkan oleh Fajar */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -595,7 +623,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                '20 Jul 2026 · 12:58',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'gvzdm3uv' /* 20 Jul 2026 · 12:58 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -680,7 +711,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Status pekerjaan',
+                                            FFLocalizations.of(context).getText(
+                                              'v9gvddpd' /* Status pekerjaan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
@@ -711,7 +744,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ),
                                           ),
                                           Text(
-                                            'Tahap pengerjaan dan target layanan',
+                                            FFLocalizations.of(context).getText(
+                                              'pr04xynl' /* Tahap pengerjaan dan target la... */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -754,7 +789,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 4.0, 8.0, 4.0),
                                           child: Text(
-                                            'In Progress',
+                                            FFLocalizations.of(context).getText(
+                                              'v4us3icq' /* In Progress */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -819,7 +856,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                           ),
                                           Text(
-                                            'Dilaporkan',
+                                            FFLocalizations.of(context).getText(
+                                              'o9fmg3r8' /* Dilaporkan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -875,7 +914,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                           ),
                                           Text(
-                                            'Ditugaskan',
+                                            FFLocalizations.of(context).getText(
+                                              'f8g62akv' /* Ditugaskan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -925,7 +966,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              '3',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '9c5t1tij' /* 3 */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .labelMedium
@@ -959,7 +1003,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                           ),
                                           Text(
-                                            'Dikerjakan',
+                                            FFLocalizations.of(context).getText(
+                                              'a6ga0rvy' /* Dikerjakan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1009,7 +1055,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              '4',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'himasyn2' /* 4 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelMedium
@@ -1042,7 +1091,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                           ),
                                           Text(
-                                            'Verifikasi',
+                                            FFLocalizations.of(context).getText(
+                                              'as500kyw' /* Verifikasi */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1092,7 +1143,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              '5',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'wq52ovss' /* 5 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelMedium
@@ -1125,7 +1179,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                           ),
                                           Text(
-                                            'Selesai',
+                                            FFLocalizations.of(context).getText(
+                                              'vvmx9p1k' /* Selesai */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1185,7 +1241,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             size: 18.0,
                                           ),
                                           Text(
-                                            'Pekerjaan dimulai',
+                                            FFLocalizations.of(context).getText(
+                                              '3ob3ij3m' /* Pekerjaan dimulai */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -1218,7 +1276,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         ].divide(SizedBox(width: 6.0)),
                                       ),
                                       Text(
-                                        '20 Jul 2026 · 13:12',
+                                        FFLocalizations.of(context).getText(
+                                          'jdw9xw8v' /* 20 Jul 2026 · 13:12 */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -1266,7 +1326,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             size: 18.0,
                                           ),
                                           Text(
-                                            'Durasi berjalan',
+                                            FFLocalizations.of(context).getText(
+                                              'wzdt9sgr' /* Durasi berjalan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -1306,7 +1368,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '1j 10m',
+                                            FFLocalizations.of(context).getText(
+                                              'b1fr3qe1' /* 1j 10m */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -1346,7 +1410,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(6.0, 2.0, 6.0, 2.0),
                                               child: Text(
-                                                'Aktif',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'cmodicnm' /* Aktif */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -1403,7 +1470,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             size: 18.0,
                                           ),
                                           Text(
-                                            'Target resolusi',
+                                            FFLocalizations.of(context).getText(
+                                              '9pxqm1b8' /* Target resolusi */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -1443,7 +1512,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '20 Jul 2026 · 16:45',
+                                            FFLocalizations.of(context).getText(
+                                              'nqdb7xg3' /* 20 Jul 2026 · 16:45 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -1483,7 +1554,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(6.0, 2.0, 6.0, 2.0),
                                               child: Text(
-                                                'Dalam target',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'gq9okjj5' /* Dalam target */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -1534,7 +1608,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Sisa waktu SLA',
+                                            FFLocalizations.of(context).getText(
+                                              '83onwz9r' /* Sisa waktu SLA */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1565,7 +1641,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ),
                                           ),
                                           Text(
-                                            '2j 23m',
+                                            FFLocalizations.of(context).getText(
+                                              'soy70tyy' /* 2j 23m */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1663,7 +1741,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                       Expanded(
                                         flex: 1,
                                         child: Text(
-                                          'Aset dan lokasi',
+                                          FFLocalizations.of(context).getText(
+                                            'frlvt09w' /* Aset dan lokasi */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .titleMedium
                                               .override(
@@ -1703,7 +1783,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 4.0, 8.0, 4.0),
                                           child: Text(
-                                            'PC-12',
+                                            FFLocalizations.of(context).getText(
+                                              'z613kn08' /* PC-12 */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -1760,7 +1842,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Jenis aset',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'r93sc62z' /* Jenis aset */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1792,7 +1877,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'Workstation',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '52kp8e14' /* Workstation */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1839,7 +1927,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Unit',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'u3kv6f75' /* Unit */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1871,7 +1962,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'PC-12 · Baris B',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'msvtotmp' /* PC-12 · Baris B */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1918,7 +2012,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Komponen',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'vguilrcq' /* Komponen */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1950,7 +2047,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'CPU',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'mu6oqoyj' /* CPU */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -1997,7 +2097,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Kode aset',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'br43o6bx' /* Kode aset */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2029,7 +2132,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'LAB-A-PC-12',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'l5iu00rw' /* LAB-A-PC-12 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2076,7 +2182,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Status aset',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '3qjbfy4l' /* Status aset */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2119,7 +2228,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       .fromSTEB(
                                                           6.0, 2.0, 6.0, 2.0),
                                                   child: Text(
-                                                    'Dalam perbaikan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'turnakpk' /* Dalam perbaikan */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -2187,7 +2299,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lab Komputer A',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '0ej1hhvc' /* Lab Komputer A */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2219,7 +2334,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'Gedung Teknik · Lantai 2',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'n96zxts3' /* Gedung Teknik · Lantai 2 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -2259,7 +2377,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                           print(
                                               'ViewLocationButton pressed ...');
                                         },
-                                        text: 'Lihat lokasi',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          '1hn58oxl' /* Lihat lokasi */,
+                                        ),
                                         options: FFButtonOptions(
                                           height: 34.0,
                                           padding:
@@ -2313,7 +2434,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Petunjuk akses',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'wdlgsukd' /* Petunjuk akses */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelMedium
@@ -2347,7 +2471,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Lab dibuka oleh petugas lantai 2. Hubungi resepsionis sebelum masuk.',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'do0o9q57' /* Lab dibuka oleh petugas lantai... */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -2420,7 +2547,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         size: 20.0,
                                       ),
                                       Text(
-                                        'Detail gangguan',
+                                        FFLocalizations.of(context).getText(
+                                          'p8zhbtir' /* Detail gangguan */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .titleMedium
                                             .override(
@@ -2456,7 +2585,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Kategori',
+                                        FFLocalizations.of(context).getText(
+                                          'yzi2uzuf' /* Kategori */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2483,7 +2614,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Hardware',
+                                        FFLocalizations.of(context).getText(
+                                          'qt8hwzlm' /* Hardware */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2519,7 +2652,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Jenis gangguan',
+                                        FFLocalizations.of(context).getText(
+                                          '869vvbpj' /* Jenis gangguan */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2546,7 +2681,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Restart berulang',
+                                        FFLocalizations.of(context).getText(
+                                          'c834hyif' /* Restart berulang */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2582,7 +2719,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Dampak',
+                                        FFLocalizations.of(context).getText(
+                                          'bl8m56ct' /* Dampak */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2619,7 +2758,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   6.0, 2.0, 6.0, 2.0),
                                           child: Text(
-                                            'Critical',
+                                            FFLocalizations.of(context).getText(
+                                              'naa6jn02' /* Critical */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -2661,7 +2802,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Jumlah terdampak',
+                                        FFLocalizations.of(context).getText(
+                                          'c7tb7yhk' /* Jumlah terdampak */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2688,7 +2831,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        '1 unit',
+                                        FFLocalizations.of(context).getText(
+                                          'q7cmtqh8' /* 1 unit */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2724,7 +2869,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Waktu kejadian',
+                                        FFLocalizations.of(context).getText(
+                                          'gefpbvjd' /* Waktu kejadian */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2751,7 +2898,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        '20 Jul 2026 · 12:45',
+                                        FFLocalizations.of(context).getText(
+                                          'toz4v3k4' /* 20 Jul 2026 · 12:45 */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -2795,7 +2944,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Deskripsi pelapor',
+                                            FFLocalizations.of(context).getText(
+                                              'p6l5rqlt' /* Deskripsi pelapor */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelMedium
                                                 .override(
@@ -2826,7 +2977,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ),
                                           ),
                                           Text(
-                                            'Komputer melakukan restart sendiri beberapa kali saat digunakan. Setelah menyala kembali, kipas CPU terdengar lebih keras dari biasanya.',
+                                            FFLocalizations.of(context).getText(
+                                              '012xe6yg' /* Komputer melakukan restart sen... */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(
@@ -2887,7 +3040,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Fajar',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '6v60fhjs' /* Fajar */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -2919,7 +3075,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'Ext. 219',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'pre2q7lv' /* Ext. 219 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -3009,7 +3168,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             size: 20.0,
                                           ),
                                           Text(
-                                            'Bukti awal',
+                                            FFLocalizations.of(context).getText(
+                                              'kgmea7xv' /* Bukti awal */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
@@ -3042,7 +3203,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         ].divide(SizedBox(width: 8.0)),
                                       ),
                                       Text(
-                                        '1 foto',
+                                        FFLocalizations.of(context).getText(
+                                          't11vp6ba' /* 1 foto */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
@@ -3091,7 +3254,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 4.0, 8.0, 4.0),
                                           child: Text(
-                                            'Foto pelapor',
+                                            FFLocalizations.of(context).getText(
+                                              '8vncu5g1' /* Foto pelapor */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -3150,7 +3315,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Text(
-                                              'F',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '68ebaf8w' /* F */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .labelSmall
@@ -3191,7 +3359,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Diunggah oleh Fajar',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '19nwrg0j' /* Diunggah oleh Fajar */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -3223,7 +3394,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                '20 Jul 2026 · 12:58',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'ef8bc4rn' /* 20 Jul 2026 · 12:58 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -3331,7 +3505,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Ruang kerja teknisi',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'ch4b62bm' /* Ruang kerja teknisi */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .titleMedium
@@ -3363,7 +3540,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     ),
                                               ),
                                               Text(
-                                                'Lengkapi bukti pekerjaan sebelum dikirim untuk verifikasi',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'q9kmqvao' /* Lengkapi bukti pekerjaan sebel... */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -3409,7 +3589,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 4.0, 8.0, 4.0),
                                           child: Text(
-                                            'Dimas Pratama',
+                                            FFLocalizations.of(context).getText(
+                                              'b5gxvobh' /* Dimas Pratama */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -3477,7 +3659,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 alignment: AlignmentDirectional(
                                                     0.0, 0.0),
                                                 child: Text(
-                                                  'DP',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'l5d5eu4k' /* DP */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelMedium
@@ -3518,7 +3703,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Pekerjaan sedang berlangsung',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'wmobvd59' /* Pekerjaan sedang berlangsung */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodySmall
@@ -3552,7 +3740,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                         ),
                                                   ),
                                                   Text(
-                                                    'Dimulai 20 Jul 2026 · 13:12',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'w6ffuop8' /* Dimulai 20 Jul 2026 · 13:12 */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -3599,7 +3790,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(8.0, 4.0, 8.0, 4.0),
                                               child: Text(
-                                                '1j 10m',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'rdbwjw63' /* 1j 10m */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -3643,7 +3837,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Checklist penyelesaian',
+                                        FFLocalizations.of(context).getText(
+                                          'yxk8gjg3' /* Checklist penyelesaian */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -3670,7 +3866,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Semua langkah wajib diselesaikan sebelum dikirim.',
+                                        FFLocalizations.of(context).getText(
+                                          'nzlaqwj5' /* Semua langkah wajib diselesaik... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelSmall
                                             .override(
@@ -3738,7 +3936,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Diagnosis dilakukan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'ds2076ne' /* Diagnosis dilakukan */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -3770,7 +3972,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Sumber gangguan sudah diidentifikasi',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '7z64mcjf' /* Sumber gangguan sudah diidenti... */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -3817,7 +4023,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       .fromSTEB(
                                                           6.0, 2.0, 6.0, 2.0),
                                                   child: Text(
-                                                    'Selesai',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '4r1uy6si' /* Selesai */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -3898,7 +4107,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Tindakan perbaikan dilakukan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '9gcg7but' /* Tindakan perbaikan dilakukan */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -3930,7 +4143,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Perbaikan atau penggantian sudah diterapkan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'tng8qwl2' /* Perbaikan atau penggantian sud... */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -3977,7 +4194,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       .fromSTEB(
                                                           6.0, 2.0, 6.0, 2.0),
                                                   child: Text(
-                                                    'Selesai',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'jkv81ze9' /* Selesai */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -4059,7 +4279,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Uji fungsi berhasil',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'e736fedl' /* Uji fungsi berhasil */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -4091,7 +4315,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Pastikan aset bekerja normal setelah perbaikan',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'z224otgg' /* Pastikan aset bekerja normal s... */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -4138,7 +4366,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       .fromSTEB(
                                                           6.0, 2.0, 6.0, 2.0),
                                                   child: Text(
-                                                    'Belum',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'omxyfwlf' /* Belum */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -4186,7 +4417,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Suku cadang dan material',
+                                        FFLocalizations.of(context).getText(
+                                          'vkj8e52m' /* Suku cadang dan material */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -4213,7 +4446,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Catat material yang digunakan atau nyatakan tidak menggunakan suku cadang.',
+                                        FFLocalizations.of(context).getText(
+                                          'qns6awai' /* Catat material yang digunakan ... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelSmall
                                             .override(
@@ -4259,7 +4494,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 size: 18.0,
                                               ),
                                               Text(
-                                                'Menggunakan suku cadang',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'kc6h74jh' /* Menggunakan suku cadang */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -4305,7 +4543,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 size: 18.0,
                                               ),
                                               Text(
-                                                'Tidak menggunakan suku cadang',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '7pyaov5f' /* Tidak menggunakan suku cadang */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodySmall
@@ -4364,7 +4605,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Thermal Paste',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '1m3m53hu' /* Thermal Paste */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodySmall
@@ -4398,7 +4642,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                         ),
                                                   ),
                                                   Text(
-                                                    'Jumlah: 1 · Ref: TP-001',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '0askz739' /* Jumlah: 1 · Ref: TP-001 */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -4453,7 +4700,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         onPressed: () {
                                           print('AddPartButton pressed ...');
                                         },
-                                        text: '+ Tambah suku cadang',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          'wo8b7zvh' /* + Tambah suku cadang */,
+                                        ),
                                         options: FFButtonOptions(
                                           width: double.infinity,
                                           height: 44.0,
@@ -4511,7 +4761,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Biaya perbaikan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'gn0d60sw' /* Biaya perbaikan */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .titleSmall
@@ -4545,7 +4798,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                         ),
                                                   ),
                                                   Text(
-                                                    'Estimasi dan realisasi biaya pekerjaan',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'jgzmqvtl' /* Estimasi dan realisasi biaya p... */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -4587,7 +4843,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               print(
                                                   'ManageCostButton pressed ...');
                                             },
-                                            text: 'Kelola biaya',
+                                            text: FFLocalizations.of(context)
+                                                .getText(
+                                              'c975c6hb' /* Kelola biaya */,
+                                            ),
                                             options: FFButtonOptions(
                                               height: 32.0,
                                               padding: EdgeInsetsDirectional
@@ -4639,7 +4898,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      'Estimasi',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'lvjtkn5b' /* Estimasi */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4671,7 +4934,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Rp175.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '77p6y3nt' /* Rp175.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4703,7 +4970,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Tenaga kerja: Rp75.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'b72wbarm' /* Tenaga kerja: Rp75.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4735,7 +5006,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Suku cadang: Rp100.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'ofox0igr' /* Suku cadang: Rp100.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4795,7 +5070,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      'Aktual',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'fgrueid1' /* Aktual */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4827,7 +5106,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Rp125.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'lw2vivic' /* Rp125.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4859,7 +5142,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Tenaga kerja: Rp75.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'sc1qgyst' /* Tenaga kerja: Rp75.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4891,7 +5178,11 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                               ),
                                                     ),
                                                     Text(
-                                                      'Suku cadang: Rp50.000',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'vz56jb9v' /* Suku cadang: Rp50.000 */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -4959,7 +5250,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                     size: 16.0,
                                                   ),
                                                   Text(
-                                                    'Biaya aktual masih di bawah estimasi',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '62ub768o' /* Biaya aktual masih di bawah es... */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelSmall
@@ -4995,7 +5289,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ].divide(SizedBox(width: 6.0)),
                                               ),
                                               Text(
-                                                'Hemat Rp50.000',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'p4iv3h92' /* Hemat Rp50.000 */,
+                                                ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .labelSmall
@@ -5039,7 +5336,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Catatan pekerjaan',
+                                        FFLocalizations.of(context).getText(
+                                          'q75p6coc' /* Catatan pekerjaan */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -5066,7 +5365,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Jelaskan diagnosis, tindakan, dan hasil pengujian.',
+                                        FFLocalizations.of(context).getText(
+                                          'rh7tl0c0' /* Jelaskan diagnosis, tindakan, ... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelSmall
                                             .override(
@@ -5099,8 +5400,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             _model.technicianNoteFieldFocusNode,
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          hintText:
-                                              'Suhu CPU terlalu tinggi karena thermal paste mengering. Thermal paste sudah diganti dan heatsink dibersihkan. Sistem sedang diuji selama 15 menit untuk memastikan restart tidak kembali terjadi.',
+                                          hintText: FFLocalizations.of(context)
+                                              .getText(
+                                            'fkuh9f7k' /* Suhu CPU terlalu tinggi karena... */,
+                                          ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: Color(0x00000000),
@@ -5163,7 +5466,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Foto hasil pekerjaan',
+                                        FFLocalizations.of(context).getText(
+                                          'of98864s' /* Foto hasil pekerjaan */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -5190,7 +5495,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             ),
                                       ),
                                       Text(
-                                        'Unggah foto aset setelah tindakan perbaikan.',
+                                        FFLocalizations.of(context).getText(
+                                          'q143s07b' /* Unggah foto aset setelah tinda... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelSmall
                                             .override(
@@ -5254,7 +5561,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               ),
                                             ),
                                             Text(
-                                              'Tambahkan foto hasil',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'lby3b5ld' /* Tambahkan foto hasil */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -5286,7 +5596,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Gunakan kamera atau pilih dari galeri',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'o9xfjr2r' /* Gunakan kamera atau pilih dari... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -5318,7 +5631,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'JPG, PNG, atau WebP · Maks. 2 MB',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'v14mkdqk' /* JPG, PNG, atau WebP · Maks. 2 ... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -5366,7 +5682,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 print(
                                                     'OpenCameraPhotoButton pressed ...');
                                               },
-                                              text: 'Buka kamera',
+                                              text: FFLocalizations.of(context)
+                                                  .getText(
+                                                'opecsrjf' /* Buka kamera */,
+                                              ),
                                               icon: Icon(
                                                 Icons.photo_camera_outlined,
                                                 size: 20.0,
@@ -5402,7 +5721,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 print(
                                                     'OpenGalleryPhotoButton pressed ...');
                                               },
-                                              text: 'Pilih galeri',
+                                              text: FFLocalizations.of(context)
+                                                  .getText(
+                                                '5m6do231' /* Pilih galeri */,
+                                              ),
                                               icon: Icon(
                                                 Icons.photo_library_outlined,
                                                 size: 20.0,
@@ -5457,7 +5779,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               Expanded(
                                                 flex: 1,
                                                 child: Text(
-                                                  'Checklist, catatan, dan minimal satu foto hasil wajib dilengkapi.',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'b99zo21r' /* Checklist, catatan, dan minima... */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -5537,7 +5862,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Perlu mengubah status?',
+                                            FFLocalizations.of(context).getText(
+                                              '2ukugugj' /* Perlu mengubah status? */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
@@ -5568,7 +5895,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ),
                                           ),
                                           Text(
-                                            'Gunakan hanya jika pekerjaan tidak dapat dilanjutkan.',
+                                            FFLocalizations.of(context).getText(
+                                              'xwug0fu0' /* Gunakan hanya jika pekerjaan t... */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -5619,7 +5948,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 6.0, 10.0, 6.0),
                                           child: Text(
-                                            'Menunggu suku cadang',
+                                            FFLocalizations.of(context).getText(
+                                              'o0ffzznj' /* Menunggu suku cadang */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -5662,7 +5993,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 6.0, 10.0, 6.0),
                                           child: Text(
-                                            'Tunda pekerjaan',
+                                            FFLocalizations.of(context).getText(
+                                              '2n5krcuh' /* Tunda pekerjaan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -5705,7 +6038,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 6.0, 10.0, 6.0),
                                           child: Text(
-                                            'Eskalasi',
+                                            FFLocalizations.of(context).getText(
+                                              '6yrosl3k' /* Eskalasi */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -5740,7 +6075,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                     ].divide(SizedBox(width: 8.0)),
                                   ),
                                   Text(
-                                    'Perubahan status akan meminta alasan dan dicatat pada timeline.',
+                                    FFLocalizations.of(context).getText(
+                                      '2d7j3keo' /* Perubahan status akan meminta ... */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .labelSmall
                                         .override(
@@ -5806,7 +6143,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Timeline pekerjaan',
+                                            FFLocalizations.of(context).getText(
+                                              'g4of10ri' /* Timeline pekerjaan */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
@@ -5837,7 +6176,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                 ),
                                           ),
                                           Text(
-                                            'Aktivitas terbaru tiket',
+                                            FFLocalizations.of(context).getText(
+                                              '8kijfhnd' /* Aktivitas terbaru tiket */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(
@@ -5892,7 +6233,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Pekerjaan dimulai',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '24lmzqek' /* Pekerjaan dimulai */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -5924,7 +6268,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Dimas Pratama memulai pemeriksaan CPU PC-12.',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'uyyc2iqq' /* Dimas Pratama memulai pemeriks... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -5956,7 +6303,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Dimas Pratama · 20 Jul 2026 · 13:12',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'vi3d7tng' /* Dimas Pratama · 20 Jul 2026 · ... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -6013,7 +6363,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Teknisi ditugaskan',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'dqfv92fh' /* Teknisi ditugaskan */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -6045,7 +6398,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'OpsFix menugaskan tiket kepada Dimas Pratama.',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '4p27ksht' /* OpsFix menugaskan tiket kepada... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -6077,7 +6433,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'OpsFix Auto Assignment · 20 Jul 2026 · 13:04',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'nn3u80pm' /* OpsFix Auto Assignment · 20 Ju... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -6134,7 +6493,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Laporan dibuat',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'pmr8d7tz' /* Laporan dibuat */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -6166,7 +6528,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Fajar melaporkan CPU PC-12 mengalami restart berulang.',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'v5ts2757' /* Fajar melaporkan CPU PC-12 men... */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -6198,7 +6563,10 @@ class _TechnicianTicketDetailPageCopyWidgetState
                                                   ),
                                             ),
                                             Text(
-                                              'Fajar · 20 Jul 2026 · 12:58',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '0fu84m35' /* Fajar · 20 Jul 2026 · 12:58 */,
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .labelSmall
@@ -6268,7 +6636,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                             onPressed: () {
                               print('SaveProgressButton pressed ...');
                             },
-                            text: 'Simpan progres',
+                            text: FFLocalizations.of(context).getText(
+                              'o89t2vep' /* Simpan progres */,
+                            ),
                             icon: Icon(
                               Icons.save_outlined,
                               size: 20.0,
@@ -6299,7 +6669,9 @@ class _TechnicianTicketDetailPageCopyWidgetState
                             onPressed: () {
                               print('SubmitVerificationButton pressed ...');
                             },
-                            text: 'Kirim untuk verifikasi',
+                            text: FFLocalizations.of(context).getText(
+                              '2cxpsa1m' /* Kirim untuk verifikasi */,
+                            ),
                             icon: Icon(
                               Icons.fact_check_outlined,
                               size: 20.0,

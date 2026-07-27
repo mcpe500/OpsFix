@@ -1,4 +1,4 @@
-import '/auth/supabase_auth/auth_util.dart';
+import '/auth/base_auth_user_provider.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -35,31 +35,43 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.launchRole = await actions.resolveOpsFixSession();
-      _model.launchLocationResult = await actions.resolveOpsFixLocation(
-        FFAppState().pendingLocationSlug,
+      await Future.delayed(
+        Duration(
+          milliseconds: 800,
+        ),
       );
-      if (_model.launchRole == 'manager') {
-        context.goNamedAuth(
-            AdminDashboardPageWidget.routeName, context.mounted);
-      } else if (_model.launchRole == 'technician') {
-        context.goNamedAuth(
-            TechnicianTasksPageWidget.routeName, context.mounted);
-      } else if (_model.launchRole == 'reporter') {
-        context.goNamedAuth(HomeUserPageWidget.routeName, context.mounted);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Profil OpsFix tidak aktif atau belum tersedia.',
-              style: TextStyle(),
-            ),
-            duration: Duration(milliseconds: 4000),
-          ),
+      if (loggedIn) {
+        _model.launchRole = await actions.resolveOpsFixSession();
+        _model.launchLocationResult = await actions.resolveOpsFixLocation(
+          FFAppState().pendingLocationSlug,
         );
-        GoRouter.of(context).prepareAuthEvent();
-        await authManager.signOut();
-        GoRouter.of(context).clearRedirectLocation();
+        if (_model.launchRole == 'manager') {
+          context.goNamed(AdminDashboardPageWidget.routeName);
+        } else {
+          if (_model.launchRole == 'technician') {
+            context.goNamed(TechnicianTasksPageWidget.routeName);
+          } else {
+            if (_model.launchRole == 'reporter') {
+              if (_model.launchLocationResult == 'ok') {
+                context.goNamed(
+                  ReportIssuePageWidget.routeName,
+                  queryParameters: {
+                    'locationId': serializeParam(
+                      FFAppState().currentLocationId,
+                      ParamType.String,
+                    ),
+                  }.withoutNulls,
+                );
+              } else {
+                context.goNamed(HomeUserPageWidget.routeName);
+              }
+            } else {
+              context.goNamed(LoginPageWidget.routeName);
+            }
+          }
+        }
+      } else {
+        context.goNamed(LoginPageWidget.routeName);
       }
     });
 
@@ -110,7 +122,9 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
                     ),
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: Text(
-                      'O',
+                      FFLocalizations.of(context).getText(
+                        't5azg1ud' /* O */,
+                      ),
                       textAlign: TextAlign.center,
                       style:
                           FlutterFlowTheme.of(context).headlineMedium.override(
@@ -134,7 +148,9 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
                     ),
                   ),
                   Text(
-                    'OpsFix',
+                    FFLocalizations.of(context).getText(
+                      '4d6za6ym' /* OpsFix */,
+                    ),
                     textAlign: TextAlign.center,
                     style: FlutterFlowTheme.of(context).headlineMedium.override(
                           font: GoogleFonts.figtree(
@@ -156,7 +172,9 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
                         ),
                   ),
                   Text(
-                    'Facility care, made traceable.',
+                    FFLocalizations.of(context).getText(
+                      'onhlkd0r' /* Facility care, made traceable. */,
+                    ),
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(

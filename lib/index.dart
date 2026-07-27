@@ -64,3 +64,5 @@ export '/technician_profile_page/technician_profile_page_widget.dart'
     show TechnicianProfilePageWidget;
 export '/notifications_page/notifications_page_widget.dart'
     show NotificationsPageWidget;
+export '/reporter_qr_scanner_page/reporter_qr_scanner_page_widget.dart'
+    show ReporterQrScannerPageWidget;

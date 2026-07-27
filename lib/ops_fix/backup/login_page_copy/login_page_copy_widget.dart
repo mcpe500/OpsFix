@@ -128,7 +128,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                     ),
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: Text(
-                      'OpsFix',
+                      FFLocalizations.of(context).getText(
+                        'oh3w0zcr' /* OpsFix */,
+                      ),
                       style: FlutterFlowTheme.of(context).displaySmall.override(
                             font: GoogleFonts.figtree(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -180,7 +182,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Welcome Back',
+                              FFLocalizations.of(context).getText(
+                                'ddowjdfy' /* Welcome Back */,
+                              ),
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .displaySmall
@@ -206,7 +210,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 12.0, 0.0, 24.0),
                               child: Text(
-                                'Fill out the information below in order to access your account.',
+                                FFLocalizations.of(context).getText(
+                                  '5zcogi5l' /* Fill out the information below... */,
+                                ),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
@@ -242,7 +248,10 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                   autofillHints: [AutofillHints.email],
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    labelText: 'Email',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'kc4e2rol' /* Email */,
+                                    ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -344,7 +353,10 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                   obscureText:
                                       !_model.txtPasswordLoginVisibility,
                                   decoration: InputDecoration(
-                                    labelText: 'Password',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'qdag2zyb' /* Password */,
+                                    ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -470,7 +482,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                     ignoreRedirect: true,
                                   );
                                 },
-                                text: 'Sign In',
+                                text: FFLocalizations.of(context).getText(
+                                  'vhmrnjr8' /* Sign In */,
+                                ),
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 44.0,
@@ -514,7 +528,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 24.0),
                               child: Text(
-                                'Or sign in with',
+                                FFLocalizations.of(context).getText(
+                                  'xy9w6m1g' /* Or sign in with */,
+                                ),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
@@ -544,7 +560,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                 onPressed: () {
                                   print('Button pressed ...');
                                 },
-                                text: 'Continue with Google',
+                                text: FFLocalizations.of(context).getText(
+                                  'g860a1m9' /* Continue with Google */,
+                                ),
                                 icon: FaIcon(
                                   FontAwesomeIcons.google,
                                   size: 20.0,
@@ -600,7 +618,9 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                 onPressed: () {
                                   print('Button pressed ...');
                                 },
-                                text: 'Continue with Apple',
+                                text: FFLocalizations.of(context).getText(
+                                  'js7ebm5l' /* Continue with Apple */,
+                                ),
                                 icon: FaIcon(
                                   FontAwesomeIcons.apple,
                                   size: 20.0,
@@ -668,11 +688,17 @@ class _LoginPageCopyWidgetState extends State<LoginPageCopyWidget>
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: 'Don\'t have an account?  ',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          '81s6je83' /* Don't have an account?   */,
+                                        ),
                                         style: TextStyle(),
                                       ),
                                       TextSpan(
-                                        text: 'Sign Up here',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          'oyyoicgm' /* Sign Up here */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(

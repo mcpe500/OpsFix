@@ -153,7 +153,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                         },
                       ),
                       Text(
-                        'Detail Tiket',
+                        FFLocalizations.of(context).getText(
+                          'u3xbj2aa' /* Detail Tiket */,
+                        ),
                         style: FlutterFlowTheme.of(context).titleLarge.override(
                               font: GoogleFonts.figtree(
                                 fontWeight: FlutterFlowTheme.of(context)
@@ -213,7 +215,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  'TICKET TRACKING',
+                                  FFLocalizations.of(context).getText(
+                                    'okdjsiqh' /* TICKET TRACKING */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
@@ -550,7 +554,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  'Informasi laporan',
+                                  FFLocalizations.of(context).getText(
+                                    'pi678r9b' /* Informasi laporan */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleLarge
                                       .override(
@@ -608,7 +614,10 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Status',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'e7no2xuj' /* Status */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -693,7 +702,10 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Prioritas',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '6o4dlirm' /* Prioritas */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -778,7 +790,10 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Unit',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '7kcwrgj5' /* Unit */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -863,7 +878,10 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Teknisi',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'bgs7jrua' /* Teknisi */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -948,7 +966,10 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Kategori',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '4zzhlgf9' /* Kategori */,
+                                                    ),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -1057,7 +1078,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Verifikasi perbaikan',
+                                      FFLocalizations.of(context).getText(
+                                        'viveivea' /* Verifikasi perbaikan */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .override(
@@ -1084,7 +1107,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Periksa catatan hasil teknisi. Terima jika masalah selesai, atau buka kembali bila masih bermasalah.',
+                                      FFLocalizations.of(context).getText(
+                                        'kr1brbhj' /* Periksa catatan hasil teknisi.... */,
+                                      ),
                                       maxLines: 3,
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
@@ -1227,7 +1252,11 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                               ),
                                                             );
                                                           },
-                                                          text: 'Terima',
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            '3y66ojic' /* Terima */,
+                                                          ),
                                                           icon: Icon(
                                                             Icons
                                                                 .check_circle_outline,
@@ -1293,7 +1322,11 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                                                               ),
                                                             );
                                                           },
-                                                          text: 'Buka lagi',
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'n4kb7hzr' /* Buka lagi */,
+                                                          ),
                                                           icon: Icon(
                                                             Icons.restart_alt,
                                                             size: 20.0,
@@ -1375,7 +1408,9 @@ class _TicketDetailPageWidgetState extends State<TicketDetailPageWidget> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  'Linimasa tiket',
+                                  FFLocalizations.of(context).getText(
+                                    'idr0j999' /* Linimasa tiket */,
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleLarge
                                       .override(

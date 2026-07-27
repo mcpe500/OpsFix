@@ -184,7 +184,9 @@ class _TimelineItem2WidgetState extends State<TimelineItem2Widget> {
                           ),
                     ),
                     Text(
-                      '·',
+                      FFLocalizations.of(context).getText(
+                        '9572tw7l' /* · */,
+                      ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.figtree(
                               fontWeight: FlutterFlowTheme.of(context)

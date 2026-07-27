@@ -133,7 +133,9 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                     ),
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: Text(
-                      'OpsFix',
+                      FFLocalizations.of(context).getText(
+                        '4dgmsfqp' /* OpsFix */,
+                      ),
                       style: FlutterFlowTheme.of(context).displaySmall.override(
                             font: GoogleFonts.figtree(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -185,7 +187,9 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Create an Account',
+                              FFLocalizations.of(context).getText(
+                                '6sosoy63' /* Create an Account */,
+                              ),
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .displaySmall
@@ -212,7 +216,9 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 12.0, 0.0, 24.0),
                               child: Text(
-                                'Fill out the information below in order to create account.',
+                                FFLocalizations.of(context).getText(
+                                  '2k1jf4vo' /* Fill out the information below... */,
+                                ),
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .labelMedium
@@ -271,7 +277,10 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                                   .labelLarge
                                                   .fontStyle,
                                         ),
-                                    hintText: 'Name',
+                                    hintText:
+                                        FFLocalizations.of(context).getText(
+                                      '4d0efhql' /* Name */,
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
@@ -348,7 +357,10 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                   autofillHints: [AutofillHints.email],
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    labelText: 'Email',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'onq32ocm' /* Email */,
+                                    ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -451,7 +463,10 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                   obscureText:
                                       !_model.txtPasswordRegisterVisibility,
                                   decoration: InputDecoration(
-                                    labelText: 'Password',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'uco0yhrw' /* Password */,
+                                    ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -570,7 +585,10 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                   obscureText:
                                       !_model.txtCPasswordRegisterVisibility,
                                   decoration: InputDecoration(
-                                    labelText: 'Confirm Password',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'ela6x3q4' /* Confirm Password */,
+                                    ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
@@ -712,7 +730,9 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                       LoginPageWidget.routeName,
                                       context.mounted);
                                 },
-                                text: 'Register',
+                                text: FFLocalizations.of(context).getText(
+                                  '873m1avj' /* Register */,
+                                ),
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 44.0,
@@ -770,11 +790,17 @@ class _RegisterPageCopyWidgetState extends State<RegisterPageCopyWidget>
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: 'Already have an account?  ',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          'hzpbguxs' /* Already have an account?   */,
+                                        ),
                                         style: TextStyle(),
                                       ),
                                       TextSpan(
-                                        text: 'Sign In here',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          'eacqemjl' /* Sign In here */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(

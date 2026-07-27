@@ -91,7 +91,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                 size: 24.0,
                               ),
                               Text(
-                                'Lupa Password',
+                                FFLocalizations.of(context).getText(
+                                  '7ie3bza4' /* Lupa Password */,
+                                ),
                                 style: FlutterFlowTheme.of(context)
                                     .titleMedium
                                     .override(
@@ -140,7 +142,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Pemulihan akun',
+                              FFLocalizations.of(context).getText(
+                                'yzg6di0m' /* Pemulihan akun */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .labelSmall
                                   .override(
@@ -163,7 +167,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                   ),
                             ),
                             Text(
-                              'Atur ulang password.',
+                              FFLocalizations.of(context).getText(
+                                'bwoufeg8' /* Atur ulang password. */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
@@ -186,7 +192,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                   ),
                             ),
                             Text(
-                              'Masukkan email akun yang terdaftar. Kami akan mengirimkan tautan instruksi pemulihan.',
+                              FFLocalizations.of(context).getText(
+                                '28mqp74k' /* Masukkan email akun yang terda... */,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -240,8 +248,14 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                   ),
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    labelText: 'Email terdaftar',
-                                    hintText: 'nama@perusahaan.com',
+                                    labelText:
+                                        FFLocalizations.of(context).getText(
+                                      'onsxz7ak' /* Email terdaftar */,
+                                    ),
+                                    hintText:
+                                        FFLocalizations.of(context).getText(
+                                      '82aj57ms' /* nama@perusahaan.com */,
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Color(0x00000000),
@@ -320,7 +334,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                     );
                                     context.pop();
                                   },
-                                  text: 'Kirim tautan pemulihan',
+                                  text: FFLocalizations.of(context).getText(
+                                    'tgfnc0ar' /* Kirim tautan pemulihan */,
+                                  ),
                                   options: FFButtonOptions(
                                     width: double.infinity,
                                     padding: EdgeInsetsDirectional.fromSTEB(
