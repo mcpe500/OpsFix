@@ -46,10 +46,28 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
           FFAppState().pendingLocationSlug,
         );
         if (_model.launchRole == 'manager') {
-          context.goNamed(AdminDashboardPageWidget.routeName);
+          context.goNamed(
+            AdminDashboardPageWidget.routeName,
+            extra: <String, dynamic>{
+              '__transition_info__': TransitionInfo(
+                hasTransition: true,
+                transitionType: PageTransitionType.fade,
+                duration: Duration(milliseconds: 160),
+              ),
+            },
+          );
         } else {
           if (_model.launchRole == 'technician') {
-            context.goNamed(TechnicianTasksPageWidget.routeName);
+            context.goNamed(
+              TechnicianTasksPageWidget.routeName,
+              extra: <String, dynamic>{
+                '__transition_info__': TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 160),
+                ),
+              },
+            );
           } else {
             if (_model.launchRole == 'reporter') {
               if (_model.launchLocationResult == 'ok') {
@@ -61,17 +79,51 @@ class _LaunchPageWidgetState extends State<LaunchPageWidget> {
                       ParamType.String,
                     ),
                   }.withoutNulls,
+                  extra: <String, dynamic>{
+                    '__transition_info__': TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 160),
+                    ),
+                  },
                 );
               } else {
-                context.goNamed(HomeUserPageWidget.routeName);
+                context.goNamed(
+                  HomeUserPageWidget.routeName,
+                  extra: <String, dynamic>{
+                    '__transition_info__': TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 160),
+                    ),
+                  },
+                );
               }
             } else {
-              context.goNamed(LoginPageWidget.routeName);
+              context.goNamed(
+                LoginPageWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.fade,
+                    duration: Duration(milliseconds: 160),
+                  ),
+                },
+              );
             }
           }
         }
       } else {
-        context.goNamed(LoginPageWidget.routeName);
+        context.goNamed(
+          LoginPageWidget.routeName,
+          extra: <String, dynamic>{
+            '__transition_info__': TransitionInfo(
+              hasTransition: true,
+              transitionType: PageTransitionType.fade,
+              duration: Duration(milliseconds: 160),
+            ),
+          },
+        );
       }
     });
 

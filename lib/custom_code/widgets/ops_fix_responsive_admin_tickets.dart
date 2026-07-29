@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_admin_tickets_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminTickets extends StatelessWidget {
   const OpsFixResponsiveAdminTickets({super.key, this.width, this.height});
@@ -19,7 +28,10 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
   final double? width;
   final double? height;
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   Widget _header(BuildContext context, {required bool desktop}) => Container(
         height: 72,
@@ -35,8 +47,8 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Kelola Tiket',
+                  Text(
+                    OpsFixI18n.t('Kelola Tiket'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -46,8 +58,9 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
                     ),
                   ),
                   if (desktop)
-                    const Text(
-                      'Cari, filter, dan prioritaskan antrean perbaikan lokasi.',
+                    Text(
+                      OpsFixI18n.t(
+                          'Cari, filter, dan prioritaskan antrean perbaikan lokasi.'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -121,32 +134,32 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
             _bottomItem(
               context,
               Icons.dashboard_outlined,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
             ),
             _bottomItem(
               context,
               Icons.confirmation_number,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.view_kanban_outlined,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
             ),
             _bottomItem(
               context,
               Icons.inventory_2_outlined,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -202,7 +215,7 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -229,7 +242,7 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -243,14 +256,14 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.confirmation_number,
-              'Tickets',
+              OpsFixI18n.t('Tickets'),
               'adminTicketsPage',
               active: true,
             ),
@@ -258,21 +271,21 @@ class OpsFixResponsiveAdminTickets extends StatelessWidget {
             _sideItem(
               context,
               Icons.view_kanban_outlined,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.inventory_2_outlined,
-              'Locations & assets',
+              OpsFixI18n.t('Locations & assets'),
               'adminAssetsLocationsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),

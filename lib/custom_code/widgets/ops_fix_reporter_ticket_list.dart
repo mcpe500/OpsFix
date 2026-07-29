@@ -14,6 +14,15 @@ import 'package:intl/intl.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -56,19 +65,30 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
 
   Future<void> _load() async {
     try {
-      var query = SupaFlow.client
-          .from('ticket_cards_v')
-          .select(
-              'id,ticket_code,status,target_label_snapshot,issue_type_snapshot,location_name_snapshot,technician_name_snapshot,updated_at')
-          .eq('reporter_id', currentUserUid);
-      if (FFAppState().currentSiteId.isNotEmpty) {
-        query = query.eq('site_id', FFAppState().currentSiteId);
-      }
-      final rows = await query.order('updated_at', ascending: false);
+      final siteId = FFAppState().currentSiteId.trim();
+      if (siteId.isEmpty) throw StateError('missing_site');
+      final raw = await SupaFlow.client.rpc(
+        'list_opsfix_reporter_tickets',
+        params: {'p_site_id': siteId, 'p_limit': 100, 'p_offset': 0},
+      );
+      final response =
+          raw is Map ? Map<String, dynamic>.from(raw) : <String, dynamic>{};
+      if (response['ok'] != true) throw StateError('reporter_ticket_access');
+      final rows = response['incidents'] is List
+          ? response['incidents'] as List
+          : const <dynamic>[];
       if (!mounted) return;
-      final loaded = (rows as List)
-          .map((row) => Map<String, dynamic>.from(row as Map))
-          .toList();
+      final loaded = rows.map((value) {
+        final row = Map<String, dynamic>.from(value as Map);
+        return <String, dynamic>{
+          ...row,
+          'id': row['ticket_id'],
+          'target_label_snapshot': row['target_label'],
+          'issue_type_snapshot': row['issue_type'],
+          'location_name_snapshot': row['location_name'],
+          'technician_name_snapshot': null,
+        };
+      }).toList();
       setState(() {
         _tickets = loaded;
         _loading = false;
@@ -86,7 +106,8 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
       if (mounted) {
         setState(() {
           _loading = false;
-          _error = 'Daftar tiket belum dapat dimuat. Tarik untuk mencoba lagi.';
+          _error = OpsFixI18n.t(
+              'Daftar tiket belum dapat dimuat. Tarik untuk mencoba lagi.');
         });
       }
     }
@@ -109,16 +130,16 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
           .toList();
 
   String _statusLabel(String status) => switch (status) {
-        'reported' => 'Dilaporkan',
-        'assigned' => 'Ditangani',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'fixed' => 'Selesai',
-        'closed' => 'Ditutup',
-        'reopened' => 'Dibuka kembali',
-        'rejected' => 'Ditolak',
-        'cancelled' => 'Dibatalkan',
-        _ => 'Status diperbarui',
+        'reported' => OpsFixI18n.t('Dilaporkan'),
+        'assigned' => OpsFixI18n.t('Ditangani'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        'closed' => OpsFixI18n.t('Ditutup'),
+        'reopened' => OpsFixI18n.t('Dibuka kembali'),
+        'rejected' => OpsFixI18n.t('Ditolak'),
+        'cancelled' => OpsFixI18n.t('Dibatalkan'),
+        _ => OpsFixI18n.t('Status diperbarui'),
       };
 
   Color _statusColor(String status) => switch (status) {
@@ -140,17 +161,28 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
     final value = ticket['updated_at']?.toString();
     final parsed = value == null ? null : DateTime.tryParse(value)?.toLocal();
     return parsed == null
-        ? 'Waktu belum tersedia'
+        ? OpsFixI18n.t('Waktu belum tersedia')
         : DateFormat('d MMM yyyy · HH:mm', 'id_ID').format(parsed);
   }
 
   void _open(String id) {
     if (id.isEmpty) return;
+    Map<String, dynamic>? selected;
+    for (final ticket in _tickets) {
+      if (ticket['id']?.toString() == id) selected = ticket;
+    }
+    final relationship = selected?['relationship']?.toString() ?? 'owner';
     context.pushNamed(
-      'ticketDetailPage',
+      relationship == 'owner'
+          ? 'ticketDetailPage'
+          : 'ReporterLocationTicketsPage',
       extra: _opsFixReporterFade(),
-      queryParameters:
-          {'ticketId': serializeParam(id, ParamType.String)}.withoutNulls,
+      queryParameters: {
+        'ticketId': serializeParam(id, ParamType.String),
+        if (relationship != 'owner')
+          'locationId': serializeParam(
+              selected?['location_id']?.toString() ?? '', ParamType.String),
+      }.withoutNulls,
     );
   }
 
@@ -194,7 +226,7 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
           border: Border.all(color: const Color(0xFFDDE2E7)),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Status tiket',
+          Text(OpsFixI18n.t('Status tiket'),
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -204,7 +236,12 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
             spacing: 7,
             runSpacing: 7,
             children: _filters.entries
-                .map((entry) => _filterButton(entry.key, entry.value))
+                // `_filters` stays a const table keyed by the status filter key
+                // (`all`, `reported`, ...), which must never be translated.
+                // Only the label is localised, and at render time so it follows
+                // a language change.
+                .map((entry) =>
+                    _filterButton(entry.key, OpsFixI18n.t(entry.value)))
                 .toList(),
           ),
         ]),
@@ -254,7 +291,8 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
             children: [
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Expanded(
-                  child: Text(_text(ticket, 'ticket_code', 'Tiket'),
+                  child: Text(
+                      _text(ticket, 'ticket_code', OpsFixI18n.t('Tiket')),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -265,8 +303,32 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
                 const SizedBox(width: 8),
                 _statusBadge(status),
               ]),
+              if (_text(ticket, 'relationship', 'owner') == 'supporter') ...[
+                const SizedBox(height: 9),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0EDFF),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      OpsFixI18n.t('Anda juga terdampak'),
+                      style: const TextStyle(
+                        color: Color(0xFF5B4CE3),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 9),
-              Text(_text(ticket, 'target_label_snapshot', 'Fasilitas'),
+              Text(
+                  _text(ticket, 'target_label_snapshot',
+                      OpsFixI18n.t('Fasilitas')),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -274,22 +336,25 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF111827))),
               const SizedBox(height: 5),
-              Text(_text(ticket, 'issue_type_snapshot', 'Gangguan fasilitas'),
+              Text(
+                  _text(ticket, 'issue_type_snapshot',
+                      OpsFixI18n.t('Gangguan fasilitas')),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style:
                       const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
               const SizedBox(height: 12),
               Text(
-                _text(
-                    ticket, 'location_name_snapshot', 'Lokasi belum tersedia'),
+                _text(ticket, 'location_name_snapshot',
+                    OpsFixI18n.t('Lokasi belum tersedia')),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 12, color: Color(0xFF475569)),
               ),
               const SizedBox(height: 3),
               Text(
-                _text(ticket, 'technician_name_snapshot', 'Belum ada teknisi'),
+                _text(ticket, 'technician_name_snapshot',
+                    OpsFixI18n.t('Belum ada teknisi')),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
@@ -304,7 +369,7 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text('Lihat detail'),
+                  child: Text(OpsFixI18n.t('Lihat detail')),
                 ),
               ],
             ],
@@ -316,12 +381,12 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
 
   Widget _emptyState() => ListView(
         physics: const AlwaysScrollableScrollPhysics(),
-        children: const [
+        children: [
           SizedBox(height: 90),
           Icon(Icons.confirmation_number_outlined,
               size: 46, color: Color(0xFF94A3B8)),
           SizedBox(height: 12),
-          Text('Tidak ada tiket untuk status ini.',
+          Text(OpsFixI18n.t('Tidak ada tiket untuk status ini.'),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xFF64748B))),
         ],
@@ -352,7 +417,7 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 14,
                   mainAxisSpacing: 14,
-                  mainAxisExtent: 252,
+                  mainAxisExtent: 280,
                 ),
                 itemBuilder: (_, index) => _ticketCard(visible[index]),
               ),
@@ -367,8 +432,8 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFFDDE2E7)),
         ),
-        child: const Center(
-          child: Text('Pilih tiket untuk melihat ringkasannya.',
+        child: Center(
+          child: Text(OpsFixI18n.t('Pilih tiket untuk melihat ringkasannya.'),
               style: TextStyle(color: Color(0xFF64748B))),
         ),
       );
@@ -408,7 +473,7 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
         children: [
           Row(children: [
             Expanded(
-              child: Text(_text(ticket, 'ticket_code', 'Tiket'),
+              child: Text(_text(ticket, 'ticket_code', OpsFixI18n.t('Tiket')),
                   style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -417,31 +482,37 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
             _statusBadge(status),
           ]),
           const SizedBox(height: 8),
-          Text(_text(ticket, 'target_label_snapshot', 'Fasilitas'),
+          Text(
+              _text(ticket, 'target_label_snapshot', OpsFixI18n.t('Fasilitas')),
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF111827))),
           const SizedBox(height: 5),
-          Text(_text(ticket, 'issue_type_snapshot', 'Gangguan fasilitas'),
+          Text(
+              _text(ticket, 'issue_type_snapshot',
+                  OpsFixI18n.t('Gangguan fasilitas')),
               style: const TextStyle(fontSize: 14, color: Color(0xFF64748B))),
           const SizedBox(height: 20),
           const Divider(height: 1),
           const SizedBox(height: 8),
           row(
-              'Lokasi',
-              _text(ticket, 'location_name_snapshot', 'Belum tersedia'),
+              OpsFixI18n.t('Lokasi'),
+              _text(ticket, 'location_name_snapshot',
+                  OpsFixI18n.t('Belum tersedia')),
               Icons.location_on_outlined),
           row(
-              'Teknisi',
-              _text(ticket, 'technician_name_snapshot', 'Belum ada teknisi'),
+              OpsFixI18n.t('Teknisi'),
+              _text(ticket, 'technician_name_snapshot',
+                  OpsFixI18n.t('Belum ada teknisi')),
               Icons.engineering_outlined),
-          row('Diperbarui', _updatedLabel(ticket), Icons.schedule_outlined),
+          row(OpsFixI18n.t('Diperbarui'), _updatedLabel(ticket),
+              Icons.schedule_outlined),
           const SizedBox(height: 18),
           FilledButton.icon(
             onPressed: () => _open(id),
             icon: const Icon(Icons.open_in_new),
-            label: const Text('Lihat detail lengkap'),
+            label: Text(OpsFixI18n.t('Lihat detail lengkap')),
             style: FilledButton.styleFrom(
               minimumSize: const Size.fromHeight(50),
               backgroundColor: const Color(0xFF6C5CE7),

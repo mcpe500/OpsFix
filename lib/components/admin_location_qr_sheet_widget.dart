@@ -243,6 +243,13 @@ class _AdminLocationQrSheetWidgetState
                         ParamType.String,
                       ),
                     }.withoutNulls,
+                    extra: <String, dynamic>{
+                      '__transition_info__': TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 160),
+                      ),
+                    },
                   );
                 } else if (_model.savePublicUrlCode == 'invalid') {
                   ScaffoldMessenger.of(context).showSnackBar(

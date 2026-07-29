@@ -14,6 +14,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -70,7 +79,7 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
 
   Future<void> _chooseEvidence() async {
     if (SupaFlow.client.auth.currentUser == null) {
-      setState(() => _message = 'Please sign in again.');
+      setState(() => _message = OpsFixI18n.t('Please sign in again.'));
       return;
     }
     final result = await FilePicker.platform.pickFiles(
@@ -84,11 +93,13 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
     final extension = _extension(file);
     if (!const {'jpg', 'jpeg', 'png', 'webp'}.contains(extension) ||
         file.bytes == null) {
-      setState(() => _message = 'Use a JPEG, PNG, or WebP image.');
+      setState(
+          () => _message = OpsFixI18n.t('Use a JPEG, PNG, or WebP image.'));
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setState(() => _message = 'The evidence photo must be 5 MB or smaller.');
+      setState(() => _message =
+          OpsFixI18n.t('The evidence photo must be 5 MB or smaller.'));
       return;
     }
     setState(() {
@@ -128,19 +139,20 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
     final description = (widget.description ?? '').trim();
     final evidence = _evidence;
     if (user == null) {
-      setState(() => _message = 'Please sign in again.');
+      setState(() => _message = OpsFixI18n.t('Please sign in again.'));
       return;
     }
     if (locationId.isEmpty) {
-      setState(() => _message = 'Select a valid location first.');
+      setState(() => _message = OpsFixI18n.t('Select a valid location first.'));
       return;
     }
     if (issueCategoryId.isEmpty || issueTypeId.isEmpty) {
-      setState(() => _message = 'Choose an issue type first.');
+      setState(() => _message = OpsFixI18n.t('Choose an issue type first.'));
       return;
     }
     if (description.length < 5 || evidence == null) {
-      setState(() => _message = 'Add a description and evidence photo.');
+      setState(() =>
+          _message = OpsFixI18n.t('Add a description and evidence photo.'));
       return;
     }
 
@@ -202,7 +214,8 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _message = 'Could not create the ticket. Check the form and try again.';
+        _message = OpsFixI18n.t(
+            'Could not create the ticket. Check the form and try again.');
       });
     }
   }
@@ -221,8 +234,8 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
             icon: const Icon(Icons.add_a_photo_outlined),
             label: Text(
               _evidence == null
-                  ? 'Choose evidence photo'
-                  : 'Change evidence photo',
+                  ? OpsFixI18n.t('Choose evidence photo')
+                  : OpsFixI18n.t('Change evidence photo'),
             ),
           ),
           const SizedBox(height: 8),
@@ -235,7 +248,9 @@ class _OpsFixReportEvidencePanelState extends State<OpsFixReportEvidencePanel> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.send_outlined),
-            label: Text(_busy ? 'Submitting…' : 'Submit report with evidence'),
+            label: Text(_busy
+                ? 'Submitting…'
+                : OpsFixI18n.t('Submit report with evidence')),
           ),
           if (_message != null) ...[
             const SizedBox(height: 8),

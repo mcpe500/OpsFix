@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixCompletionPanel extends StatefulWidget {
   const OpsFixCompletionPanel({
@@ -54,7 +63,7 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
 
   Future<void> _chooseProof() async {
     if (SupaFlow.client.auth.currentUser == null) {
-      setState(() => _message = 'Please sign in again.');
+      setState(() => _message = OpsFixI18n.t('Please sign in again.'));
       return;
     }
     final result = await FilePicker.platform.pickFiles(
@@ -68,11 +77,13 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
     final extension = _extension(file);
     if (!const {'jpg', 'jpeg', 'png', 'webp'}.contains(extension) ||
         file.bytes == null) {
-      setState(() => _message = 'Use a JPEG, PNG, or WebP image.');
+      setState(
+          () => _message = OpsFixI18n.t('Use a JPEG, PNG, or WebP image.'));
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setState(() => _message = 'The proof photo must be 5 MB or smaller.');
+      setState(() =>
+          _message = OpsFixI18n.t('The proof photo must be 5 MB or smaller.'));
       return;
     }
     setState(() {
@@ -101,11 +112,12 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
     final note = _noteController.text.trim();
     final proof = _proof;
     if (user == null || widget.ticketId.isEmpty) {
-      setState(() => _message = 'Invalid session or ticket.');
+      setState(() => _message = OpsFixI18n.t('Invalid session or ticket.'));
       return;
     }
     if (note.length < 3 || proof == null) {
-      setState(() => _message = 'Add a repair note and proof photo first.');
+      setState(() =>
+          _message = OpsFixI18n.t('Add a repair note and proof photo first.'));
       return;
     }
     setState(() {
@@ -124,7 +136,7 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
         },
       );
       if (response.status >= 400) {
-        throw Exception('Completion request failed.');
+        throw Exception(OpsFixI18n.t('Completion request failed.'));
       }
       final ticket = await SupaFlow.client
           .from('tickets')
@@ -132,20 +144,24 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
           .eq('id', widget.ticketId)
           .maybeSingle();
       if (ticket?['status']?.toString() != 'pending_verification') {
-        throw Exception('Ticket status was not updated.');
+        throw Exception(OpsFixI18n.t('Ticket status was not updated.'));
       }
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _message = 'Hasil perbaikan berhasil dikirim.';
+        _message = OpsFixI18n.t('Hasil perbaikan berhasil dikirim.');
       });
-      context.goNamed('technicianTasksPage');
+      context.goNamed(
+        'technicianTasksPage',
+        extra: _opsFixPageFade(),
+      );
     } catch (error) {
       debugPrint('OpsFix completion failed: ${error.runtimeType}');
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _message = 'Could not submit completion. Check the proof and retry.';
+        _message = OpsFixI18n.t(
+            'Could not submit completion. Check the proof and retry.');
       });
     }
   }
@@ -164,7 +180,7 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Complete repair',
+                OpsFixI18n.t('Complete repair'),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
@@ -172,8 +188,8 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
                 controller: _noteController,
                 minLines: 2,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Repair note',
+                decoration: InputDecoration(
+                  labelText: OpsFixI18n.t('Repair note'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -182,7 +198,9 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
                 onPressed: _busy ? null : _chooseProof,
                 icon: const Icon(Icons.add_a_photo_outlined),
                 label: Text(
-                  _proof == null ? 'Choose proof photo' : 'Change proof photo',
+                  _proof == null
+                      ? OpsFixI18n.t('Choose proof photo')
+                      : OpsFixI18n.t('Change proof photo'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -195,7 +213,9 @@ class _OpsFixCompletionPanelState extends State<OpsFixCompletionPanel> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.verified_outlined),
-                label: Text(_busy ? 'Submitting…' : 'Send for verification'),
+                label: Text(_busy
+                    ? 'Submitting…'
+                    : OpsFixI18n.t('Send for verification')),
               ),
               if (_message != null) ...[
                 const SizedBox(height: 8),

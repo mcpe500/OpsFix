@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/custom_code/widgets/index.dart';
 import '/custom_code/actions/index.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTechnicianWorkStatusPanel extends StatefulWidget {
   const OpsFixTechnicianWorkStatusPanel({
@@ -49,7 +50,7 @@ class _OpsFixTechnicianWorkStatusPanelState
     if (ticketId.isEmpty) {
       setState(() {
         _loading = false;
-        _error = 'Tiket belum dipilih.';
+        _error = OpsFixI18n.t('Tiket belum dipilih.');
       });
       return;
     }
@@ -82,7 +83,7 @@ class _OpsFixTechnicianWorkStatusPanelState
       if (mounted)
         setState(() {
           _loading = false;
-          _error = 'Informasi pekerjaan belum dapat dimuat.';
+          _error = OpsFixI18n.t('Informasi pekerjaan belum dapat dimuat.');
         });
     }
   }
@@ -97,12 +98,12 @@ class _OpsFixTechnicianWorkStatusPanelState
       await _load();
       if (mounted)
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pekerjaan berhasil dimulai.')),
+          SnackBar(content: Text(OpsFixI18n.t('Pekerjaan berhasil dimulai.'))),
         );
     } catch (error) {
       if (mounted)
-        setState(() =>
-            _error = 'Pekerjaan gagal dimulai. Muat ulang lalu coba lagi.');
+        setState(() => _error = OpsFixI18n.t(
+            'Pekerjaan gagal dimulai. Muat ulang lalu coba lagi.'));
     } finally {
       if (mounted) setState(() => _starting = false);
     }
@@ -112,22 +113,23 @@ class _OpsFixTechnicianWorkStatusPanelState
     final type = event['event_type']?.toString().toLowerCase() ?? '';
     final to = event['to_status']?.toString().toLowerCase() ?? '';
     if (to == 'assigned' || type.contains('assign'))
-      return 'Teknisi ditugaskan';
+      return OpsFixI18n.t('Teknisi ditugaskan');
     if (to == 'in_progress' || type.contains('start'))
-      return 'Pekerjaan dimulai';
+      return OpsFixI18n.t('Pekerjaan dimulai');
     if (to == 'pending_verification' || type.contains('completion'))
-      return 'Hasil dikirim untuk verifikasi';
+      return OpsFixI18n.t('Hasil dikirim untuk verifikasi');
     if (to == 'fixed' || type.contains('fixed'))
-      return 'Perbaikan dinyatakan selesai';
-    if (to == 'closed' || type.contains('closed')) return 'Tiket ditutup';
+      return OpsFixI18n.t('Perbaikan dinyatakan selesai');
+    if (to == 'closed' || type.contains('closed'))
+      return OpsFixI18n.t('Tiket ditutup');
     if (type.contains('report') || type.contains('create'))
-      return 'Laporan dibuat';
-    return 'Pembaruan pekerjaan';
+      return OpsFixI18n.t('Laporan dibuat');
+    return OpsFixI18n.t('Pembaruan pekerjaan');
   }
 
   String _date(dynamic raw) {
     final value = DateTime.tryParse(raw?.toString() ?? '')?.toLocal();
-    if (value == null) return 'Waktu tidak tersedia';
+    if (value == null) return OpsFixI18n.t('Waktu tidak tersedia');
     String two(int n) => n.toString().padLeft(2, '0');
     return '${two(value.day)}/${two(value.month)}/${value.year} · ${two(value.hour)}:${two(value.minute)}';
   }
@@ -170,20 +172,23 @@ class _OpsFixTechnicianWorkStatusPanelState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Siap dikerjakan',
+              Text(OpsFixI18n.t('Siap dikerjakan'),
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF111827))),
               const SizedBox(height: 5),
-              const Text(
-                  'Mulai pekerjaan saat Anda sudah berada di lokasi dan siap menangani unit.',
+              Text(
+                  OpsFixI18n.t(
+                      'Mulai pekerjaan saat Anda sudah berada di lokasi dan siap menangani unit.'),
                   style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
               const SizedBox(height: 14),
               FilledButton.icon(
                   onPressed: _starting ? null : _start,
                   icon: const Icon(Icons.play_arrow),
-                  label: Text(_starting ? 'Memulai…' : 'Mulai pekerjaan')),
+                  label: Text(_starting
+                      ? OpsFixI18n.t('Memulai…')
+                      : OpsFixI18n.t('Mulai pekerjaan'))),
             ]),
       );
     }
@@ -195,14 +200,15 @@ class _OpsFixTechnicianWorkStatusPanelState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Kirim hasil perbaikan',
+              Text(OpsFixI18n.t('Kirim hasil perbaikan'),
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF111827))),
               const SizedBox(height: 5),
-              const Text(
-                  'Tambahkan catatan dan foto hasil agar pelapor dapat memverifikasi pekerjaan.',
+              Text(
+                  OpsFixI18n.t(
+                      'Tambahkan catatan dan foto hasil agar pelapor dapat memverifikasi pekerjaan.'),
                   style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
               const SizedBox(height: 12),
               OpsFixCompletionPanel(ticketId: (widget.ticketId ?? '').trim()),
@@ -213,21 +219,24 @@ class _OpsFixTechnicianWorkStatusPanelState
       return _notice(
           Icons.hourglass_top,
           const Color(0xFF2563EB),
-          'Menunggu verifikasi',
-          'Hasil perbaikan sudah dikirim. Pelapor sedang memeriksa pekerjaan Anda.');
+          OpsFixI18n.t('Menunggu verifikasi'),
+          OpsFixI18n.t(
+              'Hasil perbaikan sudah dikirim. Pelapor sedang memeriksa pekerjaan Anda.'));
     }
     if (_status == 'fixed' || _status == 'closed') {
       return _notice(
           Icons.check_circle_outline,
           const Color(0xFF059669),
-          'Pekerjaan selesai',
-          'Perbaikan telah diterima. Tidak ada tindakan lain yang perlu dilakukan.');
+          OpsFixI18n.t('Pekerjaan selesai'),
+          OpsFixI18n.t(
+              'Perbaikan telah diterima. Tidak ada tindakan lain yang perlu dilakukan.'));
     }
     return _notice(
         Icons.info_outline,
         const Color(0xFF64748B),
-        'Belum dapat dikerjakan',
-        'Status tiket saat ini tidak memerlukan tindakan dari teknisi.');
+        OpsFixI18n.t('Belum dapat dikerjakan'),
+        OpsFixI18n.t(
+            'Status tiket saat ini tidak memerlukan tindakan dari teknisi.'));
   }
 
   BoxDecoration _cardDecoration() => BoxDecoration(
@@ -243,17 +252,17 @@ class _OpsFixTechnicianWorkStatusPanelState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Riwayat pekerjaan',
+              Text(OpsFixI18n.t('Riwayat pekerjaan'),
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF111827))),
               const SizedBox(height: 4),
-              const Text('Catatan perubahan sejak laporan dibuat.',
+              Text(OpsFixI18n.t('Catatan perubahan sejak laporan dibuat.'),
                   style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
               if (_events.isEmpty) ...[
                 const SizedBox(height: 14),
-                const Text('Belum ada aktivitas yang tercatat.',
+                Text(OpsFixI18n.t('Belum ada aktivitas yang tercatat.'),
                     style: TextStyle(color: Color(0xFF64748B))),
               ] else ...[
                 const SizedBox(height: 12),
@@ -281,7 +290,7 @@ class _OpsFixTechnicianWorkStatusPanelState
                                         color: Color(0xFF111827))),
                                 const SizedBox(height: 3),
                                 Text(
-                                    '${_events[i]['actor_name_snapshot'] ?? 'Sistem'} · ${_date(_events[i]['created_at'])}',
+                                    '${_events[i]['actor_name_snapshot'] ?? OpsFixI18n.t('Sistem')} · ${_date(_events[i]['created_at'])}',
                                     style: const TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF64748B))),
@@ -308,7 +317,7 @@ class _OpsFixTechnicianWorkStatusPanelState
           children: [
             if (_error != null) ...[
               _notice(Icons.error_outline, const Color(0xFFDC2626),
-                  'Terjadi kendala', _error!),
+                  OpsFixI18n.t('Terjadi kendala'), _error!),
               const SizedBox(height: 12)
             ],
             _action(),

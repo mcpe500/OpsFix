@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixTechnicianAssignmentPanel extends StatefulWidget {
   const OpsFixTechnicianAssignmentPanel({
@@ -56,7 +65,7 @@ class _OpsFixTechnicianAssignmentPanelState
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _message = 'Tiket belum dipilih.';
+        _message = OpsFixI18n.t('Tiket belum dipilih.');
         _messageIsError = true;
       });
       return;
@@ -69,7 +78,7 @@ class _OpsFixTechnicianAssignmentPanelState
           .eq('id', ticketId)
           .maybeSingle();
       if (ticket == null) {
-        throw Exception('Ticket not found or access denied.');
+        throw Exception(OpsFixI18n.t('Ticket not found or access denied.'));
       }
       final siteId = ticket['site_id']?.toString().trim() ?? '';
       final status = ticket['status']?.toString().trim().toLowerCase() ?? '';
@@ -78,7 +87,7 @@ class _OpsFixTechnicianAssignmentPanelState
       final assignedId =
           ticket['assigned_technician_id']?.toString().trim() ?? '';
       if (siteId.isEmpty) {
-        throw Exception('Ticket site is missing.');
+        throw Exception(OpsFixI18n.t('Ticket site is missing.'));
       }
       const lockedStatuses = {
         'pending_verification',
@@ -144,7 +153,8 @@ class _OpsFixTechnicianAssignmentPanelState
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _message = 'Data penugasan tidak dapat dimuat. Coba lagi.';
+        _message =
+            OpsFixI18n.t('Data penugasan tidak dapat dimuat. Coba lagi.');
         _messageIsError = true;
       });
     }
@@ -175,7 +185,8 @@ class _OpsFixTechnicianAssignmentPanelState
           .limit(1)
           .maybeSingle();
       if (scope == null) {
-        throw Exception('Technician is not assigned to this site.');
+        throw Exception(
+            OpsFixI18n.t('Technician is not assigned to this site.'));
       }
       final current = await SupaFlow.client
           .from('tickets')
@@ -183,7 +194,7 @@ class _OpsFixTechnicianAssignmentPanelState
           .eq('id', ticketId)
           .maybeSingle();
       if (current == null || current['site_id']?.toString() != _ticketSiteId) {
-        throw Exception('Ticket not found or access denied.');
+        throw Exception(OpsFixI18n.t('Ticket not found or access denied.'));
       }
       final status = current['status']?.toString().toLowerCase() ?? '';
       const lockedStatuses = {
@@ -194,7 +205,8 @@ class _OpsFixTechnicianAssignmentPanelState
         'rejected',
       };
       if (lockedStatuses.contains(status)) {
-        throw Exception('Ticket status no longer allows assignment.');
+        throw Exception(
+            OpsFixI18n.t('Ticket status no longer allows assignment.'));
       }
       final version = (current['version'] as num?)?.toInt() ?? 0;
       final updated = await SupaFlow.client
@@ -207,13 +219,13 @@ class _OpsFixTechnicianAssignmentPanelState
           .eq('version', version)
           .select('id');
       if (updated.isEmpty) {
-        throw Exception('Ticket changed. Refresh and try again.');
+        throw Exception(OpsFixI18n.t('Ticket changed. Refresh and try again.'));
       }
       if (!mounted) return;
       setState(() {
         _busyId = null;
         _message =
-            '${technicianName.isEmpty ? 'Teknisi' : technicianName} berhasil ditetapkan.';
+            '${technicianName.isEmpty ? OpsFixI18n.t('Teknisi') : technicianName} berhasil ditetapkan.';
         _messageIsError = false;
       });
       await Future<void>.delayed(const Duration(milliseconds: 450));
@@ -221,14 +233,15 @@ class _OpsFixTechnicianAssignmentPanelState
       GoRouter.of(context).pushReplacementNamed(
         'adminTicketDetailPage',
         queryParameters: {'ticketId': ticketId},
+        extra: _opsFixPageFade(),
       );
     } catch (error) {
       debugPrint('OpsFix assignment failed: $error');
       if (!mounted) return;
       setState(() {
         _busyId = null;
-        _message =
-            'Penugasan tidak dapat disimpan. Muat ulang tiket lalu coba lagi.';
+        _message = OpsFixI18n.t(
+            'Penugasan tidak dapat disimpan. Muat ulang tiket lalu coba lagi.');
         _messageIsError = true;
       });
     }
@@ -276,10 +289,10 @@ class _OpsFixTechnicianAssignmentPanelState
 
     if (lockedStatuses.contains(_ticketStatus)) {
       final statusLabel = _ticketStatus == 'pending_verification'
-          ? 'Menunggu verifikasi'
+          ? OpsFixI18n.t('Menunggu verifikasi')
           : _ticketStatus == 'fixed'
-              ? 'Selesai'
-              : 'Ditutup';
+              ? OpsFixI18n.t('Selesai')
+              : OpsFixI18n.t('Ditutup');
       return shell([
         Row(
           children: [
@@ -299,7 +312,7 @@ class _OpsFixTechnicianAssignmentPanelState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Penugasan $statusLabel',
+                    OpsFixI18n.tf('Penugasan {0}', [statusLabel]),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: const Color(0xFF111827),
                           fontWeight: FontWeight.w700,
@@ -308,8 +321,10 @@ class _OpsFixTechnicianAssignmentPanelState
                   const SizedBox(height: 3),
                   Text(
                     _assignedTechnicianName.isEmpty
-                        ? 'Status tiket ini tidak menerima penugasan baru.'
-                        : 'Ditangani oleh $_assignedTechnicianName',
+                        ? OpsFixI18n.t(
+                            'Status tiket ini tidak menerima penugasan baru.')
+                        : OpsFixI18n.tf(
+                            'Ditangani oleh {0}', [_assignedTechnicianName]),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: const Color(0xFF64748B),
                         ),
@@ -345,7 +360,9 @@ class _OpsFixTechnicianAssignmentPanelState
 
     return shell([
       Text(
-        hasCurrentTechnician ? 'Kelola penugasan' : 'Tetapkan teknisi',
+        hasCurrentTechnician
+            ? OpsFixI18n.t('Kelola penugasan')
+            : OpsFixI18n.t('Tetapkan teknisi'),
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: const Color(0xFF111827),
               fontWeight: FontWeight.w700,
@@ -354,8 +371,10 @@ class _OpsFixTechnicianAssignmentPanelState
       const SizedBox(height: 5),
       Text(
         hasCurrentTechnician
-            ? 'Tiket ini sudah memiliki teknisi. Pilih pengganti hanya jika diperlukan.'
-            : 'Pilih teknisi aktif yang memiliki akses ke lokasi tiket.',
+            ? OpsFixI18n.t(
+                'Tiket ini sudah memiliki teknisi. Pilih pengganti hanya jika diperlukan.')
+            : OpsFixI18n.t(
+                'Pilih teknisi aktif yang memiliki akses ke lokasi tiket.'),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: const Color(0xFF64748B),
             ),
@@ -392,7 +411,7 @@ class _OpsFixTechnicianAssignmentPanelState
                   children: [
                     Text(
                       _assignedTechnicianName.isEmpty
-                          ? 'Teknisi telah ditetapkan'
+                          ? OpsFixI18n.t('Teknisi telah ditetapkan')
                           : _assignedTechnicianName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -403,7 +422,7 @@ class _OpsFixTechnicianAssignmentPanelState
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Sedang bertugas',
+                      OpsFixI18n.t('Sedang bertugas'),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: const Color(0xFF047857),
                             fontWeight: FontWeight.w600,
@@ -419,8 +438,8 @@ class _OpsFixTechnicianAssignmentPanelState
                   color: const Color(0xFFD1FAE5),
                   borderRadius: BorderRadius.circular(99),
                 ),
-                child: const Text(
-                  'Aktif',
+                child: Text(
+                  OpsFixI18n.t('Aktif'),
                   style: TextStyle(
                     color: Color(0xFF047857),
                     fontSize: 12,
@@ -435,7 +454,9 @@ class _OpsFixTechnicianAssignmentPanelState
       if (candidates.isNotEmpty) ...[
         const SizedBox(height: 16),
         Text(
-          hasCurrentTechnician ? 'Teknisi pengganti' : 'Teknisi tersedia',
+          hasCurrentTechnician
+              ? OpsFixI18n.t('Teknisi pengganti')
+              : OpsFixI18n.t('Teknisi tersedia'),
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: const Color(0xFF475569),
                 fontWeight: FontWeight.w700,
@@ -456,8 +477,10 @@ class _OpsFixTechnicianAssignmentPanelState
           ),
           child: Text(
             hasCurrentTechnician
-                ? 'Tidak ada teknisi lain yang tersedia untuk mengganti penugasan.'
-                : 'Belum ada teknisi aktif untuk lokasi tiket ini.',
+                ? OpsFixI18n.t(
+                    'Tidak ada teknisi lain yang tersedia untuk mengganti penugasan.')
+                : OpsFixI18n.t(
+                    'Belum ada teknisi aktif untuk lokasi tiket ini.'),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF64748B),
@@ -515,7 +538,7 @@ class _OpsFixTechnicianAssignmentPanelState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name.isEmpty ? 'Teknisi OpsFix' : name,
+                  name.isEmpty ? OpsFixI18n.t('Teknisi OpsFix') : name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -524,7 +547,7 @@ class _OpsFixTechnicianAssignmentPanelState
                       ),
                 ),
                 Text(
-                  'Tersedia di lokasi tiket',
+                  OpsFixI18n.t('Tersedia di lokasi tiket'),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF64748B),
                       ),
@@ -549,7 +572,9 @@ class _OpsFixTechnicianAssignmentPanelState
                       color: Colors.white,
                     ),
                   )
-                : Text(hasCurrentAssignment ? 'Ganti' : 'Tetapkan'),
+                : Text(hasCurrentAssignment
+                    ? OpsFixI18n.t('Ganti')
+                    : OpsFixI18n.t('Tetapkan')),
           ),
         ],
       ),

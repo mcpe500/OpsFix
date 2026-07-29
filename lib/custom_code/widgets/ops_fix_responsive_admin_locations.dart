@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_admin_locations_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminLocations extends StatelessWidget {
   const OpsFixResponsiveAdminLocations({
@@ -23,7 +32,10 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
   final double? width;
   final double? height;
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   Widget _header(BuildContext context, {required bool desktop}) => Container(
         height: 72,
@@ -39,8 +51,8 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Aset & Lokasi',
+                  Text(
+                    OpsFixI18n.t('Aset & Lokasi'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -50,8 +62,9 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
                     ),
                   ),
                   if (desktop)
-                    const Text(
-                      'Kelola lokasi operasional dan unit pemeliharaan.',
+                    Text(
+                      OpsFixI18n.t(
+                          'Kelola lokasi operasional dan unit pemeliharaan.'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -125,32 +138,32 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
             _bottomItem(
               context,
               Icons.dashboard_outlined,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
             ),
             _bottomItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             _bottomItem(
               context,
               Icons.view_kanban_outlined,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
             ),
             _bottomItem(
               context,
               Icons.inventory_2,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -206,7 +219,7 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -233,7 +246,7 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -247,28 +260,28 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tickets',
+              OpsFixI18n.t('Tickets'),
               'adminTicketsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.view_kanban_outlined,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.inventory_2,
-              'Locations & assets',
+              OpsFixI18n.t('Locations & assets'),
               'adminAssetsLocationsPage',
               active: true,
             ),
@@ -276,7 +289,7 @@ class OpsFixResponsiveAdminLocations extends StatelessWidget {
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),

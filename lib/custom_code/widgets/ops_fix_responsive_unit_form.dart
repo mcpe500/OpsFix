@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixResponsiveUnitForm extends StatefulWidget {
   const OpsFixResponsiveUnitForm({
@@ -97,7 +98,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
     if (widget.siteId.trim().isEmpty ||
         widget.locationId.trim().isEmpty ||
         widget.unitId.trim().isEmpty) {
-      setState(() => _message = 'Aset tidak dapat dimuat.');
+      setState(() => _message = OpsFixI18n.t('Aset tidak dapat dimuat.'));
       return;
     }
     setState(() => _loadingRecord = true);
@@ -105,8 +106,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
       final row = await SupaFlow.client
           .from('maintenance_units')
           .select(
-            'id,site_id,location_id,unit_code,code_sort,name,category_code,'
-            'position_label,component_options,criticality,condition,is_active',
+            'id,site_id,location_id,unit_code,code_sort,name,category_code,position_label,component_options,criticality,condition,is_active',
           )
           .eq('id', widget.unitId)
           .eq('site_id', widget.siteId)
@@ -117,7 +117,8 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
       if (row == null) {
         setState(() {
           _loadingRecord = false;
-          _message = 'Aset tidak ditemukan atau tidak dapat diakses.';
+          _message =
+              OpsFixI18n.t('Aset tidak ditemukan atau tidak dapat diakses.');
         });
         return;
       }
@@ -141,7 +142,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
       if (!mounted) return;
       setState(() {
         _loadingRecord = false;
-        _message = 'Data aset gagal dimuat. Coba lagi.';
+        _message = OpsFixI18n.t('Data aset gagal dimuat. Coba lagi.');
       });
     }
   }
@@ -158,12 +159,14 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
   }
 
   String _messageFor(String code) => switch (code) {
-        'duplicate_code' => 'Kode unit sudah digunakan pada lokasi ini.',
-        'access_denied' => 'Anda tidak memiliki akses manajer untuk aset ini.',
-        'invalid' => 'Periksa kembali nilai formulir.',
+        'duplicate_code' =>
+          OpsFixI18n.t('Kode unit sudah digunakan pada lokasi ini.'),
+        'access_denied' =>
+          OpsFixI18n.t('Anda tidak memiliki akses manajer untuk aset ini.'),
+        'invalid' => OpsFixI18n.t('Periksa kembali nilai formulir.'),
         'network_error' =>
-          'Koneksi gagal. Form tetap terbuka untuk dicoba lagi.',
-        _ => 'Operasi tidak dapat diselesaikan.',
+          OpsFixI18n.t('Koneksi gagal. Form tetap terbuka untuk dicoba lagi.'),
+        _ => OpsFixI18n.t('Operasi tidak dapat diselesaikan.'),
       };
 
   Future<void> _save() async {
@@ -348,7 +351,9 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _isEdit ? 'Edit aset' : 'Tambah unit/aset',
+                              _isEdit
+                                  ? OpsFixI18n.t('Edit aset')
+                                  : OpsFixI18n.t('Tambah unit/aset'),
                               style: const TextStyle(
                                 color: Color(0xFF111827),
                                 fontSize: 20,
@@ -358,8 +363,10 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                             const SizedBox(height: 2),
                             Text(
                               _isEdit
-                                  ? 'Perbarui informasi aset pada lokasi ini.'
-                                  : 'Daftarkan unit baru pada lokasi ini.',
+                                  ? OpsFixI18n.t(
+                                      'Perbarui informasi aset pada lokasi ini.')
+                                  : OpsFixI18n.t(
+                                      'Daftarkan unit baru pada lokasi ini.'),
                               style: const TextStyle(
                                 color: Color(0xFF64748B),
                                 fontSize: 13,
@@ -369,7 +376,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                         ),
                       ),
                       IconButton(
-                        tooltip: 'Tutup',
+                        tooltip: OpsFixI18n.t('Tutup'),
                         onPressed: _busy
                             ? null
                             : () => Navigator.of(context).pop(false),
@@ -393,43 +400,45 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                       children: [
                         _row(
                           wide,
-                          _field(_code, 'Kode unit/aset'),
+                          _field(_code, OpsFixI18n.t('Kode unit/aset')),
                           _field(
                             _sort,
-                            'Urutan',
+                            OpsFixI18n.t('Urutan'),
                             keyboardType: TextInputType.number,
                           ),
                         ),
                         const SizedBox(height: 14),
-                        _field(_name, 'Nama unit/aset'),
+                        _field(_name, OpsFixI18n.t('Nama unit/aset')),
                         const SizedBox(height: 14),
                         _row(
                           wide,
-                          _field(_category, 'Kategori'),
-                          _field(_position, 'Posisi'),
+                          _field(_category, OpsFixI18n.t('Kategori')),
+                          _field(_position, OpsFixI18n.t('Posisi')),
                         ),
                         const SizedBox(height: 14),
                         _row(
                           wide,
                           _dropdown(
                             value: _criticality,
-                            label: 'Kritikalitas',
-                            options: const {
-                              'low': 'Rendah',
-                              'medium': 'Sedang',
-                              'high': 'Tinggi',
+                            label: OpsFixI18n.t('Kritikalitas'),
+                            options: {
+                              'low': OpsFixI18n.t('Rendah'),
+                              'medium': OpsFixI18n.t('Sedang'),
+                              'high': OpsFixI18n.t('Tinggi'),
                             },
                             onChanged: (value) =>
                                 setState(() => _criticality = value),
                           ),
                           _dropdown(
                             value: _condition,
-                            label: 'Kondisi',
-                            options: const {
-                              'operational': 'Operasional',
-                              'needs_attention': 'Perlu perhatian',
-                              'out_of_service': 'Tidak beroperasi',
-                              'retired': 'Dipensiunkan',
+                            label: OpsFixI18n.t('Kondisi'),
+                            options: {
+                              'operational': OpsFixI18n.t('Operasional'),
+                              'needs_attention':
+                                  OpsFixI18n.t('Perlu perhatian'),
+                              'out_of_service':
+                                  OpsFixI18n.t('Tidak beroperasi'),
+                              'retired': OpsFixI18n.t('Dipensiunkan'),
                             },
                             onChanged: (value) =>
                                 setState(() => _condition = value),
@@ -438,7 +447,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                         const SizedBox(height: 14),
                         _field(
                           _components,
-                          'Komponen (pisahkan dengan koma)',
+                          OpsFixI18n.t('Komponen (pisahkan dengan koma)'),
                           maxLines: 3,
                         ),
                         const SizedBox(height: 14),
@@ -449,7 +458,7 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: const Color(0xFFDDE2E7)),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
                               Icon(
                                 Icons.qr_code_2_rounded,
@@ -459,7 +468,8 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                               SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'QR tersedia pada lokasi induk, bukan per unit.',
+                                  OpsFixI18n.t(
+                                      'QR tersedia pada lokasi induk, bukan per unit.'),
                                   style: TextStyle(
                                     color: Color(0xFF64748B),
                                     fontSize: 13,
@@ -524,7 +534,9 @@ class _OpsFixResponsiveUnitFormState extends State<OpsFixResponsiveUnitForm> {
                               )
                             : const Icon(Icons.save_outlined, size: 19),
                         label: Text(
-                          _busy ? 'Menyimpan…' : 'Simpan aset',
+                          _busy
+                              ? OpsFixI18n.t('Menyimpan…')
+                              : OpsFixI18n.t('Simpan aset'),
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ),

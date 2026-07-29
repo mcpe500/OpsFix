@@ -1,1 +1,2 @@
-
+NSCameraUsageDescription = "Aplikasi ini memerlukan akses ke kamera untuk mengambil foto dan memindai konten.";
+NSPhotoLibraryUsageDescription = "Aplikasi ini mengakses galeri foto Anda agar Anda dapat memilih dan mengunggah foto.";

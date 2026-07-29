@@ -12,6 +12,14 @@ import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_responsive_unit_form.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
+
 Future<String> openOpsFixUnitEditor(
   BuildContext context,
   String? siteId,
@@ -77,6 +85,7 @@ Future<String> openOpsFixUnitEditor(
       'locationId': safeLocationId,
       'assetCode': unitCode ?? '',
     },
+    extra: _opsFixPageFade(),
   );
   return 'updated';
 }

@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_reporter_issue_form.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -78,26 +87,18 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.center,
                   children: [
-                const Text('Buat Laporan',
+                Text(OpsFixI18n.t('Buat Laporan'),
                     style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 21,
                         fontWeight: FontWeight.w600)),
                 if (desktop)
-                  const Text(
-                      'Lengkapi laporan agar teknisi menerima konteks yang tepat.',
+                  Text(
+                      OpsFixI18n.t(
+                          'Lengkapi laporan agar teknisi menerima konteks yang tepat.'),
                       style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),
               ])),
-          _circleButton(
-              Icons.notifications_none,
-              const Color(0xFF64748B),
-              const Color(0xFFF8FAFC),
-              () => _push(context, 'NotificationsPage')),
-          if (desktop) ...[
-            const SizedBox(width: 8),
-            _circleButton(Icons.person_outline, const Color(0xFF065F46),
-                const Color(0xFFD1FAE5), () => _push(context, 'ProfilePage')),
-          ],
+          const OpsFixReporterHeaderActions(),
         ]),
       );
 
@@ -132,7 +133,7 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
         color: const Color(0xFF081225),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Row(children: [
+          Row(children: [
             CircleAvatar(
                 radius: 23,
                 backgroundColor: Color(0xFF6C5CE7),
@@ -148,19 +149,20 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
-              Text('Portal pengguna',
+              Text(OpsFixI18n.t('Portal pengguna'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 11))
             ]),
           ]),
           const SizedBox(height: 36),
-          _sideItem(context, Icons.home_outlined, 'Beranda', 'homeUserPage'),
+          _sideItem(context, Icons.home_outlined, OpsFixI18n.t('Beranda'),
+              'homeUserPage'),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.add_circle_outline, 'Buat laporan',
-              'reportIssuePage',
+          _sideItem(context, Icons.add_circle_outline,
+              OpsFixI18n.t('Buat laporan'), 'reportIssuePage',
               active: true),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.confirmation_number_outlined, 'Tiket saya',
-              'myTicketsPage'),
+          _sideItem(context, Icons.confirmation_number_outlined,
+              OpsFixI18n.t('Tiket saya'), 'myTicketsPage'),
           const Spacer(),
           Container(
             padding: const EdgeInsets.all(14),
@@ -170,7 +172,7 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                 border: Border.all(color: const Color(0xFF253451))),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('LOKASI LAPORAN',
+              Text(OpsFixI18n.t('LOKASI LAPORAN'),
                   style: TextStyle(
                       color: Color(0xFF70E1CB),
                       fontSize: 10,
@@ -178,7 +180,7 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
               const SizedBox(height: 7),
               Text(
                   FFAppState().currentLocationName.trim().isEmpty
-                      ? 'Belum dipilih'
+                      ? OpsFixI18n.t('Belum dipilih')
                       : FFAppState().currentLocationName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -202,20 +204,21 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
             borderRadius: BorderRadius.circular(24)),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Text('BUAT LAPORAN',
+          Text(OpsFixI18n.t('BUAT LAPORAN'),
               style: TextStyle(
                   color: Color(0xFF35D0BA),
                   fontSize: 12,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 13),
-          const Text('Apa yang bermasalah?',
+          Text(OpsFixI18n.t('Apa yang bermasalah?'),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 23,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 9),
-          const Text(
-              'Pilih jenis gangguan, jelaskan gejalanya, lalu sertakan foto agar teknisi menerima konteks yang tepat.',
+          Text(
+              OpsFixI18n.t(
+                  'Pilih jenis gangguan, jelaskan gejalanya, lalu sertakan foto agar teknisi menerima konteks yang tepat.'),
               style: TextStyle(
                   color: Color(0xFFD8E0EF), fontSize: 13, height: 1.4)),
           const SizedBox(height: 16),
@@ -235,13 +238,13 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    const Text('Lokasi laporan',
+                    Text(OpsFixI18n.t('Lokasi laporan'),
                         style:
                             TextStyle(color: Color(0xFF94A3B8), fontSize: 11)),
                     const SizedBox(height: 3),
                     Text(
                         FFAppState().currentLocationName.trim().isEmpty
-                            ? 'Lokasi belum dipilih'
+                            ? OpsFixI18n.t('Lokasi belum dipilih')
                             : FFAppState().currentLocationName,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -265,14 +268,18 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: const Color(0xFFDDE2E7))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Langkah pelaporan',
+          Text(OpsFixI18n.t('Langkah pelaporan'),
               style: TextStyle(
                   color: Color(0xFF111827),
                   fontSize: 17,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
-          const Text(
-              '1. Pilih perangkat dan jenis gangguan\n2. Jelaskan gejala dan sertakan foto\n3. Kirim laporan untuk ditangani teknisi',
+          Text(
+              <String>[
+                OpsFixI18n.t('1. Pilih perangkat dan jenis gangguan'),
+                OpsFixI18n.t('2. Jelaskan gejala dan sertakan foto'),
+                OpsFixI18n.t('3. Kirim laporan untuk ditangani teknisi'),
+              ].join('\n'),
               style: TextStyle(
                   color: Color(0xFF64748B), fontSize: 12, height: 1.7)),
           if (unitCode.trim().isNotEmpty) ...[
@@ -283,7 +290,7 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: const Color(0xFFF0EDFF),
                     borderRadius: BorderRadius.circular(12)),
-                child: Text('Perangkat dipilih: $unitCode',
+                child: Text(OpsFixI18n.tf('Perangkat dipilih: {0}', [unitCode]),
                     style: const TextStyle(
                         color: Color(0xFF5B4CE3),
                         fontSize: 12,
@@ -333,7 +340,7 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
         child: SafeArea(
           child: desktop
               ? Row(children: [
-                  _sidebar(context),
+                  const OpsFixReporterSidebar(activeSection: 'report'),
                   Expanded(
                       child: Column(children: [
                     _header(context, desktop: true),
@@ -342,7 +349,8 @@ class OpsFixResponsiveReportIssue extends StatelessWidget {
                 ])
               : Column(children: [
                   _header(context, desktop: false),
-                  Expanded(child: _scrollContent(desktop: false))
+                  Expanded(child: _scrollContent(desktop: false)),
+                  const OpsFixReporterBottomNav(activeSection: 'report'),
                 ]),
         ),
       ),

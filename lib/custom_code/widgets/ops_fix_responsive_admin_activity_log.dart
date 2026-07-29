@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_admin_activity_log_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
   const OpsFixResponsiveAdminActivityLog({
@@ -23,13 +32,17 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
   final double? width;
   final double? height;
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   void _showExportMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          'Ekspor log audit dapat ditambahkan pada tahap berikutnya.',
+          OpsFixI18n.t(
+              'Ekspor log audit dapat ditambahkan pada tahap berikutnya.'),
         ),
         duration: Duration(milliseconds: 4000),
       ),
@@ -52,8 +65,8 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Log Aktivitas Audit',
+                Text(
+                  OpsFixI18n.t('Log Aktivitas Audit'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -63,8 +76,9 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
                   ),
                 ),
                 if (desktop)
-                  const Text(
-                    'Telusuri perubahan operasional terbaru pada site aktif.',
+                  Text(
+                    OpsFixI18n.t(
+                        'Telusuri perubahan operasional terbaru pada site aktif.'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -78,7 +92,7 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
           const SizedBox(width: 12),
           if (compact)
             IconButton(
-              tooltip: 'Ekspor log',
+              tooltip: OpsFixI18n.t('Ekspor log'),
               onPressed: () => _showExportMessage(context),
               icon: const Icon(
                 Icons.download_rounded,
@@ -93,7 +107,7 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => _showExportMessage(context),
               icon: const Icon(Icons.download_rounded, size: 19),
-              label: const Text('Ekspor'),
+              label: Text(OpsFixI18n.t('Ekspor')),
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF6C5CE7),
                 side: const BorderSide(color: Color(0xFFC9C1FF)),
@@ -168,31 +182,31 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
           _bottomItem(
             context,
             Icons.dashboard_outlined,
-            'Beranda',
+            OpsFixI18n.t('Beranda'),
             'adminDashboardPage',
           ),
           _bottomItem(
             context,
             Icons.confirmation_number_outlined,
-            'Tiket',
+            OpsFixI18n.t('Tiket'),
             'adminTicketsPage',
           ),
           _bottomItem(
             context,
             Icons.view_kanban_outlined,
-            'Board',
+            OpsFixI18n.t('Board'),
             'adminWorkBoardPage',
           ),
           _bottomItem(
             context,
             Icons.inventory_2_outlined,
-            'Aset',
+            OpsFixI18n.t('Aset'),
             'adminAssetsLocationsPage',
           ),
           _bottomItem(
             context,
             Icons.history_rounded,
-            'Log',
+            OpsFixI18n.t('Log'),
             'adminActivityLogPage',
             active: true,
           ),
@@ -252,7 +266,7 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Row(
+          Row(
             children: [
               CircleAvatar(
                 radius: 23,
@@ -279,7 +293,7 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Portal pengelola',
+                    OpsFixI18n.t('Portal admin'),
                     style: TextStyle(
                       color: Color(0xFF94A3B8),
                       fontSize: 11,
@@ -293,35 +307,35 @@ class OpsFixResponsiveAdminActivityLog extends StatelessWidget {
           _sideItem(
             context,
             Icons.dashboard_outlined,
-            'Dashboard',
+            OpsFixI18n.t('Dashboard'),
             'adminDashboardPage',
           ),
           const SizedBox(height: 8),
           _sideItem(
             context,
             Icons.confirmation_number_outlined,
-            'Tickets',
+            OpsFixI18n.t('Tickets'),
             'adminTicketsPage',
           ),
           const SizedBox(height: 8),
           _sideItem(
             context,
             Icons.view_kanban_outlined,
-            'Work board',
+            OpsFixI18n.t('Work board'),
             'adminWorkBoardPage',
           ),
           const SizedBox(height: 8),
           _sideItem(
             context,
             Icons.inventory_2_outlined,
-            'Locations & assets',
+            OpsFixI18n.t('Locations & assets'),
             'adminAssetsLocationsPage',
           ),
           const SizedBox(height: 8),
           _sideItem(
             context,
             Icons.history_rounded,
-            'Activity log',
+            OpsFixI18n.t('Activity log'),
             'adminActivityLogPage',
             active: true,
           ),

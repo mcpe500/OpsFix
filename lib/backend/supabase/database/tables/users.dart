@@ -44,4 +44,8 @@ class UsersRow extends SupabaseDataRow {
 
   DateTime get updatedAt => getField<DateTime>('updated_at')!;
   set updatedAt(DateTime value) => setField<DateTime>('updated_at', value);
+
+  String? get preferredLanguage => getField<String>('preferred_language');
+  set preferredLanguage(String? value) =>
+      setField<String>('preferred_language', value);
 }

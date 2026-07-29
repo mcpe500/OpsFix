@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_admin_work_board_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminWorkBoard extends StatefulWidget {
   const OpsFixResponsiveAdminWorkBoard({
@@ -33,7 +42,10 @@ class _OpsFixResponsiveAdminWorkBoardState
   final _contentKey = GlobalKey<OpsFixAdminWorkBoardContentState>();
   bool _refreshing = false;
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   Future<void> _refresh() async {
     if (_refreshing) return;
@@ -59,8 +71,8 @@ class _OpsFixResponsiveAdminWorkBoardState
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Work Board Operasional',
+                  Text(
+                    OpsFixI18n.t('Work Board Operasional'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -70,8 +82,9 @@ class _OpsFixResponsiveAdminWorkBoardState
                     ),
                   ),
                   if (desktop)
-                    const Text(
-                      'Pantau alur kerja aktif berdasarkan status dan prioritas.',
+                    Text(
+                      OpsFixI18n.t(
+                          'Pantau alur kerja aktif berdasarkan status dan prioritas.'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -84,7 +97,7 @@ class _OpsFixResponsiveAdminWorkBoardState
             ),
             const SizedBox(width: 12),
             IconButton(
-              tooltip: 'Muat ulang board',
+              tooltip: OpsFixI18n.t('Muat ulang board'),
               onPressed: _refreshing ? null : _refresh,
               icon: _refreshing
                   ? const SizedBox(
@@ -167,32 +180,32 @@ class _OpsFixResponsiveAdminWorkBoardState
             _bottomItem(
               context,
               Icons.dashboard_outlined,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
             ),
             _bottomItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             _bottomItem(
               context,
               Icons.view_kanban,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.inventory_2_outlined,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -248,7 +261,7 @@ class _OpsFixResponsiveAdminWorkBoardState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -275,7 +288,7 @@ class _OpsFixResponsiveAdminWorkBoardState
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -289,21 +302,21 @@ class _OpsFixResponsiveAdminWorkBoardState
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tickets',
+              OpsFixI18n.t('Tickets'),
               'adminTicketsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.view_kanban,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
               active: true,
             ),
@@ -311,14 +324,14 @@ class _OpsFixResponsiveAdminWorkBoardState
             _sideItem(
               context,
               Icons.inventory_2_outlined,
-              'Locations & assets',
+              OpsFixI18n.t('Locations & assets'),
               'adminAssetsLocationsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),

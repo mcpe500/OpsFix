@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_admin_location_detail_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminLocationDetail extends StatefulWidget {
   const OpsFixResponsiveAdminLocationDetail({
@@ -34,7 +43,10 @@ class _OpsFixResponsiveAdminLocationDetailState
     extends State<OpsFixResponsiveAdminLocationDetail> {
   final _contentKey = GlobalKey<OpsFixAdminLocationDetailContentState>();
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   Widget _header(BuildContext context, bool desktop) {
     final phone = MediaQuery.sizeOf(context).width < 480;
@@ -48,7 +60,7 @@ class _OpsFixResponsiveAdminLocationDetailState
       child: Row(
         children: [
           IconButton(
-            tooltip: 'Kembali ke daftar lokasi',
+            tooltip: OpsFixI18n.t('Kembali ke daftar lokasi'),
             onPressed: () => _go(context, 'adminAssetsLocationsPage'),
             icon: const Icon(Icons.arrow_back_rounded),
             style: IconButton.styleFrom(
@@ -62,8 +74,8 @@ class _OpsFixResponsiveAdminLocationDetailState
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Lokasi & Unit',
+                Text(
+                  OpsFixI18n.t('Lokasi & Unit'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -73,8 +85,8 @@ class _OpsFixResponsiveAdminLocationDetailState
                   ),
                 ),
                 if (desktop)
-                  const Text(
-                    'Pantau lokasi dan kelola unit pemeliharaan.',
+                  Text(
+                    OpsFixI18n.t('Pantau lokasi dan kelola unit pemeliharaan.'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -88,7 +100,7 @@ class _OpsFixResponsiveAdminLocationDetailState
           const SizedBox(width: 10),
           if (phone)
             IconButton(
-              tooltip: 'Tambah unit',
+              tooltip: OpsFixI18n.t('Tambah unit'),
               onPressed: () => _contentKey.currentState?.openCreateForm(),
               icon: const Icon(Icons.add_rounded, color: Color(0xFF6C5CE7)),
               style: IconButton.styleFrom(
@@ -100,7 +112,7 @@ class _OpsFixResponsiveAdminLocationDetailState
             FilledButton.icon(
               onPressed: () => _contentKey.currentState?.openCreateForm(),
               icon: const Icon(Icons.add_rounded, size: 19),
-              label: const Text('Tambah unit'),
+              label: Text(OpsFixI18n.t('Tambah unit')),
               style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFF6C5CE7),
                 shape: RoundedRectangleBorder(
@@ -170,32 +182,32 @@ class _OpsFixResponsiveAdminLocationDetailState
             _bottomItem(
               context,
               Icons.dashboard_outlined,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
             ),
             _bottomItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             _bottomItem(
               context,
               Icons.view_kanban_outlined,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
             ),
             _bottomItem(
               context,
               Icons.inventory_2,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -251,7 +263,7 @@ class _OpsFixResponsiveAdminLocationDetailState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -278,7 +290,7 @@ class _OpsFixResponsiveAdminLocationDetailState
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -292,28 +304,28 @@ class _OpsFixResponsiveAdminLocationDetailState
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tickets',
+              OpsFixI18n.t('Tickets'),
               'adminTicketsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.view_kanban_outlined,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.inventory_2,
-              'Locations & assets',
+              OpsFixI18n.t('Locations & assets'),
               'adminAssetsLocationsPage',
               active: true,
             ),
@@ -321,7 +333,7 @@ class _OpsFixResponsiveAdminLocationDetailState
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),

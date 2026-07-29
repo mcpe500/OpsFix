@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveRegister extends StatefulWidget {
   const OpsFixResponsiveRegister({super.key, this.width, this.height});
@@ -57,25 +66,29 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
   }
 
   String _resultMessage(String result) => switch (result) {
-        'invalid_name' => 'Nama harus terdiri dari 2 sampai 100 karakter.',
-        'invalid_email' => 'Masukkan alamat email yang valid.',
-        'weak_password' => 'Gunakan password dengan minimal 8 karakter.',
-        'email_exists' =>
-          'Email tersebut sudah terdaftar. Silakan masuk atau reset password.',
-        'email_not_authorized' =>
-          'Email tersebut belum dapat menerima email dari OpsFix. Hubungi administrator.',
-        'email_provider_disabled' =>
-          'Pendaftaran menggunakan email dan password sedang dinonaktifkan.',
-        'email_rate_limited' =>
-          'Batas pengiriman email tercapai. Tunggu beberapa saat lalu coba lagi.',
-        'request_rate_limited' =>
-          'Terlalu banyak percobaan pendaftaran. Tunggu beberapa menit lalu coba lagi.',
-        'signup_disabled' => 'Pendaftaran akun sedang tidak tersedia.',
-        'database_error' =>
-          'Akun belum dapat disiapkan. Hubungi administrator OpsFix.',
-        'network_error' =>
-          'Tidak dapat terhubung ke server. Periksa koneksi lalu coba lagi.',
-        _ => 'Pendaftaran gagal. Periksa data Anda lalu coba lagi.',
+        'invalid_name' =>
+          OpsFixI18n.t('Nama harus terdiri dari 2 sampai 100 karakter.'),
+        'invalid_email' => OpsFixI18n.t('Masukkan alamat email yang valid.'),
+        'weak_password' =>
+          OpsFixI18n.t('Gunakan password dengan minimal 8 karakter.'),
+        'email_exists' => OpsFixI18n.t(
+            'Email tersebut sudah terdaftar. Silakan masuk atau reset password.'),
+        'email_not_authorized' => OpsFixI18n.t(
+            'Email tersebut belum dapat menerima email dari OpsFix. Hubungi administrator.'),
+        'email_provider_disabled' => OpsFixI18n.t(
+            'Pendaftaran menggunakan email dan password sedang dinonaktifkan.'),
+        'email_rate_limited' => OpsFixI18n.t(
+            'Batas pengiriman email tercapai. Tunggu beberapa saat lalu coba lagi.'),
+        'request_rate_limited' => OpsFixI18n.t(
+            'Terlalu banyak percobaan pendaftaran. Tunggu beberapa menit lalu coba lagi.'),
+        'signup_disabled' =>
+          OpsFixI18n.t('Pendaftaran akun sedang tidak tersedia.'),
+        'database_error' => OpsFixI18n.t(
+            'Akun belum dapat disiapkan. Hubungi administrator OpsFix.'),
+        'network_error' => OpsFixI18n.t(
+            'Tidak dapat terhubung ke server. Periksa koneksi lalu coba lagi.'),
+        _ =>
+          OpsFixI18n.t('Pendaftaran gagal. Periksa data Anda lalu coba lagi.'),
       };
 
   Future<void> _submit() async {
@@ -84,36 +97,39 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
     final email = _email.text.trim();
     final password = _password.text;
     if (name.length < 2) {
-      _message('Masukkan nama lengkap Anda.');
+      _message(OpsFixI18n.t('Masukkan nama lengkap Anda.'));
       _nameFocus.requestFocus();
       return;
     }
     if (!email.contains('@')) {
-      _message('Masukkan alamat email yang valid.');
+      _message(OpsFixI18n.t('Masukkan alamat email yang valid.'));
       _emailFocus.requestFocus();
       return;
     }
     if (password.length < 8) {
-      _message('Password minimal terdiri dari 8 karakter.');
+      _message(OpsFixI18n.t('Password minimal terdiri dari 8 karakter.'));
       _passwordFocus.requestFocus();
       return;
     }
     if (password != _confirm.text) {
-      _message('Konfirmasi password tidak cocok.');
+      _message(OpsFixI18n.t('Konfirmasi password tidak cocok.'));
       _confirmFocus.requestFocus();
       return;
     }
     if (!_acceptedTerms) {
-      _message(
-          'Setujui Kebijakan Privasi dan Ketentuan Penggunaan untuk melanjutkan.');
+      _message(OpsFixI18n.t(
+          'Setujui Kebijakan Privasi dan Ketentuan Penggunaan untuk melanjutkan.'));
       return;
     }
     setState(() => _submitting = true);
     final result = await actions.registerOpsFixReporter(name, email, password);
     if (!mounted) return;
     if (result == 'success') {
-      _message('Akun berhasil dibuat. Silakan masuk.');
-      context.goNamed('LoginPage');
+      _message(OpsFixI18n.t('Akun berhasil dibuat. Silakan masuk.'));
+      context.goNamed(
+        'LoginPage',
+        extra: _opsFixPageFade(),
+      );
       return;
     }
     setState(() => _submitting = false);
@@ -168,21 +184,22 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Buat akun baru',
+          Text(OpsFixI18n.t('Buat akun baru'),
               style: TextStyle(
                   color: Color(0xFF6C5CE7),
                   fontSize: 12,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 7),
-          Text('Daftar untuk melaporkan fasilitas.',
+          Text(OpsFixI18n.t('Daftar untuk melaporkan fasilitas.'),
               style: TextStyle(
                   color: const Color(0xFF111827),
                   fontSize: desktop ? 29 : 23,
                   height: 1.2,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 7),
-          const Text(
-              'Isi data dasar. Akses portal mengikuti peran dan lokasi organisasi.',
+          Text(
+              OpsFixI18n.t(
+                  'Isi data dasar. Akses portal mengikuti peran dan lokasi organisasi.'),
               style: TextStyle(
                   color: Color(0xFF667085), fontSize: 14, height: 1.4)),
         ],
@@ -198,7 +215,7 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.name],
             onSubmitted: (_) => _emailFocus.requestFocus(),
-            decoration: _decoration('Nama lengkap'),
+            decoration: _decoration(OpsFixI18n.t('Nama lengkap')),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -208,7 +225,7 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.email],
             onSubmitted: (_) => _passwordFocus.requestFocus(),
-            decoration: _decoration('Email'),
+            decoration: _decoration(OpsFixI18n.t('Email')),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -218,11 +235,11 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.newPassword],
             onSubmitted: (_) => _confirmFocus.requestFocus(),
-            decoration: _decoration('Password',
+            decoration: _decoration(OpsFixI18n.t('Password'),
                 suffix: IconButton(
                   tooltip: _passwordVisible
-                      ? 'Sembunyikan password'
-                      : 'Tampilkan password',
+                      ? OpsFixI18n.t('Sembunyikan password')
+                      : OpsFixI18n.t('Tampilkan password'),
                   onPressed: () =>
                       setState(() => _passwordVisible = !_passwordVisible),
                   icon: Icon(
@@ -240,11 +257,11 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
             textInputAction: TextInputAction.done,
             autofillHints: const [AutofillHints.newPassword],
             onSubmitted: (_) => _submit(),
-            decoration: _decoration('Konfirmasi password',
+            decoration: _decoration(OpsFixI18n.t('Konfirmasi password'),
                 suffix: IconButton(
                   tooltip: _confirmVisible
-                      ? 'Sembunyikan password'
-                      : 'Tampilkan password',
+                      ? OpsFixI18n.t('Sembunyikan password')
+                      : OpsFixI18n.t('Tampilkan password'),
                   onPressed: () =>
                       setState(() => _confirmVisible = !_confirmVisible),
                   icon: Icon(
@@ -261,8 +278,9 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
             decoration: BoxDecoration(
                 color: const Color(0xFFF3F5F2),
                 borderRadius: BorderRadius.circular(12)),
-            child: const Text(
-                'Minimal 8 karakter · satu huruf kapital · satu angka · konfirmasi cocok',
+            child: Text(
+                OpsFixI18n.t(
+                    'Minimal 8 karakter · satu huruf kapital · satu angka · konfirmasi cocok'),
                 style: TextStyle(
                     color: Color(0xFF52637D), fontSize: 11, height: 1.35)),
           ),
@@ -306,9 +324,10 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                             : const Color(0xFF98A2B3)),
                   ),
                   const SizedBox(width: 10),
-                  const Expanded(
+                  Expanded(
                       child: Text(
-                          'Saya menyetujui Kebijakan Privasi dan Ketentuan Penggunaan.',
+                          OpsFixI18n.t(
+                              'Saya menyetujui Kebijakan Privasi dan Ketentuan Penggunaan.'),
                           style: TextStyle(
                               color: Color(0xFF344054),
                               fontSize: 13,
@@ -333,7 +352,7 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                       height: 20,
                       child: CircularProgressIndicator(
                           strokeWidth: 2, color: Colors.white))
-                  : const Text('Buat akun',
+                  : Text(OpsFixI18n.t('Buat akun'),
                       style: TextStyle(fontWeight: FontWeight.w600)),
             ),
           ),
@@ -341,13 +360,16 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Sudah punya akun?',
+              Text(OpsFixI18n.t('Sudah punya akun?'),
                   style: TextStyle(color: Color(0xFF667085), fontSize: 12)),
               TextButton(
-                onPressed: () => context.goNamed('LoginPage'),
+                onPressed: () => context.goNamed(
+                  'LoginPage',
+                  extra: _opsFixPageFade(),
+                ),
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 5)),
-                child: const Text('Masuk di sini',
+                child: Text(OpsFixI18n.t('Masuk di sini'),
                     style: TextStyle(color: Color(0xFF6C5CE7), fontSize: 12)),
               ),
             ],
@@ -448,7 +470,7 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                                     fontSize: 26,
                                     fontWeight: FontWeight.w700))),
                         const SizedBox(width: 16),
-                        const Column(
+                        Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('OpsFix',
@@ -457,7 +479,9 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                                       fontSize: 28,
                                       fontWeight: FontWeight.w700)),
                               SizedBox(height: 2),
-                              Text('Facility care, made traceable.',
+                              Text(
+                                  OpsFixI18n.t(
+                                      'Facility care, made traceable.'),
                                   style: TextStyle(
                                       color: Color(0xFFAAB6CC), fontSize: 12))
                             ]),
@@ -471,14 +495,19 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                               borderRadius: BorderRadius.circular(18),
                               border:
                                   Border.all(color: const Color(0x3335D0BA))),
-                          child: const Text('PORTAL OPERASIONAL FASILITAS',
+                          child: Text(
+                              OpsFixI18n.t('PORTAL OPERASIONAL FASILITAS'),
                               style: TextStyle(
                                   color: Color(0xFF70E1CB),
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.7))),
                       const SizedBox(height: 20),
-                      const Text('Fasilitas terjaga.\nPekerjaan terlacak.',
+                      Text(
+                          <String>[
+                            OpsFixI18n.t('Fasilitas terjaga.'),
+                            OpsFixI18n.t('Pekerjaan terlacak.'),
+                          ].join('\n'),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 42,
@@ -486,28 +515,31 @@ class _OpsFixResponsiveRegisterState extends State<OpsFixResponsiveRegister> {
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.8)),
                       const SizedBox(height: 18),
-                      const Text(
-                          'Satu ruang kerja untuk melaporkan gangguan, mengatur penugasan, dan memastikan setiap perbaikan selesai dengan bukti.',
+                      Text(
+                          OpsFixI18n.t(
+                              'Satu ruang kerja untuk melaporkan gangguan, mengatur penugasan, dan memastikan setiap perbaikan selesai dengan bukti.'),
                           style: TextStyle(
                               color: Color(0xFFC5CEE0),
                               fontSize: 16,
                               height: 1.55)),
                       const SizedBox(height: 30),
                       Wrap(spacing: 10, runSpacing: 10, children: [
-                        _benefit(
-                            Icons.qr_code_scanner, 'Laporan berbasis lokasi'),
-                        _benefit(
-                            Icons.track_changes_outlined, 'Status real-time'),
-                        _benefit(
-                            Icons.verified_user_outlined, 'Aktivitas tercatat')
+                        _benefit(Icons.qr_code_scanner,
+                            OpsFixI18n.t('Laporan berbasis lokasi')),
+                        _benefit(Icons.track_changes_outlined,
+                            OpsFixI18n.t('Status real-time')),
+                        _benefit(Icons.verified_user_outlined,
+                            OpsFixI18n.t('Aktivitas tercatat'))
                       ]),
                       const SizedBox(height: 46),
-                      const Row(children: [
+                      Row(children: [
                         Icon(Icons.lock_outline,
                             size: 16, color: Color(0xFF8491A8)),
                         SizedBox(width: 8),
                         Expanded(
-                            child: Text('Akses aman sesuai peran pengguna.',
+                            child: Text(
+                                OpsFixI18n.t(
+                                    'Akses aman sesuai peran pengguna.'),
                                 style: TextStyle(
                                     color: Color(0xFF8491A8), fontSize: 12)))
                       ]),

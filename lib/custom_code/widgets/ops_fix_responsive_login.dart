@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveLogin extends StatefulWidget {
   const OpsFixResponsiveLogin({super.key, this.width, this.height});
@@ -47,7 +56,8 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
     final password = _passwordController.text;
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email dan password wajib diisi.')),
+        SnackBar(
+            content: Text(OpsFixI18n.t('Email dan password wajib diisi.'))),
       );
       return;
     }
@@ -59,7 +69,11 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
       setState(() => _submitting = false);
       return;
     }
-    context.goNamedAuth('LaunchPage', context.mounted);
+    context.goNamedAuth(
+      'LaunchPage',
+      context.mounted,
+      extra: _opsFixPageFade(),
+    );
   }
 
   Widget _logo({bool large = false, bool light = false}) {
@@ -91,7 +105,7 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                 fontSize: large ? 30 : 22,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 4),
-        Text('Facility care, made traceable.',
+        Text(OpsFixI18n.t('Facility care, made traceable.'),
             style: TextStyle(color: secondary, fontSize: 12)),
       ],
     );
@@ -101,20 +115,21 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Portal OpsFix',
+          Text(OpsFixI18n.t('Portal OpsFix'),
               style: TextStyle(
                   color: Color(0xFF6C5CE7),
                   fontSize: 12,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 7),
-          Text('Masuk ke akunmu.',
+          Text(OpsFixI18n.t('Masuk ke akunmu.'),
               style: TextStyle(
                   color: const Color(0xFF111827),
                   fontSize: desktop ? 30 : 23,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 7),
-          const Text(
-              'Gunakan akun yang telah terdaftar untuk membuka portal sesuai peranmu.',
+          Text(
+              OpsFixI18n.t(
+                  'Gunakan akun yang telah terdaftar untuk membuka portal sesuai peranmu.'),
               style: TextStyle(
                   color: Color(0xFF667085), fontSize: 14, height: 1.4)),
         ],
@@ -161,7 +176,7 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
               textInputAction: TextInputAction.next,
               autofillHints: const [AutofillHints.email],
               onSubmitted: (_) => _passwordFocus.requestFocus(),
-              decoration: _decoration('Email'),
+              decoration: _decoration(OpsFixI18n.t('Email')),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -172,11 +187,11 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
               autofillHints: const [AutofillHints.password],
               onSubmitted: (_) => _submit(),
               decoration: _decoration(
-                'Password',
+                OpsFixI18n.t('Password'),
                 suffix: IconButton(
                   tooltip: _passwordVisible
-                      ? 'Sembunyikan password'
-                      : 'Tampilkan password',
+                      ? OpsFixI18n.t('Sembunyikan password')
+                      : OpsFixI18n.t('Tampilkan password'),
                   onPressed: () =>
                       setState(() => _passwordVisible = !_passwordVisible),
                   icon: Icon(
@@ -205,7 +220,7 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                               ? const Color(0xFF6C5CE7)
                               : const Color(0xFF98A2B3)),
                       const SizedBox(width: 8),
-                      const Text('Ingat saya',
+                      Text(OpsFixI18n.t('Ingat saya'),
                           style: TextStyle(
                               color: Color(0xFF667085), fontSize: 12)),
                     ]),
@@ -213,8 +228,11 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                 ),
                 const Spacer(),
                 TextButton(
-                  onPressed: () => context.pushNamed('ForgotPasswordPage'),
-                  child: const Text('Lupa password?',
+                  onPressed: () => context.pushNamed(
+                    'forgotPasswordPage',
+                    extra: _opsFixPageFade(),
+                  ),
+                  child: Text(OpsFixI18n.t('Lupa password?'),
                       style: TextStyle(color: Color(0xFF6C5CE7), fontSize: 12)),
                 ),
               ],
@@ -235,7 +253,7 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                         height: 20,
                         child: CircularProgressIndicator(
                             strokeWidth: 2, color: Colors.white))
-                    : const Text('Masuk',
+                    : Text(OpsFixI18n.t('Masuk'),
                         style: TextStyle(fontWeight: FontWeight.w600)),
               ),
             ),
@@ -246,13 +264,16 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
   Widget _registerLink() => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Belum punya akun?',
+          Text(OpsFixI18n.t('Belum punya akun?'),
               style: TextStyle(color: Color(0xFF667085), fontSize: 12)),
           TextButton(
-            onPressed: () => context.pushNamed('RegisterPage'),
+            onPressed: () => context.pushNamed(
+              'RegisterPage',
+              extra: _opsFixPageFade(),
+            ),
             style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 5)),
-            child: const Text('Daftar sekarang',
+            child: Text(OpsFixI18n.t('Daftar sekarang'),
                 style: TextStyle(color: Color(0xFF6C5CE7), fontSize: 12)),
           ),
         ],
@@ -371,7 +392,7 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                                           fontWeight: FontWeight.w700)),
                                 ),
                                 const SizedBox(width: 16),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('OpsFix',
@@ -380,7 +401,9 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                                             fontSize: 28,
                                             fontWeight: FontWeight.w700)),
                                     SizedBox(height: 2),
-                                    Text('Facility care, made traceable.',
+                                    Text(
+                                        OpsFixI18n.t(
+                                            'Facility care, made traceable.'),
                                         style: TextStyle(
                                             color: Color(0xFFAAB6CC),
                                             fontSize: 12)),
@@ -398,7 +421,8 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                                 border:
                                     Border.all(color: const Color(0x3335D0BA)),
                               ),
-                              child: const Text('PORTAL OPERASIONAL FASILITAS',
+                              child: Text(
+                                  OpsFixI18n.t('PORTAL OPERASIONAL FASILITAS'),
                                   style: TextStyle(
                                       color: Color(0xFF70E1CB),
                                       fontSize: 11,
@@ -406,8 +430,11 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                                       letterSpacing: 0.7)),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'Fasilitas terjaga.\nPekerjaan terlacak.',
+                            Text(
+                              <String>[
+                                OpsFixI18n.t('Fasilitas terjaga.'),
+                                OpsFixI18n.t('Pekerjaan terlacak.'),
+                              ].join('\n'),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 42,
@@ -416,8 +443,9 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                                   letterSpacing: -0.8),
                             ),
                             const SizedBox(height: 18),
-                            const Text(
-                              'Satu ruang kerja untuk melaporkan gangguan, mengatur penugasan, dan memastikan setiap perbaikan selesai dengan bukti.',
+                            Text(
+                              OpsFixI18n.t(
+                                  'Satu ruang kerja untuk melaporkan gangguan, mengatur penugasan, dan memastikan setiap perbaikan selesai dengan bukti.'),
                               style: TextStyle(
                                   color: Color(0xFFC5CEE0),
                                   fontSize: 16,
@@ -429,22 +457,23 @@ class _OpsFixResponsiveLoginState extends State<OpsFixResponsiveLogin> {
                               runSpacing: 10,
                               children: [
                                 _benefitChip(Icons.qr_code_scanner,
-                                    'Laporan berbasis lokasi'),
+                                    OpsFixI18n.t('Laporan berbasis lokasi')),
                                 _benefitChip(Icons.track_changes_outlined,
-                                    'Status real-time'),
+                                    OpsFixI18n.t('Status real-time')),
                                 _benefitChip(Icons.verified_user_outlined,
-                                    'Aktivitas tercatat'),
+                                    OpsFixI18n.t('Aktivitas tercatat')),
                               ],
                             ),
                             const SizedBox(height: 46),
-                            const Row(
+                            Row(
                               children: [
                                 Icon(Icons.lock_outline,
                                     size: 16, color: Color(0xFF8491A8)),
                                 SizedBox(width: 8),
                                 Expanded(
                                     child: Text(
-                                        'Akses aman sesuai peran pengguna.',
+                                        OpsFixI18n.t(
+                                            'Akses aman sesuai peran pengguna.'),
                                         style: TextStyle(
                                             color: Color(0xFF8491A8),
                                             fontSize: 12))),

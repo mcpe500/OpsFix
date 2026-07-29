@@ -9,10 +9,21 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_bulk_qr_export_panel.dart';
 import '/custom_code/widgets/ops_fix_responsive_location_form.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixAdminLocationsContent extends StatefulWidget {
   const OpsFixAdminLocationsContent({
@@ -32,8 +43,7 @@ class OpsFixAdminLocationsContent extends StatefulWidget {
 class OpsFixAdminLocationsContentState
     extends State<OpsFixAdminLocationsContent> {
   static const _selectFields =
-      'id,site_id,code,name,slug,location_type,building,floor,'
-      'zone_code,description,is_active';
+      'id,site_id,code,name,slug,location_type,building,floor,zone_code,description,is_active';
 
   List<Map<String, dynamic>> _locations = [];
   bool _loading = true;
@@ -62,7 +72,8 @@ class OpsFixAdminLocationsContentState
         _loading = false;
         _refreshing = false;
         _locations = [];
-        _error = 'Situs aktif belum dipilih. Masuk ulang lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Situs aktif belum dipilih. Masuk ulang lalu coba lagi.');
       });
       return;
     }
@@ -98,7 +109,8 @@ class OpsFixAdminLocationsContentState
       setState(() {
         _loading = false;
         _refreshing = false;
-        _error = 'Daftar lokasi gagal dimuat. Periksa koneksi lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Daftar lokasi gagal dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -124,7 +136,7 @@ class OpsFixAdminLocationsContentState
   ]) async {
     final siteId = _siteId;
     if (siteId.isEmpty) {
-      _showMessage('Situs aktif belum dipilih.', error: true);
+      _showMessage(OpsFixI18n.t('Situs aktif belum dipilih.'), error: true);
       return;
     }
     final screen = MediaQuery.sizeOf(context);
@@ -192,10 +204,67 @@ class OpsFixAdminLocationsContentState
       await _loadLocations();
       _showMessage(
         location == null
-            ? 'Lokasi berhasil ditambahkan.'
-            : 'Lokasi berhasil diperbarui.',
+            ? OpsFixI18n.t('Lokasi berhasil ditambahkan.')
+            : OpsFixI18n.t('Lokasi berhasil diperbarui.'),
       );
     }
+  }
+
+  Future<void> _openBulkQrExport() async {
+    if (_siteId.isEmpty || _locations.isEmpty) {
+      _showMessage(OpsFixI18n.t('Data lokasi belum tersedia.'), error: true);
+      return;
+    }
+    final locationsJson = jsonEncode(
+      _locations
+          .map(
+            (location) => <String, dynamic>{
+              'id': _value(location, 'id'),
+              'code': _value(location, 'code'),
+              'name': _value(location, 'name'),
+              'slug': _value(location, 'slug'),
+            },
+          )
+          .toList(),
+    );
+    final panel = OpsFixBulkQrExportPanel(
+      siteId: _siteId,
+      locationsJson: locationsJson,
+    );
+    final size = MediaQuery.sizeOf(context);
+    if (size.width < 480) {
+      await showModalBottomSheet<bool>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        backgroundColor: Colors.transparent,
+        builder: (sheetContext) => ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.sizeOf(sheetContext).height * 0.92,
+          ),
+          child: panel,
+        ),
+      );
+      return;
+    }
+    await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (dialogContext) {
+        final availableHeight = MediaQuery.sizeOf(dialogContext).height * 0.88;
+        final dialogHeight = availableHeight < 620.0 ? availableHeight : 620.0;
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding:
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          child: SizedBox(
+            width: 760,
+            height: dialogHeight,
+            child: panel,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _archiveLocation(Map<String, dynamic> location) async {
@@ -208,22 +277,24 @@ class OpsFixAdminLocationsContentState
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ),
-            title: const Text('Arsipkan lokasi'),
+            title: Text(OpsFixI18n.t('Arsipkan lokasi')),
             content: Text(
-              '${name.isEmpty ? 'Lokasi ini' : name} dan unit aktifnya akan '
-              'diarsipkan. Riwayat tiket dan pemeliharaan tetap tersimpan.',
+              OpsFixI18n.tf(
+                  OpsFixI18n.t(
+                      '{0} dan unit aktifnya akan diarsipkan. Riwayat tiket dan pemeliharaan tetap tersimpan.'),
+                  [name.isEmpty ? OpsFixI18n.t('Lokasi ini') : name]),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext, false),
-                child: const Text('Batal'),
+                child: Text(OpsFixI18n.t('Batal')),
               ),
               FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFFB91C1C),
                 ),
                 onPressed: () => Navigator.pop(dialogContext, true),
-                child: const Text('Arsipkan'),
+                child: Text(OpsFixI18n.t('Arsipkan')),
               ),
             ],
           ),
@@ -249,20 +320,23 @@ class OpsFixAdminLocationsContentState
     switch (resultCode) {
       case 'archived':
         await _loadLocations();
-        _showMessage('Lokasi berhasil diarsipkan.');
+        _showMessage(OpsFixI18n.t('Lokasi berhasil diarsipkan.'));
       case 'has_open_tickets':
         _showMessage(
-          'Lokasi belum dapat diarsipkan karena masih memiliki tiket terbuka.',
+          OpsFixI18n.t(
+              'Lokasi belum dapat diarsipkan karena masih memiliki tiket terbuka.'),
           error: true,
         );
       case 'access_denied':
         _showMessage(
-          'Anda tidak memiliki akses untuk mengarsipkan lokasi ini.',
+          OpsFixI18n.t(
+              'Anda tidak memiliki akses untuk mengarsipkan lokasi ini.'),
           error: true,
         );
       default:
         _showMessage(
-          'Lokasi gagal diarsipkan. Periksa koneksi lalu coba lagi.',
+          OpsFixI18n.t(
+              'Lokasi gagal diarsipkan. Periksa koneksi lalu coba lagi.'),
           error: true,
         );
     }
@@ -271,7 +345,7 @@ class OpsFixAdminLocationsContentState
   void _openDetail(Map<String, dynamic> location) {
     final id = _value(location, 'id');
     if (id.isEmpty) {
-      _showMessage('Data lokasi tidak valid.', error: true);
+      _showMessage(OpsFixI18n.t('Data lokasi tidak valid.'), error: true);
       return;
     }
     FFAppState().currentLocationId = id;
@@ -279,16 +353,17 @@ class OpsFixAdminLocationsContentState
     context.pushNamed(
       'AdminAssetLocationDetailPage',
       queryParameters: {'locationId': id},
+      extra: _opsFixPageFade(),
     );
   }
 
   String _typeLabel(String value) => switch (value) {
-        'room' => 'Ruangan',
-        'corridor' => 'Koridor',
-        'toilet' => 'Toilet',
-        'parking' => 'Parkir',
-        'outdoor' => 'Luar ruang',
-        _ => 'Lainnya',
+        'room' => OpsFixI18n.t('Ruangan'),
+        'corridor' => OpsFixI18n.t('Koridor'),
+        'toilet' => OpsFixI18n.t('Toilet'),
+        'parking' => OpsFixI18n.t('Parkir'),
+        'outdoor' => OpsFixI18n.t('Luar ruang'),
+        _ => OpsFixI18n.t('Lainnya'),
       };
 
   IconData _typeIcon(String value) => switch (value) {
@@ -334,7 +409,7 @@ class OpsFixAdminLocationsContentState
               ),
               const SizedBox(height: 5),
               Text(
-                value.isEmpty ? 'Belum diisi' : value,
+                value.isEmpty ? OpsFixI18n.t('Belum diisi') : value,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -386,7 +461,7 @@ class OpsFixAdminLocationsContentState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                name.isEmpty ? 'Lokasi tanpa nama' : name,
+                name.isEmpty ? OpsFixI18n.t('Lokasi tanpa nama') : name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -416,8 +491,8 @@ class OpsFixAdminLocationsContentState
             color: const Color(0xFFE5F7F0),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: const Text(
-            'Aktif',
+          child: Text(
+            OpsFixI18n.t('Aktif'),
             style: TextStyle(
               color: Color(0xFF047857),
               fontSize: 11,
@@ -433,18 +508,19 @@ class OpsFixAdminLocationsContentState
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _fact(Icons.apartment_outlined, 'Gedung', building),
+            _fact(Icons.apartment_outlined, OpsFixI18n.t('Gedung'), building),
             const SizedBox(width: 8),
-            _fact(Icons.layers_outlined, 'Lantai', floor),
+            _fact(Icons.layers_outlined, OpsFixI18n.t('Lantai'), floor),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _fact(Icons.category_outlined, 'Tipe', _typeLabel(type)),
+            _fact(Icons.category_outlined, OpsFixI18n.t('Tipe'),
+                _typeLabel(type)),
             const SizedBox(width: 8),
-            _fact(Icons.map_outlined, 'Zona', zone),
+            _fact(Icons.map_outlined, OpsFixI18n.t('Zona'), zone),
           ],
         ),
       ],
@@ -460,7 +536,9 @@ class OpsFixAdminLocationsContentState
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              description.isEmpty ? 'Belum ada deskripsi lokasi.' : description,
+              description.isEmpty
+                  ? OpsFixI18n.t('Belum ada deskripsi lokasi.')
+                  : description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -485,7 +563,7 @@ class OpsFixAdminLocationsContentState
               child: OutlinedButton.icon(
                 onPressed: archiving ? null : () => _openLocationForm(location),
                 icon: const Icon(Icons.edit_outlined, size: 17),
-                label: const Text('Edit'),
+                label: Text(OpsFixI18n.t('Edit')),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFF6C5CE7),
                   side: const BorderSide(color: Color(0xFFCFC7FF)),
@@ -506,7 +584,7 @@ class OpsFixAdminLocationsContentState
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.archive_outlined, size: 17),
-                label: const Text('Hapus'),
+                label: Text(OpsFixI18n.t('Hapus')),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFB91C1C),
                   side: const BorderSide(color: Color(0xFFFECACA)),
@@ -522,7 +600,7 @@ class OpsFixAdminLocationsContentState
         FilledButton.icon(
           onPressed: archiving ? null : () => _openDetail(location),
           icon: const Icon(Icons.arrow_forward_rounded, size: 18),
-          label: const Text('Lihat lokasi & unit'),
+          label: Text(OpsFixI18n.t('Lihat lokasi & unit')),
           style: FilledButton.styleFrom(
             backgroundColor: const Color(0xFF6C5CE7),
             shape: RoundedRectangleBorder(
@@ -624,7 +702,7 @@ class OpsFixAdminLocationsContentState
               OutlinedButton.icon(
                 onPressed: _loadLocations,
                 icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Coba lagi'),
+                label: Text(OpsFixI18n.t('Coba lagi')),
               ),
             ],
           ],
@@ -674,8 +752,8 @@ class OpsFixAdminLocationsContentState
                   final titleBlock = Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'ADMIN · ASSET REGISTRY',
+                      Text(
+                        OpsFixI18n.t('ADMIN · ASSET REGISTRY'),
                         style: TextStyle(
                           color: Color(0xFF6C5CE7),
                           fontSize: 12,
@@ -684,8 +762,8 @@ class OpsFixAdminLocationsContentState
                         ),
                       ),
                       const SizedBox(height: 6),
-                      const Text(
-                        'Kelola lokasi dan aset.',
+                      Text(
+                        OpsFixI18n.t('Kelola lokasi dan aset.'),
                         style: TextStyle(
                           color: Color(0xFF111827),
                           fontSize: 25,
@@ -693,9 +771,9 @@ class OpsFixAdminLocationsContentState
                         ),
                       ),
                       const SizedBox(height: 5),
-                      const Text(
-                        'Kelola lokasi operasional. Daftar unit tersedia '
-                        'pada halaman detail setiap lokasi.',
+                      Text(
+                        OpsFixI18n.t(
+                            'Kelola lokasi operasional. Daftar unit tersedia pada halaman detail setiap lokasi.'),
                         style: TextStyle(
                           color: Color(0xFF64748B),
                           fontSize: 14,
@@ -708,7 +786,7 @@ class OpsFixAdminLocationsContentState
                   final addButton = FilledButton.icon(
                     onPressed: _loading ? null : () => _openLocationForm(),
                     icon: const Icon(Icons.add_location_alt_outlined, size: 19),
-                    label: const Text('Tambah'),
+                    label: Text(OpsFixI18n.t('Tambah')),
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF6C5CE7),
                       padding: const EdgeInsets.symmetric(
@@ -755,7 +833,8 @@ class OpsFixAdminLocationsContentState
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              '${_locations.length} lokasi aktif',
+                              OpsFixI18n.tf(
+                                  '{0} lokasi aktif', [_locations.length]),
                               style: const TextStyle(
                                 color: Color(0xFF6C5CE7),
                                 fontSize: 12,
@@ -771,29 +850,55 @@ class OpsFixAdminLocationsContentState
                               child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                           ],
+                          const Spacer(),
+                          OutlinedButton.icon(
+                            onPressed: _loading || _locations.isEmpty
+                                ? null
+                                : _openBulkQrExport,
+                            icon: const Icon(
+                              Icons.download_for_offline_outlined,
+                              size: 18,
+                            ),
+                            label: Text(
+                              OpsFixI18n.t(
+                                screenWidth < 480
+                                    ? 'Unduh QR'
+                                    : 'Unduh semua QR',
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: const Color(0xFF6C5CE7),
+                              side: const BorderSide(
+                                color: Color(0xFF6C5CE7),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 14),
                       if (_loading)
                         _feedback(
                           icon: Icons.location_searching_outlined,
-                          title: 'Memuat lokasi…',
-                          message:
-                              'Mengambil daftar lokasi aktif dari Supabase.',
+                          title: OpsFixI18n.t('Memuat lokasi…'),
+                          message: OpsFixI18n.t(
+                              'Mengambil daftar lokasi aktif dari Supabase.'),
                         )
                       else if (_error != null)
                         _feedback(
                           icon: Icons.cloud_off_outlined,
-                          title: 'Lokasi belum dapat dimuat',
+                          title: OpsFixI18n.t('Lokasi belum dapat dimuat'),
                           message: _error!,
                           retry: true,
                         )
                       else if (_locations.isEmpty)
                         _feedback(
                           icon: Icons.add_location_alt_outlined,
-                          title: 'Belum ada lokasi aktif',
-                          message: 'Gunakan tombol Tambah untuk membuat lokasi '
-                              'operasional pertama pada situs ini.',
+                          title: OpsFixI18n.t('Belum ada lokasi aktif'),
+                          message: OpsFixI18n.t(
+                              'Gunakan tombol Tambah untuk membuat lokasi operasional pertama pada situs ini.'),
                         )
                       else
                         Wrap(

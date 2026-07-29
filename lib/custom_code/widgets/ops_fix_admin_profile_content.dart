@@ -10,6 +10,15 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import '/auth/supabase_auth/auth_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixAdminProfileContent extends StatefulWidget {
   const OpsFixAdminProfileContent({super.key, this.width, this.height});
@@ -38,7 +47,8 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
       if (mounted) {
         setState(() {
           _loading = false;
-          _error = 'Sesi admin tidak tersedia. Silakan masuk kembali.';
+          _error =
+              OpsFixI18n.t('Sesi admin tidak tersedia. Silakan masuk kembali.');
         });
       }
       return;
@@ -59,8 +69,8 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
           _loading = false;
           _profile = null;
           _error = row == null
-              ? 'Profil admin tidak ditemukan.'
-              : 'Profil admin sedang tidak aktif.';
+              ? OpsFixI18n.t('Profil admin tidak ditemukan.')
+              : OpsFixI18n.t('Profil admin sedang tidak aktif.');
         });
         return;
       }
@@ -73,7 +83,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
       if (mounted) {
         setState(() {
           _loading = false;
-          _error = 'Profil admin belum dapat dimuat. Coba lagi.';
+          _error = OpsFixI18n.t('Profil admin belum dapat dimuat. Coba lagi.');
         });
       }
     }
@@ -86,9 +96,9 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
 
   String get _roleLabel {
     return switch (_text('role', 'manager')) {
-      'manager' => 'Manager',
-      'technician' => 'Teknisi',
-      'reporter' => 'Pelapor',
+      'manager' => OpsFixI18n.t('Manager'),
+      'technician' => OpsFixI18n.t('Teknisi'),
+      'reporter' => OpsFixI18n.t('Pelapor'),
       final value => value.replaceAll('_', ' '),
     };
   }
@@ -126,7 +136,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
           horizontal ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         Text(
-          _text('display_name', 'Admin OpsFix'),
+          _text('display_name', OpsFixI18n.t('Admin OpsFix')),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: horizontal ? TextAlign.start : TextAlign.center,
@@ -138,7 +148,9 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
         ),
         const SizedBox(height: 5),
         Text(
-          currentUserEmail.isEmpty ? 'Email tidak tersedia' : currentUserEmail,
+          currentUserEmail.isEmpty
+              ? OpsFixI18n.t('Email tidak tersedia')
+              : currentUserEmail,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: horizontal ? TextAlign.start : TextAlign.center,
@@ -227,13 +239,21 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
 
   Widget _information({required int columns}) {
     final facts = [
-      _fact(Icons.mail_outline_rounded, 'Email',
-          currentUserEmail.isEmpty ? 'Email tidak tersedia' : currentUserEmail),
-      _fact(Icons.badge_outlined, 'ID pengguna',
-          currentUserUid.isEmpty ? 'ID tidak tersedia' : currentUserUid),
-      _fact(Icons.manage_accounts_outlined, 'Peran', _roleLabel),
-      _fact(Icons.phone_outlined, 'Nomor telepon',
-          _text('phone', 'Belum ditambahkan')),
+      _fact(
+          Icons.mail_outline_rounded,
+          OpsFixI18n.t('Email'),
+          currentUserEmail.isEmpty
+              ? OpsFixI18n.t('Email tidak tersedia')
+              : currentUserEmail),
+      _fact(
+          Icons.badge_outlined,
+          OpsFixI18n.t('ID pengguna'),
+          currentUserUid.isEmpty
+              ? OpsFixI18n.t('ID tidak tersedia')
+              : currentUserUid),
+      _fact(Icons.manage_accounts_outlined, OpsFixI18n.t('Peran'), _roleLabel),
+      _fact(Icons.phone_outlined, OpsFixI18n.t('Nomor telepon'),
+          _text('phone', OpsFixI18n.t('Belum ditambahkan'))),
     ];
     Widget body;
     if (columns >= 4) {
@@ -281,7 +301,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Informasi akun',
+          Text(OpsFixI18n.t('Informasi akun'),
               style: TextStyle(
                   color: Color(0xFF111827),
                   fontSize: 18,
@@ -309,20 +329,24 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
     await authManager.signOut();
     GoRouter.of(context).clearRedirectLocation();
     if (!mounted) return;
-    context.goNamedAuth('LoginPage', context.mounted);
+    context.goNamedAuth(
+      'LoginPage',
+      context.mounted,
+      extra: _opsFixPageFade(),
+    );
   }
 
   Widget _session({required bool horizontal}) {
-    final copy = const Column(
+    final copy = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Sesi akun',
+        Text(OpsFixI18n.t('Sesi akun'),
             style: TextStyle(
                 color: Color(0xFF111827),
                 fontSize: 16,
                 fontWeight: FontWeight.w700)),
         SizedBox(height: 5),
-        Text('Keluar dengan aman dari portal pengelola.',
+        Text(OpsFixI18n.t('Keluar dengan aman dari portal pengelola.'),
             style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),
       ],
     );
@@ -335,7 +359,8 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
                   strokeWidth: 2, color: Colors.white),
             )
           : const Icon(Icons.logout_rounded, size: 19),
-      label: Text(_busy ? 'Keluar…' : 'Keluar dari akun'),
+      label: Text(
+          _busy ? OpsFixI18n.t('Keluar…') : OpsFixI18n.t('Keluar dari akun')),
       style: FilledButton.styleFrom(
         backgroundColor: const Color(0xFFDC2626),
         minimumSize:
@@ -378,7 +403,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
               const Icon(Icons.error_outline,
                   color: Color(0xFFDC2626), size: 34),
               const SizedBox(height: 12),
-              Text(_error ?? 'Profil admin tidak tersedia.',
+              Text(_error ?? OpsFixI18n.t('Profil admin tidak tersedia.'),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Color(0xFF111827), fontWeight: FontWeight.w600)),
@@ -387,14 +412,14 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
                 Expanded(
                     child: OutlinedButton(
                         onPressed: _busy ? null : _logout,
-                        child: const Text('Keluar'))),
+                        child: Text(OpsFixI18n.t('Keluar')))),
                 const SizedBox(width: 10),
                 Expanded(
                     child: FilledButton(
                   onPressed: _load,
                   style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF6C5CE7)),
-                  child: const Text('Coba lagi'),
+                  child: Text(OpsFixI18n.t('Coba lagi')),
                 )),
               ]),
             ]),
@@ -462,6 +487,13 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
                       _session(horizontal: true),
                     ]);
               }),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: const OpsFixLanguageSetting(),
             ),
           ),
         ],

@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixManagerRecordForm extends StatefulWidget {
   const OpsFixManagerRecordForm({
@@ -113,11 +122,8 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
     _note = TextEditingController();
     final now = DateTime.now();
     _performedAt = TextEditingController(
-      text: '${now.year.toString().padLeft(4, '0')}-'
-          '${now.month.toString().padLeft(2, '0')}-'
-          '${now.day.toString().padLeft(2, '0')} '
-          '${now.hour.toString().padLeft(2, '0')}:'
-          '${now.minute.toString().padLeft(2, '0')}',
+      text:
+          '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
     );
     _locationType = const {
       'room',
@@ -170,7 +176,7 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
       setState(() => _locationType = type);
     } catch (_) {
       if (mounted) {
-        setState(() => _message = 'Data lokasi gagal dimuat.');
+        setState(() => _message = OpsFixI18n.t('Data lokasi gagal dimuat.'));
       }
     }
   }
@@ -199,7 +205,7 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
       });
     } catch (_) {
       if (mounted) {
-        setState(() => _message = 'Data aset gagal dimuat.');
+        setState(() => _message = OpsFixI18n.t('Data aset gagal dimuat.'));
       }
     }
   }
@@ -232,13 +238,16 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
       .replaceAll(RegExp(r'^-+|-+$'), '');
 
   String _messageFor(String code) => switch (code) {
-        'duplicate_code' => 'Kode sudah digunakan pada situs ini.',
-        'duplicate_slug' => 'Slug QR sudah digunakan. Gunakan kode lain.',
-        'access_denied' => 'Anda tidak memiliki akses manajer untuk data ini.',
-        'invalid' => 'Periksa kembali nilai formulir.',
+        'duplicate_code' =>
+          OpsFixI18n.t('Kode sudah digunakan pada situs ini.'),
+        'duplicate_slug' =>
+          OpsFixI18n.t('Slug QR sudah digunakan. Gunakan kode lain.'),
+        'access_denied' =>
+          OpsFixI18n.t('Anda tidak memiliki akses manajer untuk data ini.'),
+        'invalid' => OpsFixI18n.t('Periksa kembali nilai formulir.'),
         'network_error' =>
-          'Koneksi gagal. Form tetap terbuka untuk dicoba lagi.',
-        _ => 'Operasi tidak dapat diselesaikan.',
+          OpsFixI18n.t('Koneksi gagal. Form tetap terbuka untuk dicoba lagi.'),
+        _ => OpsFixI18n.t('Operasi tidak dapat diselesaikan.'),
       };
 
   Future<void> _save() async {
@@ -333,11 +342,15 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
       final router = GoRouter.of(context);
       Navigator.of(context).pop();
       if (widget.refreshTarget == 'locations') {
-        router.pushReplacementNamed('adminAssetsLocationsPage');
+        router.pushReplacementNamed(
+          'adminAssetsLocationsPage',
+          extra: _opsFixPageFade(),
+        );
       } else if (widget.refreshTarget == 'location_detail') {
         router.pushReplacementNamed(
           'AdminAssetLocationDetailPage',
           queryParameters: {'locationId': widget.refreshLocationId ?? ''},
+          extra: _opsFixPageFade(),
         );
       } else {
         router.pushReplacementNamed(
@@ -347,6 +360,7 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
             'locationId': widget.refreshLocationId ?? '',
             'assetCode': widget.refreshAssetCode ?? '',
           },
+          extra: _opsFixPageFade(),
         );
       }
     } on FormatException {
@@ -400,27 +414,27 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
 
   Widget _locationFields() => _formColumn(
         [
-          _textField(_code, 'Kode lokasi'),
+          _textField(_code, OpsFixI18n.t('Kode lokasi')),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               widget.mode == 'create'
                   ? 'Slug QR: ${_slugPreview.isEmpty ? '-' : _slugPreview}'
-                  : 'Slug QR tetap: ${widget.slug}',
+                  : OpsFixI18n.tf('Slug QR tetap: {0}', [widget.slug]),
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
-          _textField(_name, 'Nama lokasi'),
+          _textField(_name, OpsFixI18n.t('Nama lokasi')),
           DropdownButtonFormField<String>(
             value: _locationType,
-            decoration: _decoration('Tipe lokasi'),
-            items: const {
-              'room': 'Ruangan',
-              'corridor': 'Koridor',
-              'toilet': 'Toilet',
-              'parking': 'Parkir',
-              'outdoor': 'Luar ruang',
-              'other': 'Lainnya',
+            decoration: _decoration(OpsFixI18n.t('Tipe lokasi')),
+            items: {
+              'room': OpsFixI18n.t('Ruangan'),
+              'corridor': OpsFixI18n.t('Koridor'),
+              'toilet': OpsFixI18n.t('Toilet'),
+              'parking': OpsFixI18n.t('Parkir'),
+              'outdoor': OpsFixI18n.t('Luar ruang'),
+              'other': OpsFixI18n.t('Lainnya'),
             }
                 .entries
                 .map((entry) => DropdownMenuItem(
@@ -432,29 +446,30 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
                 ? null
                 : (value) => setState(() => _locationType = value ?? 'room'),
           ),
-          _textField(_building, 'Gedung'),
-          _textField(_floor, 'Lantai'),
-          _textField(_zone, 'Zona (kosong = kode lokasi)'),
-          _textField(_description, 'Deskripsi', maxLines: 3),
+          _textField(_building, OpsFixI18n.t('Gedung')),
+          _textField(_floor, OpsFixI18n.t('Lantai')),
+          _textField(_zone, OpsFixI18n.t('Zona (kosong = kode lokasi)')),
+          _textField(_description, OpsFixI18n.t('Deskripsi'), maxLines: 3),
         ],
       );
 
   Widget _unitFields() => _formColumn(
         [
-          _textField(_code, 'Kode unit/aset'),
+          _textField(_code, OpsFixI18n.t('Kode unit/aset')),
           _textField(
             _sort,
-            'Urutan',
+            OpsFixI18n.t('Urutan'),
             keyboardType: TextInputType.number,
           ),
-          _textField(_name, 'Nama unit/aset'),
-          _textField(_category, 'Kategori'),
-          _textField(_position, 'Posisi'),
-          _textField(_components, 'Komponen (pisahkan dengan koma)',
+          _textField(_name, OpsFixI18n.t('Nama unit/aset')),
+          _textField(_category, OpsFixI18n.t('Kategori')),
+          _textField(_position, OpsFixI18n.t('Posisi')),
+          _textField(
+              _components, OpsFixI18n.t('Komponen (pisahkan dengan koma)'),
               maxLines: 2),
           DropdownButtonFormField<String>(
             value: _criticality,
-            decoration: _decoration('Kritikalitas'),
+            decoration: _decoration(OpsFixI18n.t('Kritikalitas')),
             items: const ['low', 'medium', 'high']
                 .map((value) =>
                     DropdownMenuItem(value: value, child: Text(value)))
@@ -465,7 +480,7 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
           ),
           DropdownButtonFormField<String>(
             value: _condition,
-            decoration: _decoration('Kondisi'),
+            decoration: _decoration(OpsFixI18n.t('Kondisi')),
             items: const [
               'operational',
               'needs_attention',
@@ -480,9 +495,9 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
                 : (value) =>
                     setState(() => _condition = value ?? 'operational'),
           ),
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
-            child: Text('QR hanya tersedia untuk lokasi induk.'),
+            child: Text(OpsFixI18n.t('QR hanya tersedia untuk lokasi induk.')),
           ),
         ],
       );
@@ -491,12 +506,12 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
         [
           DropdownButtonFormField<String>(
             value: _noteType,
-            decoration: _decoration('Jenis catatan'),
-            items: const {
-              'inspection': 'Inspeksi',
-              'preventive': 'Preventif',
-              'corrective': 'Korektif',
-              'other': 'Lainnya',
+            decoration: _decoration(OpsFixI18n.t('Jenis catatan')),
+            items: {
+              'inspection': OpsFixI18n.t('Inspeksi'),
+              'preventive': OpsFixI18n.t('Preventif'),
+              'corrective': OpsFixI18n.t('Korektif'),
+              'other': OpsFixI18n.t('Lainnya'),
             }
                 .entries
                 .map((entry) => DropdownMenuItem(
@@ -508,18 +523,23 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
                 ? null
                 : (value) => setState(() => _noteType = value ?? 'inspection'),
           ),
-          _textField(_performedAt, 'Waktu pelaksanaan (YYYY-MM-DD HH:mm)'),
-          _textField(_note, 'Catatan pemeliharaan', maxLines: 5),
+          _textField(_performedAt,
+              OpsFixI18n.t('Waktu pelaksanaan (YYYY-MM-DD HH:mm)')),
+          _textField(_note, OpsFixI18n.t('Catatan pemeliharaan'), maxLines: 5),
         ],
       );
 
   @override
   Widget build(BuildContext context) {
     final title = widget.formKind == 'location'
-        ? (widget.mode == 'create' ? 'Tambah lokasi' : 'Edit lokasi')
+        ? (widget.mode == 'create'
+            ? OpsFixI18n.t('Tambah lokasi')
+            : OpsFixI18n.t('Edit lokasi'))
         : widget.formKind == 'unit'
-            ? (widget.mode == 'create' ? 'Tambah unit/aset' : 'Edit aset')
-            : 'Tambah catatan pemeliharaan';
+            ? (widget.mode == 'create'
+                ? OpsFixI18n.t('Tambah unit/aset')
+                : OpsFixI18n.t('Edit aset'))
+            : OpsFixI18n.t('Tambah catatan pemeliharaan');
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -564,7 +584,9 @@ class _OpsFixManagerRecordFormState extends State<OpsFixManagerRecordForm> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.save_outlined),
-                label: Text(_busy ? 'Menyimpan…' : 'Simpan'),
+                label: Text(_busy
+                    ? OpsFixI18n.t('Menyimpan…')
+                    : OpsFixI18n.t('Simpan')),
               ),
             ],
           ),

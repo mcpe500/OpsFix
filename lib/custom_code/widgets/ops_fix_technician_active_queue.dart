@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixTechnicianActiveQueue extends StatefulWidget {
   const OpsFixTechnicianActiveQueue({super.key, this.width, this.height});
@@ -72,17 +81,17 @@ class _OpsFixTechnicianActiveQueueState
       if (mounted)
         setState(() {
           _loading = false;
-          _error =
-              'Antrean belum dapat dimuat. Tarik layar untuk mencoba lagi.';
+          _error = OpsFixI18n.t(
+              'Antrean belum dapat dimuat. Tarik layar untuk mencoba lagi.');
         });
     }
   }
 
   String _status(String raw) => switch (raw.toLowerCase()) {
-        'assigned' => 'Siap dimulai',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        _ => 'Dalam penanganan',
+        'assigned' => OpsFixI18n.t('Siap dimulai'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        _ => OpsFixI18n.t('Dalam penanganan'),
       };
 
   Color _statusColor(String raw) => switch (raw.toLowerCase()) {
@@ -97,6 +106,7 @@ class _OpsFixTechnicianActiveQueueState
       'technicianTicketDetailPage',
       queryParameters:
           {'ticketId': serializeParam(id, ParamType.String)}.withoutNulls,
+      extra: _opsFixPageFade(),
     );
   }
 
@@ -120,7 +130,8 @@ class _OpsFixTechnicianActiveQueueState
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
-                child: Text(ticket['ticket_code']?.toString() ?? 'Tiket',
+                child: Text(
+                    ticket['ticket_code']?.toString() ?? OpsFixI18n.t('Tiket'),
                     style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -180,7 +191,7 @@ class _OpsFixTechnicianActiveQueueState
           OutlinedButton.icon(
             onPressed: () => _open(ticket['id']?.toString() ?? ''),
             icon: const Icon(Icons.arrow_forward, size: 18),
-            label: const Text('Buka pekerjaan'),
+            label: Text(OpsFixI18n.t('Buka pekerjaan')),
           ),
         ],
       ),
@@ -200,7 +211,7 @@ class _OpsFixTechnicianActiveQueueState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Antrean aktif',
+            Text(OpsFixI18n.t('Antrean aktif'),
                 style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w700,
@@ -208,8 +219,11 @@ class _OpsFixTechnicianActiveQueueState
             const SizedBox(height: 4),
             Text(
               _name.isEmpty
-                  ? 'Pekerjaan aktif yang ditugaskan kepada Anda.'
-                  : 'Pekerjaan aktif yang ditugaskan kepada $_name.',
+                  ? OpsFixI18n.t('Pekerjaan aktif yang ditugaskan kepada Anda.')
+                  : OpsFixI18n.tf(
+                      OpsFixI18n.t(
+                          'Pekerjaan aktif yang ditugaskan kepada {0}.'),
+                      [_name]),
               style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
             ),
             const SizedBox(height: 14),
@@ -226,10 +240,10 @@ class _OpsFixTechnicianActiveQueueState
                 decoration: BoxDecoration(
                     color: const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(16)),
-                child: const Column(mainAxisSize: MainAxisSize.min, children: [
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Icon(Icons.task_alt, color: Color(0xFF94A3B8), size: 30),
                   SizedBox(height: 8),
-                  Text('Tidak ada pekerjaan aktif.',
+                  Text(OpsFixI18n.t('Tidak ada pekerjaan aktif.'),
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF475569))),

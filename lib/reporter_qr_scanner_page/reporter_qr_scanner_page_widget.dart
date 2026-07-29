@@ -54,7 +54,7 @@ class _ReporterQrScannerPageWidgetState
         body: SafeArea(
           top: true,
           child: Container(
-            child: custom_widgets.OpsFixReporterQrScanner(),
+            child: custom_widgets.OpsFixResponsiveReporterQrShell(),
           ),
         ),
       ),

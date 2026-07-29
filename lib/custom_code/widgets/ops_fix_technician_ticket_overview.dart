@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTechnicianTicketOverview extends StatefulWidget {
   const OpsFixTechnicianTicketOverview({
@@ -45,7 +46,7 @@ class _OpsFixTechnicianTicketOverviewState
     if (id.isEmpty) {
       setState(() {
         _loading = false;
-        _error = 'Tiket belum dipilih.';
+        _error = OpsFixI18n.t('Tiket belum dipilih.');
       });
       return;
     }
@@ -60,14 +61,16 @@ class _OpsFixTechnicianTicketOverviewState
       setState(() {
         _ticket = row == null ? null : Map<String, dynamic>.from(row);
         _loading = false;
-        _error = row == null ? 'Detail pekerjaan tidak ditemukan.' : null;
+        _error = row == null
+            ? OpsFixI18n.t('Detail pekerjaan tidak ditemukan.')
+            : null;
       });
     } catch (error) {
       debugPrint('Technician ticket overview load failed: $error');
       if (mounted)
         setState(() {
           _loading = false;
-          _error = 'Detail pekerjaan belum dapat dimuat.';
+          _error = OpsFixI18n.t('Detail pekerjaan belum dapat dimuat.');
         });
     }
   }
@@ -78,22 +81,22 @@ class _OpsFixTechnicianTicketOverviewState
   }
 
   String _status(String value) => switch (value.toLowerCase()) {
-        'reported' => 'Baru dilaporkan',
-        'assigned' => 'Siap dimulai',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'fixed' => 'Selesai',
-        'closed' => 'Ditutup',
-        'cancelled' => 'Dibatalkan',
-        _ => 'Dalam penanganan',
+        'reported' => OpsFixI18n.t('Baru dilaporkan'),
+        'assigned' => OpsFixI18n.t('Siap dimulai'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        'closed' => OpsFixI18n.t('Ditutup'),
+        'cancelled' => OpsFixI18n.t('Dibatalkan'),
+        _ => OpsFixI18n.t('Dalam penanganan'),
       };
 
   String _priority(String value) => switch (value.toLowerCase()) {
-        'critical' => 'Kritis',
-        'high' => 'Tinggi',
-        'medium' => 'Sedang',
-        'low' => 'Rendah',
-        _ => 'Belum ditentukan',
+        'critical' => OpsFixI18n.t('Kritis'),
+        'high' => OpsFixI18n.t('Tinggi'),
+        'medium' => OpsFixI18n.t('Sedang'),
+        'low' => OpsFixI18n.t('Rendah'),
+        _ => OpsFixI18n.t('Belum ditentukan'),
       };
 
   Widget _row(String label, String value) => Padding(
@@ -151,8 +154,8 @@ class _OpsFixTechnicianTicketOverviewState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(children: [
-                  const Expanded(
-                      child: Text('DETAIL PEKERJAAN',
+                  Expanded(
+                      child: Text(OpsFixI18n.t('DETAIL PEKERJAAN'),
                           style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
@@ -164,7 +167,7 @@ class _OpsFixTechnicianTicketOverviewState
                     decoration: BoxDecoration(
                         color: const Color(0xFF17233D),
                         borderRadius: BorderRadius.circular(14)),
-                    child: const Text('Teknisi',
+                    child: Text(OpsFixI18n.t('Teknisi'),
                         style: TextStyle(
                             fontSize: 11,
                             color: Colors.white,
@@ -172,25 +175,31 @@ class _OpsFixTechnicianTicketOverviewState
                   ),
                 ]),
                 const SizedBox(height: 12),
-                Text(_text('ticket_code', 'Tiket'),
+                Text(_text('ticket_code', OpsFixI18n.t('Tiket')),
                     style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFFA5B4FC),
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
-                Text(_text('target_label_snapshot', 'Unit fasilitas'),
+                Text(
+                    _text('target_label_snapshot',
+                        OpsFixI18n.t('Unit fasilitas')),
                     style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,
                         fontWeight: FontWeight.w700)),
                 const SizedBox(height: 5),
-                Text(_text('issue_type_snapshot', 'Gangguan fasilitas'),
+                Text(
+                    _text('issue_type_snapshot',
+                        OpsFixI18n.t('Gangguan fasilitas')),
                     style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFFE2E8F0),
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 7),
-                Text(_text('description', 'Tidak ada keterangan tambahan.'),
+                Text(
+                    _text('description',
+                        OpsFixI18n.t('Tidak ada keterangan tambahan.')),
                     style: const TextStyle(
                         fontSize: 13, color: Color(0xFFCBD5E1), height: 1.4)),
                 const SizedBox(height: 10),
@@ -201,7 +210,7 @@ class _OpsFixTechnicianTicketOverviewState
                   Expanded(
                       child: Text(
                           _text('location_name_snapshot',
-                              'Lokasi belum tersedia'),
+                              OpsFixI18n.t('Lokasi belum tersedia')),
                           style: const TextStyle(
                               fontSize: 13, color: Color(0xFFE2E8F0)))),
                 ]),
@@ -220,18 +229,26 @@ class _OpsFixTechnicianTicketOverviewState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text('Informasi pekerjaan',
+                Text(OpsFixI18n.t('Informasi pekerjaan'),
                     style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF111827))),
-                _row('Status', _status(status)),
-                _row('Prioritas', _priority(_text('priority', ''))),
-                _row('Lokasi',
-                    _text('location_name_snapshot', 'Belum tersedia')),
-                _row('Unit', _text('unit_code_snapshot', 'Belum tersedia')),
-                _row('Pelapor',
-                    _text('reporter_name_snapshot', 'Belum tersedia')),
+                _row(OpsFixI18n.t('Status'), _status(status)),
+                _row(OpsFixI18n.t('Prioritas'),
+                    _priority(_text('priority', ''))),
+                _row(
+                    OpsFixI18n.t('Lokasi'),
+                    _text('location_name_snapshot',
+                        OpsFixI18n.t('Belum tersedia'))),
+                _row(
+                    OpsFixI18n.t('Unit'),
+                    _text(
+                        'unit_code_snapshot', OpsFixI18n.t('Belum tersedia'))),
+                _row(
+                    OpsFixI18n.t('Pelapor'),
+                    _text('reporter_name_snapshot',
+                        OpsFixI18n.t('Belum tersedia'))),
               ],
             ),
           ),

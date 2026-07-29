@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -63,25 +72,22 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                 .eq('is_active', true)
                 .order('code_sort', ascending: true),
         currentUserUid.isEmpty || siteId.isEmpty
-            ? Future.value(<dynamic>[])
-            : SupaFlow.client
-                .from('reporter_site_kpis_v')
-                .select(
-                    'active_tickets,in_progress_tickets,completed_tickets,latest_ticket_id,latest_ticket_code,latest_ticket_title,latest_ticket_status')
-                .eq('reporter_id', currentUserUid)
-                .eq('site_id', siteId)
-                .limit(1),
+            ? Future.value(<String, dynamic>{})
+            : SupaFlow.client.rpc(
+                'get_opsfix_reporter_kpis',
+                params: {'p_site_id': siteId},
+              ),
       ]);
       final unitRows = futures[0] as List;
-      final kpiRows = futures[1] as List;
+      final kpiResult = futures[1] is Map
+          ? Map<String, dynamic>.from(futures[1] as Map)
+          : <String, dynamic>{};
       if (!mounted) return;
       setState(() {
         _units = unitRows
             .map((row) => Map<String, dynamic>.from(row as Map))
             .toList();
-        _kpi = kpiRows.isEmpty
-            ? null
-            : Map<String, dynamic>.from(kpiRows.first as Map);
+        _kpi = kpiResult['ok'] == true ? kpiResult : null;
         _loading = false;
       });
     } catch (error) {
@@ -89,8 +95,8 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
       if (mounted)
         setState(() {
           _loading = false;
-          _error =
-              'Dashboard belum dapat dimuat. Tarik ke bawah untuk mencoba lagi.';
+          _error = OpsFixI18n.t(
+              'Dashboard belum dapat dimuat. Tarik ke bawah untuk mencoba lagi.');
         });
     }
   }
@@ -107,14 +113,14 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
   }
 
   String _status(String raw) => switch (raw) {
-        'reported' => 'Dilaporkan',
-        'assigned' => 'Teknisi ditetapkan',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'fixed' => 'Selesai',
-        'closed' => 'Ditutup',
-        'reopened' => 'Dibuka kembali',
-        _ => 'Status diperbarui',
+        'reported' => OpsFixI18n.t('Dilaporkan'),
+        'assigned' => OpsFixI18n.t('Teknisi ditetapkan'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        'closed' => OpsFixI18n.t('Ditutup'),
+        'reopened' => OpsFixI18n.t('Dibuka kembali'),
+        _ => OpsFixI18n.t('Status diperbarui'),
       };
 
   void _report({String? unitId, String? unitCode}) {
@@ -138,20 +144,21 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
             borderRadius: BorderRadius.circular(24)),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Text('PORTAL PENGGUNA',
+          Text(OpsFixI18n.t('PORTAL PENGGUNA'),
               style: TextStyle(
                   color: Color(0xFF35D0BA),
                   fontSize: 12,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 14),
-          const Text('Selamat datang di OpsFix',
+          Text(OpsFixI18n.t('Selamat datang di OpsFix'),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 10),
-          const Text(
-              'Laporkan gangguan fasilitas dan pantau progres berdasarkan data Anda.',
+          Text(
+              OpsFixI18n.t(
+                  'Laporkan gangguan fasilitas dan pantau progres berdasarkan data Anda.'),
               style: TextStyle(
                   color: Color(0xFFD8E0EF), fontSize: 13, height: 1.35)),
           const SizedBox(height: 16),
@@ -162,7 +169,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                 borderRadius: BorderRadius.circular(15)),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('Lokasi aktif',
+              Text(OpsFixI18n.t('Lokasi aktif'),
                   style: TextStyle(
                       color: Color(0xFFDCE6FF),
                       fontSize: 11,
@@ -170,7 +177,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
               const SizedBox(height: 5),
               Text(
                   FFAppState().currentLocationName.trim().isEmpty
-                      ? 'Lokasi belum dipilih'
+                      ? OpsFixI18n.t('Lokasi belum dipilih')
                       : FFAppState().currentLocationName,
                   style: const TextStyle(
                       color: Colors.white,
@@ -179,7 +186,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
               const SizedBox(height: 3),
               Text(
                   FFAppState().currentLocationCode.trim().isEmpty
-                      ? 'Pilih lokasi untuk membuat laporan'
+                      ? OpsFixI18n.t('Pilih lokasi untuk membuat laporan')
                       : FFAppState().currentLocationCode,
                   style:
                       const TextStyle(color: Color(0xFFE8EDFF), fontSize: 12)),
@@ -194,7 +201,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                         backgroundColor: const Color(0xFF6C5CE7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(9))),
-                    child: const Text('Buat laporan'))),
+                    child: Text(OpsFixI18n.t('Buat laporan')))),
             const SizedBox(width: 10),
             Expanded(
                 child: OutlinedButton(
@@ -205,7 +212,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                         side: const BorderSide(color: Color(0xFF6C5CE7)),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(9))),
-                    child: const Text('Scan / kode'))),
+                    child: Text(OpsFixI18n.t('Scan / kode')))),
           ]),
         ]),
       );
@@ -242,13 +249,13 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
     return Column(children: [
       Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         _metric(Icons.confirmation_number_outlined, const Color(0xFF6C5CE7),
-            _count('active_tickets'), 'Tiket aktif'),
+            _count('active_tickets'), OpsFixI18n.t('Tiket aktif')),
         const SizedBox(width: 9),
         _metric(Icons.engineering_outlined, const Color(0xFFF59E0B),
-            _count('in_progress_tickets'), 'Ditangani'),
+            _count('in_progress_tickets'), OpsFixI18n.t('Ditangani')),
         const SizedBox(width: 9),
         _metric(Icons.check_circle_outline, const Color(0xFF10B981),
-            _count('completed_tickets'), 'Selesai'),
+            _count('completed_tickets'), OpsFixI18n.t('Selesai')),
       ]),
       const SizedBox(height: 14),
       Container(
@@ -259,35 +266,38 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: const Color(0xFFDDE2E7))),
         child: latestId.isEmpty
-            ? const Column(children: [
+            ? Column(children: [
                 Icon(Icons.inbox_outlined, size: 34, color: Color(0xFF94A3B8)),
                 SizedBox(height: 10),
-                Text('Belum ada tiket',
+                Text(OpsFixI18n.t('Belum ada tiket'),
                     style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 16,
                         fontWeight: FontWeight.w600)),
                 SizedBox(height: 5),
                 Text(
-                    'Tiket terbaru akan muncul setelah Anda mengirim laporan pertama.',
+                    OpsFixI18n.t(
+                        'Tiket terbaru akan muncul setelah Anda mengirim laporan pertama.'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xFF64748B), fontSize: 12, height: 1.4)),
               ])
             : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                const Text('Tiket terbaru',
+                Text(OpsFixI18n.t('Tiket terbaru'),
                     style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 19,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
-                Text(_text(_kpi, 'latest_ticket_code', 'Tiket'),
+                Text(_text(_kpi, 'latest_ticket_code', OpsFixI18n.t('Tiket')),
                     style: const TextStyle(
                         color: Color(0xFF6C5CE7),
                         fontSize: 13,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 5),
-                Text(_text(_kpi, 'latest_ticket_title', 'Laporan fasilitas'),
+                Text(
+                    _text(_kpi, 'latest_ticket_title',
+                        OpsFixI18n.t('Laporan fasilitas')),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -305,7 +315,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                     style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFF6C5CE7),
                         side: const BorderSide(color: Color(0xFF6C5CE7))),
-                    child: const Text('Lihat tiket saya')),
+                    child: Text(OpsFixI18n.t('Lihat tiket saya'))),
               ]),
       ),
     ]);
@@ -318,20 +328,22 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
             color: const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: const Color(0xFFDDE2E7))),
-        child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Cara laporan diproses',
-                  style: TextStyle(
-                      color: Color(0xFF111827),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600)),
-              SizedBox(height: 10),
-              Text(
-                  '1. Pilih perangkat yang bermasalah\n2. Jelaskan gangguan dan sertakan foto\n3. Pantau status hingga perbaikan selesai',
-                  style: TextStyle(
-                      color: Color(0xFF64748B), fontSize: 12, height: 1.65)),
-            ]),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(OpsFixI18n.t('Cara laporan diproses'),
+              style: TextStyle(
+                  color: Color(0xFF111827),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600)),
+          SizedBox(height: 10),
+          Text(
+              <String>[
+                OpsFixI18n.t('1. Pilih perangkat yang bermasalah'),
+                OpsFixI18n.t('2. Jelaskan gangguan dan sertakan foto'),
+                OpsFixI18n.t('3. Pantau status hingga perbaikan selesai'),
+              ].join('\n'),
+              style: TextStyle(
+                  color: Color(0xFF64748B), fontSize: 12, height: 1.65)),
+        ]),
       );
 
   Widget _unitCard(Map<String, dynamic> unit) => OutlinedButton(
@@ -354,7 +366,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text(_text(unit, 'unit_code', 'Perangkat'),
+                Text(_text(unit, 'unit_code', OpsFixI18n.t('Perangkat')),
                     style: const TextStyle(fontWeight: FontWeight.w600)),
                 if (_text(unit, 'name').isNotEmpty)
                   Text(_text(unit, 'name'),
@@ -370,7 +382,7 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
   Widget _devices(int columns) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Perangkat lokasi',
+          Text(OpsFixI18n.t('Perangkat lokasi'),
               style: TextStyle(
                   color: Color(0xFF111827),
                   fontSize: 20,
@@ -383,13 +395,13 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: const Color(0xFFDDE2E7))),
             child: _units.isEmpty
-                ? const Padding(
+                ? Padding(
                     padding: EdgeInsets.symmetric(vertical: 22, horizontal: 12),
                     child: Column(children: [
                       Icon(Icons.devices_other_outlined,
                           size: 34, color: Color(0xFF94A3B8)),
                       SizedBox(height: 10),
-                      Text('Belum ada perangkat di lokasi ini',
+                      Text(OpsFixI18n.t('Belum ada perangkat di lokasi ini'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Color(0xFF111827),
@@ -397,7 +409,8 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
                               fontWeight: FontWeight.w600)),
                       SizedBox(height: 5),
                       Text(
-                          'Perangkat akan ditampilkan setelah pengelola menambahkannya ke lokasi aktif.',
+                          OpsFixI18n.t(
+                              'Perangkat akan ditampilkan setelah pengelola menambahkannya ke lokasi aktif.'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Color(0xFF64748B),
@@ -446,6 +459,10 @@ class _OpsFixReporterHomeContentState extends State<OpsFixReporterHomeContent> {
           const SizedBox(height: 16),
           _summary(),
         ],
+        const SizedBox(height: 18),
+        OpsFixReporterIncidentPreview(
+          locationId: FFAppState().currentLocationId,
+        ),
         const SizedBox(height: 18),
         if (tablet)
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [

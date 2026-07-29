@@ -9,6 +9,16 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
+
 class OpsFixManagerProfileNav extends StatelessWidget {
   const OpsFixManagerProfileNav({super.key, this.width, this.height});
   final double? width;
@@ -21,7 +31,12 @@ class OpsFixManagerProfileNav extends StatelessWidget {
       width: width,
       height: height,
       child: InkWell(
-        onTap: active ? null : () => context.pushNamed('AdminProfilePage'),
+        onTap: active
+            ? null
+            : () => context.pushNamed(
+                  'AdminProfilePage',
+                  extra: _opsFixPageFade(),
+                ),
         borderRadius: BorderRadius.circular(14),
         child: Container(
           padding: const EdgeInsets.all(14),
@@ -43,7 +58,7 @@ class OpsFixManagerProfileNav extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'AKUN PENGELOLA',
+                      OpsFixI18n.t('AKUN ADMIN'),
                       style: TextStyle(
                         color: const Color(0xFF70E1CB),
                         fontSize: 10,
@@ -52,7 +67,7 @@ class OpsFixManagerProfileNav extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Buka profil admin',
+                      OpsFixI18n.t('Buka profil admin'),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 13,

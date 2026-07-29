@@ -9,11 +9,22 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -46,8 +57,13 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
   final _description = TextEditingController();
   bool _loading = true;
   bool _busy = false;
-  bool _duplicateConfirmed = false;
   int _desktopStep = 0;
+  int _duplicateRequest = 0;
+  bool _checkingDuplicate = false;
+  Map<String, dynamic>? _duplicateIncident;
+  // Retained only for the legacy private issue-grid helper, which is not
+  // mounted by the active responsive form.
+  bool _duplicateConfirmed = false;
   String? _duplicateTicketCode;
   String? _message;
   String _locationId = '';
@@ -122,7 +138,8 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
       if (mounted) {
         setState(() {
           _loading = false;
-          _message = 'Data formulir belum dapat dimuat. Coba lagi.';
+          _message =
+              OpsFixI18n.t('Data formulir belum dapat dimuat. Coba lagi.');
         });
       }
     }
@@ -145,15 +162,14 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
     if (result == null || result.files.isEmpty) return;
     final file = result.files.single;
     if (file.bytes == null || file.size > 5 * 1024 * 1024) {
-      setState(
-          () => _message = 'Gunakan foto JPG, PNG, atau WebP maksimal 5 MB.');
+      setState(() => _message =
+          OpsFixI18n.t('Gunakan foto JPG, PNG, atau WebP maksimal 5 MB.'));
       return;
     }
     setState(() {
       _photo = file;
-      _duplicateConfirmed = false;
-      _duplicateTicketCode = null;
-      _message = 'Foto ${file.name} siap dikirim.';
+      _duplicateIncident = null;
+      _message = OpsFixI18n.tf('Foto {0} siap dikirim.', [file.name]);
     });
   }
 
@@ -197,60 +213,38 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
 
   Future<void> _submit() async {
     final user = SupaFlow.client.auth.currentUser;
-    final description = _description.text.trim();
     if (user == null) {
-      setState(() => _message = 'Sesi berakhir. Silakan masuk kembali.');
+      setState(() =>
+          _message = OpsFixI18n.t('Sesi berakhir. Silakan masuk kembali.'));
       return;
     }
-    if (_locationId.isEmpty || _unitId.isEmpty) {
-      setState(() => _message = 'Pilih perangkat yang akan dilaporkan.');
+    if (!_stepOneReady) {
+      setState(() => _message = OpsFixI18n.t(
+          'Pilih perangkat dan jenis gangguan sebelum melanjutkan.'));
       return;
     }
-    if (_issueTypeId.isEmpty || _issueCategoryId.isEmpty) {
-      setState(() => _message = 'Pilih jenis gangguan terlebih dahulu.');
-      return;
-    }
+    final duplicate = await _checkDuplicate(required: true);
+    if (!mounted || duplicate != null) return;
+    final description = _description.text.trim();
     if (description.length < 5) {
-      setState(() => _message = 'Jelaskan gejala minimal 5 karakter.');
+      setState(
+          () => _message = OpsFixI18n.t('Jelaskan gejala minimal 5 karakter.'));
       return;
     }
     if (_photo == null) {
-      setState(() => _message = 'Tambahkan foto kondisi perangkat.');
+      setState(
+          () => _message = OpsFixI18n.t('Tambahkan foto kondisi perangkat.'));
       return;
     }
 
-    if (!_duplicateConfirmed) {
-      final duplicates = await SupaFlow.client
-          .from('tickets')
-          .select('ticket_code')
-          .eq('reporter_id', user.id)
-          .eq('location_id', _locationId)
-          .eq('unit_id', _unitId)
-          .eq('issue_type_id', _issueTypeId)
-          .inFilter('status', const [
-        'reported',
-        'assigned',
-        'in_progress',
-        'pending_verification',
-        'reopened'
-      ]).limit(1);
-      if (duplicates.isNotEmpty) {
-        setState(() {
-          _duplicateConfirmed = true;
-          _duplicateTicketCode = duplicates.first['ticket_code']?.toString();
-          _message =
-              'Tiket serupa masih aktif. Tinjau peringatan sebelum melanjutkan.';
-        });
-        return;
-      }
-    }
-
+    String? uploadedPath;
     setState(() {
       _busy = true;
-      _message = 'Mengirim laporan…';
+      _message = OpsFixI18n.t('Mengirim laporan…');
     });
     try {
       final upload = await _upload(_photo!, user.id);
+      uploadedPath = upload['path'];
       final created = await SupaFlow.client
           .from('tickets')
           .insert({
@@ -268,17 +262,43 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-                Text('Laporan ${created['ticket_code']} berhasil dibuat.')),
+            content: Text(OpsFixI18n.tf(
+                OpsFixI18n.t('Laporan {0} berhasil dibuat.'),
+                [created['ticket_code']]))),
       );
       context.goNamed('myTicketsPage', extra: _opsFixReporterFade());
+    } on PostgrestException catch (error) {
+      await _cleanupUpload(uploadedPath);
+      if (error.code == '23505') {
+        final winner = await _checkDuplicate(required: true);
+        if (mounted) {
+          setState(() {
+            _busy = false;
+            if (winner != null) {
+              _desktopStep = 0;
+              _message = OpsFixI18n.t(
+                  'Laporan serupa baru saja dibuat. Anda dapat menandai diri sebagai terdampak.');
+            }
+          });
+        }
+      } else {
+        debugPrint('Reporter insert failed: ${error.code}');
+        if (mounted) {
+          setState(() {
+            _busy = false;
+            _message = OpsFixI18n.t(
+                'Laporan belum berhasil dikirim. Periksa data lalu coba lagi.');
+          });
+        }
+      }
     } catch (error) {
-      debugPrint('Reporter ticket creation failed: $error');
+      await _cleanupUpload(uploadedPath);
+      debugPrint('Reporter ticket creation failed: ${error.runtimeType}');
       if (mounted) {
         setState(() {
           _busy = false;
-          _message =
-              'Laporan belum berhasil dikirim. Periksa data lalu coba lagi.';
+          _message = OpsFixI18n.t(
+              'Laporan belum berhasil dikirim. Periksa koneksi lalu coba lagi.');
         });
       }
     }
@@ -360,7 +380,9 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                               : const Color(0xFF94A3B8)),
                       const SizedBox(width: 10),
                       Expanded(
-                          child: Text(issue['label']?.toString() ?? 'Gangguan',
+                          child: Text(
+                              issue['label']?.toString() ??
+                                  OpsFixI18n.t('Gangguan'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -378,6 +400,13 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
       );
 
   String _localizedIssue(String raw) {
+    // Issue-type labels come out of Supabase in English, and this table exists
+    // to render them in Indonesian. In English the source value is already
+    // correct, so the lookup is skipped rather than translated twice.
+    //
+    // The table stays `const` deliberately: it is keyed by a database value, so
+    // it must not be routed through OpsFixI18n.
+    if (OpsFixI18n.isEnglish(context)) return raw;
     const labels = <String, String>{
       'Computer will not power on': 'Komputer tidak dapat menyala',
       'No network connection': 'Tidak ada koneksi jaringan',
@@ -409,15 +438,16 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
 
   String get _unitLabel {
     final unit = _selectedUnit;
-    if (unit == null) return 'Belum dipilih';
-    final code = unit['unit_code']?.toString() ?? 'Unit';
+    if (unit == null) return OpsFixI18n.t('Belum dipilih');
+    final code = unit['unit_code']?.toString() ?? OpsFixI18n.t('Unit');
     final name = unit['name']?.toString().trim() ?? '';
     return name.isEmpty ? code : '$code · $name';
   }
 
   String get _issueLabel => _selectedIssue == null
-      ? 'Belum dipilih'
-      : _localizedIssue(_selectedIssue!['label']?.toString() ?? 'Gangguan');
+      ? OpsFixI18n.t('Belum dipilih')
+      : _localizedIssue(
+          _selectedIssue!['label']?.toString() ?? OpsFixI18n.t('Gangguan'));
 
   bool get _stepOneReady =>
       _unitId.isNotEmpty &&
@@ -427,19 +457,244 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
       _description.text.trim().length >= 5 && _photo != null;
 
   void _resetDuplicate() {
-    _duplicateConfirmed = false;
-    _duplicateTicketCode = null;
+    _duplicateRequest++;
+    _checkingDuplicate = false;
+    _duplicateIncident = null;
   }
 
-  void _nextStep() {
-    if (_desktopStep == 0 && !_stepOneReady) {
-      setState(() =>
-          _message = 'Pilih perangkat dan jenis gangguan sebelum melanjutkan.');
+  Map<String, dynamic> _jsonMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return Map<String, dynamic>.from(value);
+    return <String, dynamic>{};
+  }
+
+  Future<Map<String, dynamic>?> _checkDuplicate({bool required = false}) async {
+    if (_locationId.isEmpty || _unitId.isEmpty || _issueTypeId.isEmpty) {
+      if (mounted) setState(_resetDuplicate);
+      return null;
+    }
+    final request = ++_duplicateRequest;
+    if (mounted) setState(() => _checkingDuplicate = true);
+    try {
+      final raw = await SupaFlow.client.rpc(
+        'find_opsfix_open_duplicate',
+        params: {
+          'p_location_id': _locationId,
+          'p_unit_id': _unitId,
+          'p_issue_type_id': _issueTypeId,
+          'p_component_key': null,
+        },
+      );
+      if (!mounted || request != _duplicateRequest) return null;
+      final result = _jsonMap(raw);
+      final incident =
+          result['code'] == 'found' ? _jsonMap(result['incident']) : null;
+      setState(() {
+        _checkingDuplicate = false;
+        _duplicateIncident = incident?.isEmpty == true ? null : incident;
+        if (required && result['ok'] != true) {
+          _message = OpsFixI18n.t(
+              'Pemeriksaan gangguan belum berhasil. Periksa koneksi lalu coba lagi.');
+        }
+      });
+      return _duplicateIncident;
+    } catch (error) {
+      debugPrint('Duplicate lookup failed: ${error.runtimeType}');
+      if (mounted && request == _duplicateRequest) {
+        setState(() {
+          _checkingDuplicate = false;
+          if (required) {
+            _message = OpsFixI18n.t(
+                'Pemeriksaan gangguan belum berhasil. Periksa koneksi lalu coba lagi.');
+          }
+        });
+      }
+      return null;
+    }
+  }
+
+  Future<void> _joinDuplicate() async {
+    final incident = _duplicateIncident;
+    final ticketId = incident?['ticket_id']?.toString() ?? '';
+    if (_busy || ticketId.isEmpty) return;
+    setState(() {
+      _busy = true;
+      _message = null;
+    });
+    try {
+      final result = _jsonMap(await SupaFlow.client.rpc(
+        'join_opsfix_affected_ticket',
+        params: {'p_ticket_id': ticketId},
+      ));
+      final updated = _jsonMap(result['incident']);
+      if (!mounted) return;
+      setState(() {
+        _busy = false;
+        if (updated.isNotEmpty) _duplicateIncident = updated;
+        _message = switch (result['code']?.toString()) {
+          'joined' =>
+            OpsFixI18n.t('Anda ditambahkan sebagai pengguna yang terdampak.'),
+          'already_joined' => OpsFixI18n.t(
+              'Anda sudah menandai diri sebagai pengguna yang terdampak.'),
+          'own_ticket' =>
+            OpsFixI18n.t('Anda adalah pelapor awal gangguan ini.'),
+          'ticket_closed' => OpsFixI18n.t(
+              'Gangguan ini sudah ditutup. Periksa kembali pilihan Anda.'),
+          _ =>
+            OpsFixI18n.t('Belum dapat menandai terdampak. Silakan coba lagi.'),
+        };
+      });
+    } catch (error) {
+      debugPrint('Join affected incident failed: ${error.runtimeType}');
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _message = OpsFixI18n.t(
+              'Belum dapat menandai terdampak. Periksa koneksi lalu coba lagi.');
+        });
+      }
+    }
+  }
+
+  void _openDuplicate() {
+    final incident = _duplicateIncident;
+    final ticketId = incident?['ticket_id']?.toString() ?? '';
+    if (ticketId.isEmpty) return;
+    if (incident?['relationship']?.toString() == 'owner') {
+      context.pushNamed(
+        'ticketDetailPage',
+        extra: _opsFixReporterFade(),
+        queryParameters: {
+          'ticketId': serializeParam(ticketId, ParamType.String),
+        }.withoutNulls,
+      );
       return;
     }
+    context.pushNamed(
+      'ReporterLocationTicketsPage',
+      extra: _opsFixReporterFade(),
+      queryParameters: {
+        'locationId': serializeParam(_locationId, ParamType.String),
+        'ticketId': serializeParam(ticketId, ParamType.String),
+      }.withoutNulls,
+    );
+  }
+
+  Future<void> _cleanupUpload(String? path) async {
+    if (path == null || path.isEmpty) return;
+    try {
+      await SupaFlow.client.storage.from('ticket-photos').remove([path]);
+    } catch (error) {
+      debugPrint(
+          'Unreferenced report upload cleanup failed: ${error.runtimeType}');
+    }
+  }
+
+  String _incidentStatus(String value) => switch (value) {
+        'reported' => OpsFixI18n.t('Baru dilaporkan'),
+        'assigned' => OpsFixI18n.t('Teknisi ditetapkan'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'reopened' => OpsFixI18n.t('Dibuka kembali'),
+        _ => OpsFixI18n.t('Gangguan aktif'),
+      };
+
+  Widget _incidentCard() {
+    final incident = _duplicateIncident;
+    if (incident == null) return const SizedBox.shrink();
+    final relationship = incident['relationship']?.toString() ?? 'none';
+    final affected =
+        int.tryParse(incident['affected_count']?.toString() ?? '') ?? 1;
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0EDFF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF8B7CF6)),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          const Icon(Icons.groups_outlined, color: Color(0xFF6C5CE7)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              OpsFixI18n.t('Gangguan ini sudah dilaporkan'),
+              style: const TextStyle(
+                color: Color(0xFF111827),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          Text(
+            incident['ticket_code']?.toString() ?? OpsFixI18n.t('Tiket'),
+            style: const TextStyle(
+              color: Color(0xFF5B4CE3),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ]),
+        const SizedBox(height: 12),
+        Text(incident['target_label']?.toString() ?? _unitLabel,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(height: 4),
+        Text(incident['issue_type']?.toString() ?? _issueLabel,
+            style: const TextStyle(color: Color(0xFF64748B))),
+        const SizedBox(height: 10),
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          Chip(
+              label:
+                  Text(_incidentStatus(incident['status']?.toString() ?? ''))),
+          Chip(label: Text(OpsFixI18n.tf('{0} orang terdampak', [affected]))),
+        ]),
+        const SizedBox(height: 12),
+        if (relationship == 'owner')
+          Text(OpsFixI18n.t('Anda sudah melaporkan gangguan ini.'),
+              style: const TextStyle(color: Color(0xFF475569)))
+        else if (relationship == 'supporter')
+          Text(OpsFixI18n.t('Anda sudah menandai terdampak.'),
+              style: const TextStyle(color: Color(0xFF475569))),
+        const SizedBox(height: 10),
+        Row(children: [
+          if (relationship == 'none') ...[
+            Expanded(
+              child: FilledButton.icon(
+                onPressed: _busy ? null : _joinDuplicate,
+                icon: const Icon(Icons.group_add_outlined),
+                label: Text(OpsFixI18n.t('Saya juga terdampak')),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF6C5CE7),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+          Expanded(
+            child: OutlinedButton(
+              onPressed: _openDuplicate,
+              child: Text(relationship == 'owner'
+                  ? OpsFixI18n.t('Buka tiket')
+                  : OpsFixI18n.t('Buka gangguan')),
+            ),
+          ),
+        ]),
+      ]),
+    );
+  }
+
+  Future<void> _nextStep() async {
+    if (_desktopStep == 0 && !_stepOneReady) {
+      setState(() => _message = OpsFixI18n.t(
+          'Pilih perangkat dan jenis gangguan sebelum melanjutkan.'));
+      return;
+    }
+    if (_desktopStep == 0) {
+      final duplicate = await _checkDuplicate(required: true);
+      if (!mounted || duplicate != null || _checkingDuplicate) return;
+    }
     if (_desktopStep == 1 && !_stepTwoReady) {
-      setState(() => _message =
-          'Jelaskan gejala minimal 5 karakter dan tambahkan foto kondisi perangkat.');
+      setState(() => _message = OpsFixI18n.t(
+          'Jelaskan gejala minimal 5 karakter dan tambahkan foto kondisi perangkat.'));
       return;
     }
     setState(() {
@@ -466,17 +721,18 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
   Widget _devicePicker() => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Perangkat yang dilaporkan',
+          Text(OpsFixI18n.t('Perangkat yang dilaporkan'),
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           DropdownButtonFormField<String>(
             value: _unitId.isEmpty ? null : _unitId,
             isExpanded: true,
-            decoration: _fieldDecoration(
-                'Pilih perangkat', 'Pilih unit atau perangkat'),
+            decoration: _fieldDecoration(OpsFixI18n.t('Pilih perangkat'),
+                OpsFixI18n.t('Pilih unit atau perangkat')),
             items: _units.map((unit) {
               final id = unit['id']?.toString() ?? '';
-              final code = unit['unit_code']?.toString() ?? 'Unit';
+              final code =
+                  unit['unit_code']?.toString() ?? OpsFixI18n.t('Unit');
               final name = unit['name']?.toString().trim() ?? '';
               return DropdownMenuItem(
                 value: id,
@@ -486,14 +742,17 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
             }).toList(),
             onChanged: _busy
                 ? null
-                : (value) => setState(() {
+                : (value) {
+                    setState(() {
                       _unitId = value ?? '';
                       _resetDuplicate();
-                    }),
+                    });
+                    unawaited(_checkDuplicate());
+                  },
           ),
           if (_units.isEmpty) ...[
             const SizedBox(height: 8),
-            const Text('Belum ada perangkat aktif pada lokasi ini.',
+            Text(OpsFixI18n.t('Belum ada perangkat aktif pada lokasi ini.'),
                 style: TextStyle(fontSize: 12, color: Color(0xFFDC2626))),
           ],
         ],
@@ -517,12 +776,15 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 child: InkWell(
                   onTap: _busy
                       ? null
-                      : () => setState(() {
+                      : () {
+                          setState(() {
                             _issueTypeId = id;
                             _issueCategoryId =
                                 issue['issue_category_id']?.toString() ?? '';
                             _resetDuplicate();
-                          }),
+                          });
+                          unawaited(_checkDuplicate());
+                        },
                   borderRadius: BorderRadius.circular(12),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 160),
@@ -553,8 +815,8 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          _localizedIssue(
-                              issue['label']?.toString() ?? 'Gangguan'),
+                          _localizedIssue(issue['label']?.toString() ??
+                              OpsFixI18n.t('Gangguan')),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -576,7 +838,7 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
   Widget _detailsAndPhoto() => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Jelaskan gejalanya',
+          Text(OpsFixI18n.t('Jelaskan gejalanya'),
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           TextField(
@@ -587,8 +849,10 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
               _resetDuplicate();
               _message = null;
             }),
-            decoration: _fieldDecoration('Deskripsi masalah',
-                'Contoh: tombol spasi tidak merespons saat digunakan.'),
+            decoration: _fieldDecoration(
+                OpsFixI18n.t('Deskripsi masalah'),
+                OpsFixI18n.t(
+                    'Contoh: tombol spasi tidak merespons saat digunakan.')),
           ),
           const SizedBox(height: 16),
           OutlinedButton.icon(
@@ -598,8 +862,8 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 : Icons.check_circle_outline),
             label: Text(
               _photo == null
-                  ? 'Pilih foto kondisi perangkat'
-                  : 'Ganti foto · ${_photo!.name}',
+                  ? OpsFixI18n.t('Pilih foto kondisi perangkat')
+                  : OpsFixI18n.tf('Ganti foto · {0}', [_photo!.name]),
               overflow: TextOverflow.ellipsis,
             ),
             style: OutlinedButton.styleFrom(
@@ -611,7 +875,7 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
             ),
           ),
           const SizedBox(height: 7),
-          const Text('Format JPG, PNG, atau WebP, maksimal 5 MB.',
+          Text(OpsFixI18n.t('Format JPG, PNG, atau WebP, maksimal 5 MB.'),
               style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
         ],
       );
@@ -645,14 +909,15 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
             ),
             child: Column(children: [
               _summaryRow(
-                  'Lokasi',
+                  OpsFixI18n.t('Lokasi'),
                   FFAppState().currentLocationName.trim().isEmpty
-                      ? 'Lokasi laporan'
+                      ? OpsFixI18n.t('Lokasi laporan')
                       : FFAppState().currentLocationName),
-              _summaryRow('Perangkat', _unitLabel),
-              _summaryRow('Gangguan', _issueLabel),
-              _summaryRow('Deskripsi', _description.text.trim()),
-              _summaryRow('Foto', _photo?.name ?? 'Belum dipilih'),
+              _summaryRow(OpsFixI18n.t('Perangkat'), _unitLabel),
+              _summaryRow(OpsFixI18n.t('Gangguan'), _issueLabel),
+              _summaryRow(OpsFixI18n.t('Deskripsi'), _description.text.trim()),
+              _summaryRow(OpsFixI18n.t('Foto'),
+                  _photo?.name ?? OpsFixI18n.t('Belum dipilih')),
             ]),
           ),
           if (_duplicateTicketCode != null) ...[
@@ -671,7 +936,10 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Tiket $_duplicateTicketCode dengan perangkat dan gangguan serupa masih aktif. Periksa tiket tersebut atau pilih “Tetap kirim” bila ini masalah berbeda.',
+                    OpsFixI18n.tf(
+                        OpsFixI18n.t(
+                            'Tiket {0} dengan perangkat dan gangguan serupa masih aktif. Periksa tiket tersebut atau pilih “Kirim laporan” bila ini masalah berbeda.'),
+                        [_duplicateTicketCode]),
                     style: const TextStyle(
                         color: Color(0xFF92400E), fontSize: 13, height: 1.4),
                   ),
@@ -764,30 +1032,30 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text('Progres laporan',
+                    Text(OpsFixI18n.t('Progres laporan'),
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w700)),
                     const SizedBox(height: 6),
-                    const Text('Lengkapi tiga langkah berikut.',
+                    Text(OpsFixI18n.t('Lengkapi tiga langkah berikut.'),
                         style:
                             TextStyle(color: Color(0xFF64748B), fontSize: 12)),
                     const SizedBox(height: 18),
                     _stepIndicator(
                         0,
-                        'Perangkat & gangguan',
+                        OpsFixI18n.t('Perangkat & gangguan'),
                         _stepOneReady
-                            ? 'Pilihan sudah lengkap'
-                            : 'Tentukan masalah'),
+                            ? OpsFixI18n.t('Pilihan sudah lengkap')
+                            : OpsFixI18n.t('Tentukan masalah')),
                     const SizedBox(height: 5),
                     _stepIndicator(
                         1,
-                        'Detail & bukti',
+                        OpsFixI18n.t('Detail & bukti'),
                         _stepTwoReady
-                            ? 'Bukti sudah lengkap'
-                            : 'Jelaskan kondisi'),
+                            ? OpsFixI18n.t('Bukti sudah lengkap')
+                            : OpsFixI18n.t('Jelaskan kondisi')),
                     const SizedBox(height: 5),
-                    _stepIndicator(
-                        2, 'Tinjau & kirim', 'Pastikan laporan benar'),
+                    _stepIndicator(2, OpsFixI18n.t('Tinjau & kirim'),
+                        OpsFixI18n.t('Pastikan laporan benar')),
                   ],
                 ),
               ),
@@ -802,7 +1070,7 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('LOKASI LAPORAN',
+                    Text(OpsFixI18n.t('LOKASI LAPORAN'),
                         style: TextStyle(
                             color: Color(0xFF35D0BA),
                             fontSize: 10,
@@ -810,7 +1078,7 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                     const SizedBox(height: 7),
                     Text(
                       FFAppState().currentLocationName.trim().isEmpty
-                          ? 'Lokasi belum dipilih'
+                          ? OpsFixI18n.t('Lokasi belum dipilih')
                           : FFAppState().currentLocationName,
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w600),
@@ -841,24 +1109,36 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (_desktopStep == 0) ...[
-                    _sectionTitle('Perangkat dan jenis gangguan',
-                        'Pilih objek laporan dan masalah yang paling sesuai.'),
+                    _sectionTitle(
+                        OpsFixI18n.t('Perangkat dan jenis gangguan'),
+                        OpsFixI18n.t(
+                            'Pilih objek laporan dan masalah yang paling sesuai.')),
                     const SizedBox(height: 22),
                     _devicePicker(),
                     const SizedBox(height: 20),
-                    const Text('Pilih jenis gangguan',
+                    Text(OpsFixI18n.t('Pilih jenis gangguan'),
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 9),
                     _localizedIssueGrid(),
+                    if (_checkingDuplicate)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: LinearProgressIndicator(),
+                      ),
+                    if (_duplicateIncident != null) _incidentCard(),
                   ] else if (_desktopStep == 1) ...[
-                    _sectionTitle('Detail dan bukti kondisi',
-                        'Jelaskan gejala yang terlihat dan lampirkan foto terbaru.'),
+                    _sectionTitle(
+                        OpsFixI18n.t('Detail dan bukti kondisi'),
+                        OpsFixI18n.t(
+                            'Jelaskan gejala yang terlihat dan lampirkan foto terbaru.')),
                     const SizedBox(height: 22),
                     _detailsAndPhoto(),
                   ] else ...[
-                    _sectionTitle('Tinjau laporan',
-                        'Pastikan informasi berikut sudah benar sebelum dikirim.'),
+                    _sectionTitle(
+                        OpsFixI18n.t('Tinjau laporan'),
+                        OpsFixI18n.t(
+                            'Pastikan informasi berikut sudah benar sebelum dikirim.')),
                     const SizedBox(height: 20),
                     _review(),
                   ],
@@ -881,7 +1161,7 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                           ),
-                          child: const Text('Kembali'),
+                          child: Text(OpsFixI18n.t('Kembali')),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -889,7 +1169,9 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                     Expanded(
                       flex: _desktopStep > 0 ? 2 : 1,
                       child: FilledButton.icon(
-                        onPressed: _busy
+                        onPressed: _busy ||
+                                _checkingDuplicate ||
+                                _duplicateIncident != null
                             ? null
                             : _desktopStep < 2
                                 ? _nextStep
@@ -904,12 +1186,10 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
                                 ? Icons.arrow_forward
                                 : Icons.send_outlined),
                         label: Text(_busy
-                            ? 'Mengirim…'
+                            ? OpsFixI18n.t('Mengirim…')
                             : _desktopStep < 2
-                                ? 'Lanjutkan'
-                                : _duplicateTicketCode == null
-                                    ? 'Kirim laporan'
-                                    : 'Tetap kirim'),
+                                ? OpsFixI18n.t('Lanjutkan')
+                                : OpsFixI18n.t('Kirim laporan')),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
                           backgroundColor: const Color(0xFF6C5CE7),
@@ -938,36 +1218,51 @@ class _OpsFixReporterIssueFormState extends State<OpsFixReporterIssueForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _sectionTitle('Buat laporan terstruktur',
-                'Lengkapi informasi berikut agar laporan mudah diproses.'),
+            _sectionTitle(
+                OpsFixI18n.t('Buat laporan terstruktur'),
+                OpsFixI18n.t(
+                    'Lengkapi informasi berikut agar laporan mudah diproses.')),
             const SizedBox(height: 18),
             _devicePicker(),
             const SizedBox(height: 18),
-            const Text('Pilih jenis gangguan',
+            Text(OpsFixI18n.t('Pilih jenis gangguan'),
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             _localizedIssueGrid(),
-            const SizedBox(height: 18),
-            _detailsAndPhoto(),
-            _messagePanel(),
-            const SizedBox(height: 16),
-            FilledButton.icon(
-              onPressed: _busy ? null : _submit,
-              icon: _busy
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2, color: Colors.white))
-                  : const Icon(Icons.send_outlined),
-              label: Text(_busy ? 'Mengirim…' : 'Kirim laporan'),
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(52),
-                backgroundColor: const Color(0xFF6C5CE7),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+            if (_checkingDuplicate)
+              const Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: LinearProgressIndicator(),
               ),
-            ),
+            if (_duplicateIncident != null)
+              _incidentCard()
+            else ...[
+              const SizedBox(height: 18),
+              _detailsAndPhoto(),
+            ],
+            _messagePanel(),
+            if (_duplicateIncident == null) ...[
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                onPressed: _busy || _checkingDuplicate ? null : _submit,
+                icon: _busy
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white))
+                    : const Icon(Icons.send_outlined),
+                label: Text(_busy
+                    ? OpsFixI18n.t('Mengirim…')
+                    : OpsFixI18n.t('Kirim laporan')),
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size.fromHeight(52),
+                  backgroundColor: const Color(0xFF6C5CE7),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ],
           ],
         ),
       );

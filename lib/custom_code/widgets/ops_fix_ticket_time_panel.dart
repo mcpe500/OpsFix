@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTicketTimePanel extends StatefulWidget {
   const OpsFixTicketTimePanel({
@@ -44,7 +45,7 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
     if (ticketId.isEmpty) {
       setState(() {
         _loading = false;
-        _error = 'Tiket belum dipilih.';
+        _error = OpsFixI18n.t('Tiket belum dipilih.');
       });
       return;
     }
@@ -58,24 +59,31 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
       setState(() {
         _ticket = row == null ? const {} : Map<String, dynamic>.from(row);
         _loading = false;
-        _error = row == null ? 'Informasi waktu tiket tidak tersedia.' : null;
+        _error = row == null
+            ? OpsFixI18n.t('Informasi waktu tiket tidak tersedia.')
+            : null;
       });
     } catch (error) {
       debugPrint('OpsFix ticket time load failed: $error');
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error = 'Informasi waktu belum dapat dimuat.';
+        _error = OpsFixI18n.t('Informasi waktu belum dapat dimuat.');
       });
     }
   }
 
   String _format(dynamic raw) {
-    if (raw == null) return 'Belum ditentukan';
+    if (raw == null) return OpsFixI18n.t('Belum ditentukan');
     final parsed = raw is DateTime ? raw : DateTime.tryParse(raw.toString());
-    if (parsed == null) return 'Belum ditentukan';
+    if (parsed == null) return OpsFixI18n.t('Belum ditentukan');
     final local = parsed.toLocal();
-    const months = [
+    // Month abbreviations differ between the two languages (Mei/May,
+    // Agu/Aug, Okt/Oct, Des/Dec). Kept as two const lists and chosen at
+    // render time: routing them through OpsFixI18n would mean demoting the
+    // list to `final`, which freezes it at first access so it could never
+    // follow a language change.
+    const monthsId = [
       'Jan',
       'Feb',
       'Mar',
@@ -89,9 +97,23 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
       'Nov',
       'Des'
     ];
+    const monthsEn = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    final months = OpsFixI18n.isEnglish(context) ? monthsEn : monthsId;
     String two(int value) => value.toString().padLeft(2, '0');
-    return '${local.day} ${months[local.month - 1]} ${local.year}, '
-        '${two(local.hour)}.${two(local.minute)}';
+    return '${local.day} ${months[local.month - 1]} ${local.year}, ${two(local.hour)}.${two(local.minute)}';
   }
 
   Widget _row(BuildContext context, String label, dynamic value) => Padding(
@@ -137,7 +159,7 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Target waktu penanganan',
+            OpsFixI18n.t('Target waktu penanganan'),
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: const Color(0xFF111827),
                   fontWeight: FontWeight.w700,
@@ -145,7 +167,7 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Batas waktu layanan dan catatan pembaruan tiket.',
+            OpsFixI18n.t('Batas waktu layanan dan catatan pembaruan tiket.'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF64748B),
                 ),
@@ -165,10 +187,14 @@ class _OpsFixTicketTimePanelState extends State<OpsFixTicketTimePanel> {
             )
           else ...[
             const Divider(height: 24),
-            _row(context, 'Batas respons awal', _ticket['response_due_at']),
-            _row(context, 'Target penyelesaian', _ticket['resolution_due_at']),
-            _row(context, 'Laporan dibuat', _ticket['created_at']),
-            _row(context, 'Terakhir diperbarui', _ticket['updated_at']),
+            _row(context, OpsFixI18n.t('Batas respons awal'),
+                _ticket['response_due_at']),
+            _row(context, OpsFixI18n.t('Target penyelesaian'),
+                _ticket['resolution_due_at']),
+            _row(
+                context, OpsFixI18n.t('Laporan dibuat'), _ticket['created_at']),
+            _row(context, OpsFixI18n.t('Terakhir diperbarui'),
+                _ticket['updated_at']),
           ],
         ],
       ),

@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_reporter_ticket_list.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -53,25 +62,20 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(desktop ? 'Tiket saya' : 'OpsFix',
+                Text(desktop ? OpsFixI18n.t('Tiket saya') : 'OpsFix',
                     style: const TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF111827))),
                 if (desktop)
-                  const Text('Pantau perkembangan seluruh laporan fasilitas.',
+                  Text(
+                      OpsFixI18n.t(
+                          'Pantau perkembangan seluruh laporan fasilitas.'),
                       style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
               ],
             ),
           ),
-          _circleButton(
-              Icons.notifications_none,
-              const Color(0xFF64748B),
-              const Color(0xFFF8FAFC),
-              () => _push(context, 'NotificationsPage')),
-          const SizedBox(width: 8),
-          _circleButton(Icons.person_outline, const Color(0xFF065F46),
-              const Color(0xFFD1FAE5), () => _push(context, 'ProfilePage')),
+          const OpsFixReporterHeaderActions(),
         ]),
       );
 
@@ -107,7 +111,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
         color: const Color(0xFF081225),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Row(children: [
+          Row(children: [
             CircleAvatar(
                 radius: 23,
                 backgroundColor: Color(0xFF6C5CE7),
@@ -123,18 +127,19 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
-              Text('Portal pengguna',
+              Text(OpsFixI18n.t('Portal pengguna'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 11)),
             ]),
           ]),
           const SizedBox(height: 36),
-          _sideItem(context, Icons.home_outlined, 'Beranda', 'homeUserPage'),
+          _sideItem(context, Icons.home_outlined, OpsFixI18n.t('Beranda'),
+              'homeUserPage'),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.add_circle_outline, 'Buat laporan',
-              'reportIssuePage'),
+          _sideItem(context, Icons.add_circle_outline,
+              OpsFixI18n.t('Buat laporan'), 'reportIssuePage'),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.confirmation_number_outlined, 'Tiket saya',
-              'myTicketsPage',
+          _sideItem(context, Icons.confirmation_number_outlined,
+              OpsFixI18n.t('Tiket saya'), 'myTicketsPage',
               active: true),
           const Spacer(),
           Container(
@@ -146,7 +151,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('LOKASI AKTIF',
+              Text(OpsFixI18n.t('LOKASI AKTIF'),
                   style: TextStyle(
                       color: Color(0xFF70E1CB),
                       fontSize: 10,
@@ -154,7 +159,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
               const SizedBox(height: 7),
               Text(
                 FFAppState().currentLocationName.trim().isEmpty
-                    ? 'Belum dipilih'
+                    ? OpsFixI18n.t('Belum dipilih')
                     : FFAppState().currentLocationName,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -175,23 +180,24 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
   Widget _intro(BuildContext context, {required bool desktop}) => Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Expanded(
+          Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('TICKET TRACKING',
+              Text(OpsFixI18n.t('TICKET TRACKING'),
                   style: TextStyle(
                       color: Color(0xFF6C5CE7),
                       fontSize: 12,
                       fontWeight: FontWeight.w600)),
               SizedBox(height: 5),
-              Text('Pantau laporan saya.',
+              Text(OpsFixI18n.t('Pantau laporan saya.'),
                   style: TextStyle(
                       color: Color(0xFF111827),
                       fontSize: 25,
                       fontWeight: FontWeight.w700)),
               SizedBox(height: 5),
               Text(
-                  'Lihat status terbaru, teknisi yang menangani, dan riwayat laporan fasilitasmu.',
+                  OpsFixI18n.t(
+                      'Lihat status terbaru, teknisi yang menangani, dan riwayat laporan fasilitasmu.'),
                   style: TextStyle(
                       color: Color(0xFF64748B), fontSize: 14, height: 1.4)),
             ]),
@@ -201,7 +207,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
             FilledButton.icon(
               onPressed: () => _pushReport(context),
               icon: const Icon(Icons.add),
-              label: const Text('Laporan baru'),
+              label: Text(OpsFixI18n.t('Laporan baru')),
               style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFF6C5CE7),
                 padding:
@@ -262,13 +268,14 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
           border: Border(top: BorderSide(color: Color(0xFFE5E7EB))),
         ),
         child: Row(children: [
-          _bottomItem(context, Icons.home_outlined, 'Beranda', 'homeUserPage'),
+          _bottomItem(context, Icons.home_outlined, OpsFixI18n.t('Beranda'),
+              'homeUserPage'),
           const SizedBox(width: 6),
-          _bottomItem(
-              context, Icons.add_circle_outline, 'Lapor', 'reportIssuePage'),
+          _bottomItem(context, Icons.add_circle_outline, OpsFixI18n.t('Lapor'),
+              'reportIssuePage'),
           const SizedBox(width: 6),
-          _bottomItem(
-              context, Icons.confirmation_number, 'Tiket', 'myTicketsPage',
+          _bottomItem(context, Icons.confirmation_number, OpsFixI18n.t('Tiket'),
+              'myTicketsPage',
               active: true),
         ]),
       );
@@ -288,7 +295,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
                     FilledButton.icon(
                       onPressed: () => _pushReport(context),
                       icon: const Icon(Icons.add),
-                      label: const Text('Laporan baru'),
+                      label: Text(OpsFixI18n.t('Laporan baru')),
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(46),
                         backgroundColor: const Color(0xFF6C5CE7),
@@ -315,7 +322,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
         child: SafeArea(
           child: desktop
               ? Row(children: [
-                  _sidebar(context),
+                  const OpsFixReporterSidebar(activeSection: 'tickets'),
                   Expanded(
                     child: Column(children: [
                       _header(context, desktop: true),
@@ -326,7 +333,7 @@ class OpsFixResponsiveMyTickets extends StatelessWidget {
               : Column(children: [
                   _header(context, desktop: false),
                   Expanded(child: _content(context, desktop: false)),
-                  _bottomNav(context),
+                  const OpsFixReporterBottomNav(activeSection: 'tickets'),
                 ]),
         ),
       ),

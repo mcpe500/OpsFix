@@ -14,6 +14,15 @@ import '/custom_code/widgets/ops_fix_admin_dashboard_content.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminDashboard extends StatefulWidget {
   const OpsFixResponsiveAdminDashboard({super.key, this.width, this.height});
@@ -63,12 +72,15 @@ class _OpsFixResponsiveAdminDashboardState
       );
 
   Widget _profileButton(BuildContext context) => Tooltip(
-        message: 'Buka profil admin',
+        message: OpsFixI18n.t('Buka profil admin'),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: () async {
-              await context.pushNamed('AdminProfilePage');
+              await context.pushNamed(
+                'AdminProfilePage',
+                extra: _opsFixPageFade(),
+              );
               await _loadAvatar();
             },
             customBorder: const CircleBorder(),
@@ -90,8 +102,14 @@ class _OpsFixResponsiveAdminDashboardState
         ),
       );
 
-  void _go(BuildContext context, String route) => context.goNamed(route);
-  void _push(BuildContext context, String route) => context.pushNamed(route);
+  void _go(BuildContext context, String route) => context.goNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
+  void _push(BuildContext context, String route) => context.pushNamed(
+        route,
+        extra: _opsFixPageFade(),
+      );
 
   Widget _circleButton(
     IconData icon,
@@ -126,7 +144,9 @@ class _OpsFixResponsiveAdminDashboardState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    desktop ? 'Dashboard admin' : 'OpsFix Admin',
+                    desktop
+                        ? OpsFixI18n.t('Dashboard admin')
+                        : OpsFixI18n.t('OpsFix Admin'),
                     style: const TextStyle(
                       color: Color(0xFF111827),
                       fontSize: 22,
@@ -134,8 +154,9 @@ class _OpsFixResponsiveAdminDashboardState
                     ),
                   ),
                   if (desktop)
-                    const Text(
-                      'Pantau antrean, SLA, dan progres perbaikan lokasi.',
+                    Text(
+                      OpsFixI18n.t(
+                          'Pantau antrean, SLA, dan progres perbaikan lokasi.'),
                       style: TextStyle(
                         color: Color(0xFF64748B),
                         fontSize: 12,
@@ -144,12 +165,7 @@ class _OpsFixResponsiveAdminDashboardState
                 ],
               ),
             ),
-            _circleButton(
-              Icons.notifications_none,
-              const Color(0xFF64748B),
-              const Color(0xFFF8FAFC),
-              () => _push(context, 'NotificationsPage'),
-            ),
+            const OpsFixNotificationBell(),
             const SizedBox(width: 8),
             _profileButton(context),
           ],
@@ -213,32 +229,32 @@ class _OpsFixResponsiveAdminDashboardState
             _bottomItem(
               context,
               Icons.dashboard,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.confirmation_number,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             _bottomItem(
               context,
               Icons.view_kanban,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
             ),
             _bottomItem(
               context,
               Icons.inventory_2,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -289,7 +305,7 @@ class _OpsFixResponsiveAdminDashboardState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -316,7 +332,7 @@ class _OpsFixResponsiveAdminDashboardState
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -330,7 +346,7 @@ class _OpsFixResponsiveAdminDashboardState
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
               active: true,
             ),
@@ -338,28 +354,28 @@ class _OpsFixResponsiveAdminDashboardState
             _sideItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.view_kanban_outlined,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.inventory_2_outlined,
-              'Lokasi & aset',
+              OpsFixI18n.t('Lokasi & aset'),
               'adminAssetsLocationsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),
@@ -373,7 +389,7 @@ class _OpsFixResponsiveAdminDashboardState
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: const Color(0xFF253451)),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Icon(
                       Icons.admin_panel_settings_outlined,
@@ -386,7 +402,7 @@ class _OpsFixResponsiveAdminDashboardState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'AKUN PENGELOLA',
+                            OpsFixI18n.t('AKUN ADMIN'),
                             style: TextStyle(
                               color: Color(0xFF70E1CB),
                               fontSize: 10,
@@ -395,7 +411,7 @@ class _OpsFixResponsiveAdminDashboardState
                           ),
                           SizedBox(height: 4),
                           Text(
-                            'Buka profil admin',
+                            OpsFixI18n.t('Buka profil admin'),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,

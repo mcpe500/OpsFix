@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTechnicianIdentityLabel extends StatefulWidget {
   const OpsFixTechnicianIdentityLabel({super.key, this.width, this.height});
@@ -51,7 +52,9 @@ class _OpsFixTechnicianIdentityLabelState
   Widget build(BuildContext context) => SizedBox(
         width: widget.width,
         child: Text(
-          _name.isEmpty ? 'TEKNISI' : 'TEKNISI · ${_name.toUpperCase()}',
+          _name.isEmpty
+              ? OpsFixI18n.t('TEKNISI')
+              : 'TEKNISI · ${_name.toUpperCase()}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

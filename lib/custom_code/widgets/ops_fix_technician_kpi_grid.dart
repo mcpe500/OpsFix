@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTechnicianKpiGrid extends StatefulWidget {
   const OpsFixTechnicianKpiGrid({super.key, this.width, this.height});
@@ -130,19 +131,19 @@ class _OpsFixTechnicianKpiGridState extends State<OpsFixTechnicianKpiGrid> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _card('Siap dimulai', 'assigned', 'Belum dimulai',
-                const Color(0xFF6C5CE7)),
+            _card(OpsFixI18n.t('Siap dimulai'), 'assigned',
+                OpsFixI18n.t('Belum dimulai'), const Color(0xFF6C5CE7)),
             const SizedBox(width: 10),
-            _card('Sedang dikerjakan', 'in_progress', 'Dalam proses',
-                const Color(0xFFF59E0B)),
+            _card(OpsFixI18n.t('Sedang dikerjakan'), 'in_progress',
+                OpsFixI18n.t('Dalam proses'), const Color(0xFFF59E0B)),
           ]),
           const SizedBox(height: 10),
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _card('Menunggu verifikasi', 'pending_verification',
-                'Menunggu pelapor', const Color(0xFF2563EB)),
+            _card(OpsFixI18n.t('Menunggu verifikasi'), 'pending_verification',
+                OpsFixI18n.t('Menunggu pelapor'), const Color(0xFF2563EB)),
             const SizedBox(width: 10),
-            _card('Selesai hari ini', 'fixed_today', 'Perbaikan selesai',
-                const Color(0xFF10B981)),
+            _card(OpsFixI18n.t('Selesai hari ini'), 'fixed_today',
+                OpsFixI18n.t('Perbaikan selesai'), const Color(0xFF10B981)),
           ]),
         ],
       ),

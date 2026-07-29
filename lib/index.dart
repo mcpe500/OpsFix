@@ -66,3 +66,5 @@ export '/notifications_page/notifications_page_widget.dart'
     show NotificationsPageWidget;
 export '/reporter_qr_scanner_page/reporter_qr_scanner_page_widget.dart'
     show ReporterQrScannerPageWidget;
+export '/reporter_location_tickets_page/reporter_location_tickets_page_widget.dart'
+    show ReporterLocationTicketsPageWidget;

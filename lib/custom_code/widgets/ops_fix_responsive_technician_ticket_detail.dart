@@ -15,12 +15,21 @@ import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart';
 import '/custom_code/actions/index.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _detailFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
         hasTransition: true,
         transitionType: PageTransitionType.fade,
-        duration: Duration(milliseconds: 180),
+        duration: Duration(milliseconds: 160),
       ),
     };
 
@@ -61,7 +70,7 @@ class _OpsFixResponsiveTechnicianTicketDetailState
     if (_ticketId.isEmpty) {
       setState(() {
         _loading = false;
-        _error = 'Tiket belum dipilih.';
+        _error = OpsFixI18n.t('Tiket belum dipilih.');
       });
       return;
     }
@@ -73,9 +82,8 @@ class _OpsFixResponsiveTechnicianTicketDetailState
     try {
       var ticketQuery = SupaFlow.client
           .from('ticket_cards_v')
-          .select('id,ticket_code,status,priority,target_label_snapshot,'
-              'issue_type_snapshot,description,location_name_snapshot,'
-              'unit_code_snapshot,reporter_name_snapshot,site_id')
+          .select(
+              'id,ticket_code,status,affected_count,priority,target_label_snapshot,issue_type_snapshot,description,location_name_snapshot,unit_code_snapshot,reporter_name_snapshot,site_id')
           .eq('id', _ticketId)
           .eq('assigned_technician_id', currentUserUid);
       final siteId = FFAppState().currentSiteId.trim();
@@ -84,8 +92,8 @@ class _OpsFixResponsiveTechnicianTicketDetailState
         ticketQuery.maybeSingle(),
         SupaFlow.client
             .from('ticket_events')
-            .select('event_type,message,actor_name_snapshot,created_at,'
-                'from_status,to_status')
+            .select(
+                'event_type,message,actor_name_snapshot,created_at,from_status,to_status')
             .eq('ticket_id', _ticketId)
             .order('created_at', ascending: false),
       ]);
@@ -97,15 +105,17 @@ class _OpsFixResponsiveTechnicianTicketDetailState
             .map((event) => Map<String, dynamic>.from(event as Map))
             .toList();
         _loading = false;
-        _error = row == null ? 'Detail pekerjaan tidak ditemukan.' : null;
+        _error = row == null
+            ? OpsFixI18n.t('Detail pekerjaan tidak ditemukan.')
+            : null;
       });
     } catch (error) {
       debugPrint('Responsive technician detail load failed: $error');
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error =
-            'Detail pekerjaan belum dapat dimuat. Periksa koneksi lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Detail pekerjaan belum dapat dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -121,13 +131,13 @@ class _OpsFixResponsiveTechnicianTicketDetailState
       await _load();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pekerjaan berhasil dimulai.')),
+          SnackBar(content: Text(OpsFixI18n.t('Pekerjaan berhasil dimulai.'))),
         );
       }
     } catch (error) {
       if (mounted) {
-        setState(() =>
-            _error = 'Pekerjaan gagal dimulai. Muat ulang lalu coba lagi.');
+        setState(() => _error = OpsFixI18n.t(
+            'Pekerjaan gagal dimulai. Muat ulang lalu coba lagi.'));
       }
     } finally {
       if (mounted) setState(() => _starting = false);
@@ -141,47 +151,47 @@ class _OpsFixResponsiveTechnicianTicketDetailState
 
   String get _rawStatus => _text('status', '').toLowerCase();
   String _statusLabel(String value) => switch (value.toLowerCase()) {
-        'reported' => 'Baru dilaporkan',
-        'assigned' => 'Siap dimulai',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'fixed' => 'Selesai',
-        'closed' => 'Ditutup',
-        'cancelled' => 'Dibatalkan',
-        _ => 'Dalam penanganan',
+        'reported' => OpsFixI18n.t('Baru dilaporkan'),
+        'assigned' => OpsFixI18n.t('Siap dimulai'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        'closed' => OpsFixI18n.t('Ditutup'),
+        'cancelled' => OpsFixI18n.t('Dibatalkan'),
+        _ => OpsFixI18n.t('Dalam penanganan'),
       };
   String _priorityLabel(String value) => switch (value.toLowerCase()) {
-        'critical' => 'Kritis',
-        'high' => 'Tinggi',
-        'medium' => 'Sedang',
-        'low' => 'Rendah',
-        _ => 'Belum ditentukan',
+        'critical' => OpsFixI18n.t('Kritis'),
+        'high' => OpsFixI18n.t('Tinggi'),
+        'medium' => OpsFixI18n.t('Sedang'),
+        'low' => OpsFixI18n.t('Rendah'),
+        _ => OpsFixI18n.t('Belum ditentukan'),
       };
 
   String _eventLabel(Map<String, dynamic> event) {
     final type = event['event_type']?.toString().toLowerCase() ?? '';
     final to = event['to_status']?.toString().toLowerCase() ?? '';
     if (to == 'assigned' || type.contains('assign'))
-      return 'Teknisi ditugaskan';
+      return OpsFixI18n.t('Teknisi ditugaskan');
     if (to == 'in_progress' || type.contains('start'))
-      return 'Pekerjaan dimulai';
+      return OpsFixI18n.t('Pekerjaan dimulai');
     if (to == 'pending_verification' || type.contains('completion')) {
-      return 'Hasil dikirim untuk verifikasi';
+      return OpsFixI18n.t('Hasil dikirim untuk verifikasi');
     }
     if (to == 'fixed' || type.contains('fixed'))
-      return 'Perbaikan dinyatakan selesai';
-    if (to == 'closed' || type.contains('closed')) return 'Tiket ditutup';
+      return OpsFixI18n.t('Perbaikan dinyatakan selesai');
+    if (to == 'closed' || type.contains('closed'))
+      return OpsFixI18n.t('Tiket ditutup');
     if (type.contains('report') || type.contains('create'))
-      return 'Laporan dibuat';
-    return 'Pembaruan pekerjaan';
+      return OpsFixI18n.t('Laporan dibuat');
+    return OpsFixI18n.t('Pembaruan pekerjaan');
   }
 
   String _date(dynamic raw) {
     final value = DateTime.tryParse(raw?.toString() ?? '')?.toLocal();
-    if (value == null) return 'Waktu tidak tersedia';
+    if (value == null) return OpsFixI18n.t('Waktu tidak tersedia');
     String two(int number) => number.toString().padLeft(2, '0');
-    return '${two(value.day)}/${two(value.month)}/${value.year} · '
-        '${two(value.hour)}:${two(value.minute)}';
+    return '${two(value.day)}/${two(value.month)}/${value.year} · ${two(value.hour)}:${two(value.minute)}';
   }
 
   void _back() {
@@ -213,23 +223,19 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text('Detail Pekerjaan',
+                Text(OpsFixI18n.t('Detail Pekerjaan'),
                     style: TextStyle(
                         fontSize: desktop ? 21 : 20,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF111827))),
                 if (desktop)
-                  const Text('Tinjau informasi dan kelola progres pekerjaan.',
+                  Text(
+                      OpsFixI18n.t(
+                          'Tinjau informasi dan kelola progres pekerjaan.'),
                       style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
               ])),
+          const OpsFixNotificationBell(),
           if (desktop) ...[
-            IconButton(
-                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text(
-                            'Pembaruan tugas tersedia pada daftar tugas.'))),
-                icon: const Icon(Icons.notifications_none,
-                    color: Color(0xFF111827))),
             const SizedBox(width: 8),
             IconButton(
                 onPressed: () => _push('TechnicianProfilePage'),
@@ -263,7 +269,7 @@ class _OpsFixResponsiveTechnicianTicketDetailState
         color: const Color(0xFF081225),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Row(children: [
+          Row(children: [
             CircleAvatar(
                 radius: 23,
                 backgroundColor: Color(0xFF6C5CE7),
@@ -276,14 +282,16 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                       color: Colors.white,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
-              Text('Portal teknisi',
+              Text(OpsFixI18n.t('Portal teknisi'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 11)),
             ]),
           ]),
           const SizedBox(height: 36),
-          _sideItem(Icons.task_alt_outlined, 'Tugas', 'technicianTasksPage'),
+          _sideItem(Icons.task_alt_outlined, OpsFixI18n.t('Tugas'),
+              'technicianTasksPage'),
           const SizedBox(height: 8),
-          _sideItem(Icons.history, 'Riwayat', 'technicianHistoryPage'),
+          _sideItem(
+              Icons.history, OpsFixI18n.t('Riwayat'), 'technicianHistoryPage'),
           const Spacer(),
           InkWell(
               onTap: () => _push('TechnicianProfilePage'),
@@ -294,7 +302,7 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                       color: const Color(0xFF13213A),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: const Color(0xFF253451))),
-                  child: const Row(children: [
+                  child: Row(children: [
                     CircleAvatar(
                         radius: 18,
                         backgroundColor: Color(0xFF6C5CE7),
@@ -305,12 +313,12 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                          Text('Profil teknisi',
+                          Text(OpsFixI18n.t('Profil teknisi'),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600)),
-                          Text('Akun aktif',
+                          Text(OpsFixI18n.t('Akun aktif'),
                               style: TextStyle(
                                   color: Color(0xFF94A3B8), fontSize: 10)),
                         ])),
@@ -334,8 +342,8 @@ class _OpsFixResponsiveTechnicianTicketDetailState
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(children: [
-                const Expanded(
-                    child: Text('DETAIL PEKERJAAN',
+                Expanded(
+                    child: Text(OpsFixI18n.t('DETAIL PEKERJAAN'),
                         style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -354,13 +362,40 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                             fontWeight: FontWeight.w600))),
               ]),
               const SizedBox(height: 14),
-              Text(_text('ticket_code', 'Tiket'),
+              Text(_text('ticket_code', OpsFixI18n.t('Tiket')),
                   style: const TextStyle(
                       fontSize: 13,
                       color: Color(0xFFA5B4FC),
                       fontWeight: FontWeight.w600)),
+              if ((int.tryParse(_ticket?['affected_count']?.toString() ?? '') ??
+                      1) >
+                  1) ...[
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0EDFF),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      OpsFixI18n.tf(
+                          '{0} orang terdampak', [_ticket?['affected_count']]),
+                      style: const TextStyle(
+                        color: Color(0xFF5B4CE3),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 7),
-              Text(_text('target_label_snapshot', 'Unit fasilitas'),
+              Text(
+                  _text(
+                      'target_label_snapshot', OpsFixI18n.t('Unit fasilitas')),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -368,7 +403,9 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                       color: Colors.white,
                       fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),
-              Text(_text('issue_type_snapshot', 'Gangguan fasilitas'),
+              Text(
+                  _text('issue_type_snapshot',
+                      OpsFixI18n.t('Gangguan fasilitas')),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -376,7 +413,9 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                       color: Color(0xFFE2E8F0),
                       fontWeight: FontWeight.w600)),
               const SizedBox(height: 9),
-              Text(_text('description', 'Tidak ada keterangan tambahan.'),
+              Text(
+                  _text('description',
+                      OpsFixI18n.t('Tidak ada keterangan tambahan.')),
                   style: const TextStyle(
                       fontSize: 13, color: Color(0xFFCBD5E1), height: 1.4)),
             ]),
@@ -408,18 +447,24 @@ class _OpsFixResponsiveTechnicianTicketDetailState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Informasi pekerjaan',
+              Text(OpsFixI18n.t('Informasi pekerjaan'),
                   style: TextStyle(
                       fontSize: 21,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF111827))),
-              _infoRow('Status', _statusLabel(_rawStatus)),
-              _infoRow('Prioritas', _priorityLabel(_text('priority', ''))),
+              _infoRow(OpsFixI18n.t('Status'), _statusLabel(_rawStatus)),
+              _infoRow(OpsFixI18n.t('Prioritas'),
+                  _priorityLabel(_text('priority', ''))),
               _infoRow(
-                  'Lokasi', _text('location_name_snapshot', 'Belum tersedia')),
-              _infoRow('Unit', _text('unit_code_snapshot', 'Belum tersedia')),
+                  OpsFixI18n.t('Lokasi'),
+                  _text('location_name_snapshot',
+                      OpsFixI18n.t('Belum tersedia'))),
+              _infoRow(OpsFixI18n.t('Unit'),
+                  _text('unit_code_snapshot', OpsFixI18n.t('Belum tersedia'))),
               _infoRow(
-                  'Pelapor', _text('reporter_name_snapshot', 'Belum tersedia')),
+                  OpsFixI18n.t('Pelapor'),
+                  _text('reporter_name_snapshot',
+                      OpsFixI18n.t('Belum tersedia'))),
             ]),
       );
 
@@ -461,14 +506,15 @@ class _OpsFixResponsiveTechnicianTicketDetailState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text('Siap dikerjakan',
+                Text(OpsFixI18n.t('Siap dikerjakan'),
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF111827))),
                 const SizedBox(height: 5),
-                const Text(
-                    'Mulai pekerjaan saat Anda sudah berada di lokasi dan siap menangani unit.',
+                Text(
+                    OpsFixI18n.t(
+                        'Mulai pekerjaan saat Anda sudah berada di lokasi dan siap menangani unit.'),
                     style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
                 const SizedBox(height: 14),
                 FilledButton.icon(
@@ -479,7 +525,9 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                             height: 16,
                             child: CircularProgressIndicator(strokeWidth: 2))
                         : const Icon(Icons.play_arrow),
-                    label: Text(_starting ? 'Memulai…' : 'Mulai pekerjaan')),
+                    label: Text(_starting
+                        ? OpsFixI18n.t('Memulai…')
+                        : OpsFixI18n.t('Mulai pekerjaan'))),
               ]));
     }
     if (_rawStatus == 'in_progress') {
@@ -490,14 +538,15 @@ class _OpsFixResponsiveTechnicianTicketDetailState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text('Kirim hasil perbaikan',
+                Text(OpsFixI18n.t('Kirim hasil perbaikan'),
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF111827))),
                 const SizedBox(height: 5),
-                const Text(
-                    'Tambahkan catatan dan foto hasil agar pelapor dapat memverifikasi pekerjaan.',
+                Text(
+                    OpsFixI18n.t(
+                        'Tambahkan catatan dan foto hasil agar pelapor dapat memverifikasi pekerjaan.'),
                     style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
                 const SizedBox(height: 12),
                 OpsFixCompletionPanel(ticketId: _ticketId),
@@ -507,21 +556,24 @@ class _OpsFixResponsiveTechnicianTicketDetailState
       return _notice(
           Icons.hourglass_top,
           const Color(0xFF2563EB),
-          'Menunggu verifikasi',
-          'Hasil perbaikan sudah dikirim. Pelapor sedang memeriksa pekerjaan Anda.');
+          OpsFixI18n.t('Menunggu verifikasi'),
+          OpsFixI18n.t(
+              'Hasil perbaikan sudah dikirim. Pelapor sedang memeriksa pekerjaan Anda.'));
     }
     if (_rawStatus == 'fixed' || _rawStatus == 'closed') {
       return _notice(
           Icons.check_circle_outline,
           const Color(0xFF059669),
-          'Pekerjaan selesai',
-          'Perbaikan telah diterima. Tidak ada tindakan lain yang perlu dilakukan.');
+          OpsFixI18n.t('Pekerjaan selesai'),
+          OpsFixI18n.t(
+              'Perbaikan telah diterima. Tidak ada tindakan lain yang perlu dilakukan.'));
     }
     return _notice(
         Icons.info_outline,
         const Color(0xFF64748B),
-        'Belum dapat dikerjakan',
-        'Status tiket saat ini tidak memerlukan tindakan dari teknisi.');
+        OpsFixI18n.t('Belum dapat dikerjakan'),
+        OpsFixI18n.t(
+            'Status tiket saat ini tidak memerlukan tindakan dari teknisi.'));
   }
 
   Widget _historyCard() => Container(
@@ -531,17 +583,17 @@ class _OpsFixResponsiveTechnicianTicketDetailState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Riwayat pekerjaan',
+            Text(OpsFixI18n.t('Riwayat pekerjaan'),
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF111827))),
             const SizedBox(height: 4),
-            const Text('Catatan perubahan sejak laporan dibuat.',
+            Text(OpsFixI18n.t('Catatan perubahan sejak laporan dibuat.'),
                 style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
             const SizedBox(height: 13),
             if (_events.isEmpty)
-              const Text('Belum ada aktivitas yang tercatat.',
+              Text(OpsFixI18n.t('Belum ada aktivitas yang tercatat.'),
                   style: TextStyle(color: Color(0xFF64748B)))
             else
               for (var i = 0; i < _events.length; i++) ...[
@@ -568,8 +620,7 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                                         color: Color(0xFF111827))),
                                 const SizedBox(height: 3),
                                 Text(
-                                    '${_events[i]['actor_name_snapshot'] ?? 'Sistem'} · '
-                                    '${_date(_events[i]['created_at'])}',
+                                    '${_events[i]['actor_name_snapshot'] ?? OpsFixI18n.t('Sistem')} · ${_date(_events[i]['created_at'])}',
                                     style: const TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF64748B))),
@@ -595,7 +646,8 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Color(0xFFB91C1C))),
             const SizedBox(height: 12),
-            OutlinedButton(onPressed: _load, child: const Text('Coba lagi')),
+            OutlinedButton(
+                onPressed: _load, child: Text(OpsFixI18n.t('Coba lagi'))),
           ]));
     }
     return const SizedBox.shrink();
@@ -620,7 +672,7 @@ class _OpsFixResponsiveTechnicianTicketDetailState
                               _notice(
                                   Icons.error_outline,
                                   const Color(0xFFDC2626),
-                                  'Terjadi kendala',
+                                  OpsFixI18n.t('Terjadi kendala'),
                                   _error!),
                               const SizedBox(height: 14),
                             ],

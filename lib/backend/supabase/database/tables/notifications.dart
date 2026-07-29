@@ -55,4 +55,19 @@ class NotificationsRow extends SupabaseDataRow {
 
   DateTime get createdAt => getField<DateTime>('created_at')!;
   set createdAt(DateTime value) => setField<DateTime>('created_at', value);
+
+  String? get titleId => getField<String>('title_id');
+  set titleId(String? value) => setField<String>('title_id', value);
+
+  String? get bodyId => getField<String>('body_id');
+  set bodyId(String? value) => setField<String>('body_id', value);
+
+  String? get titleEn => getField<String>('title_en');
+  set titleEn(String? value) => setField<String>('title_en', value);
+
+  String? get bodyEn => getField<String>('body_en');
+  set bodyEn(String? value) => setField<String>('body_en', value);
+
+  String? get dedupeKey => getField<String>('dedupe_key');
+  set dedupeKey(String? value) => setField<String>('dedupe_key', value);
 }

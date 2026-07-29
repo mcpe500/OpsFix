@@ -11,6 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
+
 Future<void> openOpsFixAssetDetail(
   BuildContext context,
   int? unitIndex,
@@ -34,5 +42,6 @@ Future<void> openOpsFixAssetDetail(
       'locationId': serializeParam(row['location_id'], ParamType.String),
       'assetCode': serializeParam(row['unit_code'], ParamType.String),
     }.withoutNulls,
+    extra: _opsFixPageFade(),
   );
 }

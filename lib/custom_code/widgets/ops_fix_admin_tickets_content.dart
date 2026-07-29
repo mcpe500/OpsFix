@@ -13,6 +13,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixAdminTicketsContent extends StatefulWidget {
   const OpsFixAdminTicketsContent({super.key, this.width, this.height});
@@ -27,15 +36,15 @@ class OpsFixAdminTicketsContent extends StatefulWidget {
 
 class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
   static const _selectFields =
-      'id,ticket_code,status,target_label_snapshot,description,'
-      'location_code_snapshot,location_name_snapshot,priority,priority_rank,'
-      'is_open,created_at,updated_at,resolution_due_at';
+      'id,ticket_code,status,assignment_state,assigned_technician_id,affected_count,target_label_snapshot,description,location_code_snapshot,location_name_snapshot,priority,priority_rank,is_open,created_at,updated_at,resolution_due_at';
 
   final _searchController = TextEditingController();
   Timer? _searchDebounce;
   List<Map<String, dynamic>> _tickets = [];
   String? _status;
   String? _priority;
+  String? _quickView;
+  bool _routeInitialized = false;
   String _sort = 'operational';
   bool _initialLoading = true;
   bool _refreshing = false;
@@ -45,6 +54,19 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_routeInitialized) return;
+    _routeInitialized = true;
+    final requested =
+        GoRouterState.of(context).uri.queryParameters['initialView'];
+    if (const {'unassigned', 'critical', 'completed', 'overdue'}
+        .contains(requested)) {
+      _quickView = requested;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadTickets());
   }
 
@@ -71,7 +93,8 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
       setState(() {
         _initialLoading = false;
         _refreshing = false;
-        _error = 'Lokasi kerja belum dipilih. Masuk ulang lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Lokasi kerja belum dipilih. Masuk ulang lalu coba lagi.');
         _tickets = [];
       });
       return;
@@ -91,6 +114,20 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
           .select(_selectFields)
           .eq('site_id', siteId);
 
+      switch (_quickView) {
+        case 'unassigned':
+          query = query
+              .eq('is_open', true)
+              .isFilter('assigned_technician_id', null);
+        case 'critical':
+          query = query.eq('is_open', true).eq('priority', 'critical');
+        case 'completed':
+          query = query.inFilter('status', const ['fixed', 'closed']);
+        case 'overdue':
+          query = query.eq('is_open', true).lt(
+              'resolution_due_at', DateTime.now().toUtc().toIso8601String());
+      }
+
       if (_status != null) query = query.eq('status', _status!);
       if (_priority != null) query = query.eq('priority', _priority!);
 
@@ -98,11 +135,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
       if (search.isNotEmpty) {
         final pattern = '%$search%';
         query = query.or(
-          'ticket_code.ilike.$pattern,'
-          'location_code_snapshot.ilike.$pattern,'
-          'location_name_snapshot.ilike.$pattern,'
-          'target_label_snapshot.ilike.$pattern,'
-          'description.ilike.$pattern',
+          'ticket_code.ilike.$pattern,location_code_snapshot.ilike.$pattern,location_name_snapshot.ilike.$pattern,target_label_snapshot.ilike.$pattern,description.ilike.$pattern',
         );
       }
 
@@ -144,7 +177,8 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
       setState(() {
         _initialLoading = false;
         _refreshing = false;
-        _error = 'Tiket tidak dapat dimuat. Periksa koneksi lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Tiket tidak dapat dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -158,7 +192,40 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
   }
 
   int get _activeFilterCount =>
-      (_status == null ? 0 : 1) + (_priority == null ? 0 : 1);
+      (_status == null ? 0 : 1) +
+      (_priority == null ? 0 : 1) +
+      (_quickView == null ? 0 : 1);
+
+  String _quickViewLabel(String value) => switch (value) {
+        'unassigned' => OpsFixI18n.t('Belum ditugaskan'),
+        'critical' => OpsFixI18n.t('Prioritas kritis'),
+        'completed' => OpsFixI18n.t('Tiket selesai terbaru'),
+        'overdue' => OpsFixI18n.t('Tiket terlambat'),
+        _ => OpsFixI18n.t('Filter dashboard'),
+      };
+
+  Future<void> _clearQuickView() async {
+    if (!mounted) return;
+    setState(() => _quickView = null);
+    await _loadTickets();
+  }
+
+  Widget _quickViewChip() => Align(
+        alignment: Alignment.centerLeft,
+        child: InputChip(
+          avatar: const Icon(Icons.dashboard_customize_outlined, size: 17),
+          label: Text(_quickViewLabel(_quickView!)),
+          onDeleted: _clearQuickView,
+          deleteIcon: const Icon(Icons.close, size: 17),
+          backgroundColor: const Color(0xFFF0EDFF),
+          side: const BorderSide(color: Color(0xFFD8D1FF)),
+          labelStyle: const TextStyle(
+            color: Color(0xFF5B4BD8),
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
 
   Future<void> _openFilters() async {
     final phone = MediaQuery.sizeOf(context).width < 480;
@@ -197,6 +264,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
     final selectedPriority = result['priority'];
     if (!mounted) return;
     setState(() {
+      _quickView = null;
       _status = selectedStatus;
       _priority = selectedPriority;
     });
@@ -205,9 +273,10 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
 
   void _showManualTicketMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          'Form tiket manual dapat ditambahkan pada tahap berikutnya.',
+          OpsFixI18n.t(
+              'Form tiket manual dapat ditambahkan pada tahap berikutnya.'),
         ),
         duration: Duration(milliseconds: 4000),
       ),
@@ -217,20 +286,23 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
   String _text(
     Map<String, dynamic> row,
     String key, [
-    String fallback = 'Belum tersedia',
+    // Sentinel rather than the literal: a default parameter value has to be a
+    // compile-time constant, so the translation happens below instead.
+    String? fallback,
   ]) {
     final value = row[key]?.toString().trim() ?? '';
-    return value.isEmpty ? fallback : value;
+    if (value.isNotEmpty) return value;
+    return fallback ?? OpsFixI18n.t('Belum tersedia');
   }
 
   String _statusLabel(String value) => switch (value.toLowerCase()) {
-        'reported' => 'Baru dilaporkan',
-        'assigned' => 'Teknisi ditetapkan',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'reopened' => 'Dibuka kembali',
-        'fixed' => 'Selesai',
-        _ => 'Status diperbarui',
+        'reported' => OpsFixI18n.t('Baru dilaporkan'),
+        'assigned' => OpsFixI18n.t('Teknisi ditetapkan'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'reopened' => OpsFixI18n.t('Dibuka kembali'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        _ => OpsFixI18n.t('Status diperbarui'),
       };
 
   Color _statusColor(String value) => switch (value.toLowerCase()) {
@@ -289,6 +361,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
     context.pushNamed(
       'adminTicketDetailPage',
       queryParameters: {'ticketId': id},
+      extra: _opsFixPageFade(),
     );
   }
 
@@ -299,7 +372,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
         child: OutlinedButton.icon(
           onPressed: () => _openTicket(ticket),
           icon: const Icon(Icons.arrow_outward, size: 18),
-          label: const Text('Lihat detail'),
+          label: Text(OpsFixI18n.t('Lihat detail')),
           style: OutlinedButton.styleFrom(
             foregroundColor: const Color(0xFF6C5CE7),
             side: const BorderSide(color: Color(0xFF6C5CE7)),
@@ -311,7 +384,114 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
         ),
       );
 
-  Widget _verticalTicketCard(Map<String, dynamic> ticket) => Container(
+  int _affectedCount(Map<String, dynamic> ticket) =>
+      int.tryParse(ticket['affected_count']?.toString() ?? '') ?? 1;
+
+  Widget? _affectedIndicator(Map<String, dynamic> ticket) {
+    final count = _affectedCount(ticket);
+    if (count <= 1) return null;
+    final label = OpsFixI18n.tf('{0} orang terdampak', [count]);
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        label: label,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 112),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF0EDFF),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.group_outlined,
+                color: Color(0xFF5B4CE3),
+                size: 15,
+              ),
+              const SizedBox(width: 4),
+              Flexible(
+                child: Text(
+                  OpsFixI18n.tf('{0} terdampak', [count]),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFF5B4CE3),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _contentSlot({
+    required Widget child,
+    required bool equalized,
+    required double height,
+  }) =>
+      equalized
+          ? SizedBox(
+              height: height,
+              child: Align(alignment: Alignment.topLeft, child: child),
+            )
+          : child;
+
+  Widget _ticketHeader(Map<String, dynamic> ticket) => Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(
+              _text(ticket, 'ticket_code'),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Color(0xFF111827),
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 150),
+            child: _statusBadge(ticket),
+          ),
+        ],
+      );
+
+  Widget _ticketFooter(Map<String, dynamic> ticket) {
+    final affected = _affectedIndicator(ticket);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Wrap(
+            spacing: 7,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _priorityBadge(ticket),
+              if (affected != null) affected,
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        _detailButton(ticket),
+      ],
+    );
+  }
+
+  Widget _verticalTicketCard(
+    Map<String, dynamic> ticket, {
+    required bool equalized,
+  }) =>
+      Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -322,68 +502,57 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    _text(ticket, 'ticket_code'),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Flexible(child: _statusBadge(ticket)),
-              ],
-            ),
+            _ticketHeader(ticket),
             const SizedBox(height: 10),
-            Text(
-              _text(ticket, 'target_label_snapshot'),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF111827),
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+            _contentSlot(
+              equalized: equalized,
+              height: 38,
+              child: Text(
+                _text(ticket, 'target_label_snapshot'),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF111827),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  height: 1.3,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              _text(ticket, 'description'),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF64748B),
-                fontSize: 12,
-                height: 1.35,
+            const SizedBox(height: 7),
+            _contentSlot(
+              equalized: equalized,
+              height: 34,
+              child: Text(
+                _text(ticket, 'description'),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF64748B),
+                  fontSize: 12,
+                  height: 1.35,
+                ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(vertical: 9),
               child: Divider(height: 1),
             ),
-            Text(
-              _text(ticket, 'location_name_snapshot'),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF64748B),
-                fontSize: 12,
+            _contentSlot(
+              equalized: equalized,
+              height: 18,
+              child: Text(
+                _text(ticket, 'location_name_snapshot'),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF64748B),
+                  fontSize: 12,
+                ),
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(child: _priorityBadge(ticket)),
-                const SizedBox(width: 10),
-                _detailButton(ticket),
-              ],
-            ),
+            _ticketFooter(ticket),
           ],
         ),
       );
@@ -450,19 +619,34 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             ),
             const SizedBox(width: 16),
             SizedBox(
-              width: 168,
+              width: 178,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _statusBadge(ticket),
-                  const SizedBox(height: 10),
                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: _priorityBadge(ticket),
+                    alignment: Alignment.centerRight,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 160),
+                      child: _statusBadge(ticket),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    alignment: WrapAlignment.end,
+                    spacing: 7,
+                    runSpacing: 6,
+                    children: [
+                      _priorityBadge(ticket),
+                      if (_affectedCount(ticket) > 1)
+                        _affectedIndicator(ticket)!,
+                    ],
                   ),
                   const Spacer(),
-                  _detailButton(ticket, fill: true),
+                  SizedBox(
+                    width: double.infinity,
+                    child: _detailButton(ticket, fill: true),
+                  ),
                 ],
               ),
             ),
@@ -475,12 +659,13 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
         onChanged: _onSearchChanged,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          hintText: 'Cari berdasarkan ID, lokasi, atau deskripsi...',
+          hintText:
+              OpsFixI18n.t('Cari berdasarkan ID, lokasi, atau deskripsi...'),
           prefixIcon: const Icon(Icons.search, size: 21),
           suffixIcon: _searchController.text.isEmpty
               ? null
               : IconButton(
-                  tooltip: 'Hapus pencarian',
+                  tooltip: OpsFixI18n.t('Hapus pencarian'),
                   onPressed: () {
                     _searchController.clear();
                     setState(() {});
@@ -515,7 +700,9 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
           onPressed: _openFilters,
           icon: const Icon(Icons.tune, size: 19),
           label: Text(
-            _activeFilterCount == 0 ? 'Filter' : 'Filter ($_activeFilterCount)',
+            _activeFilterCount == 0
+                ? OpsFixI18n.t('Filter')
+                : 'Filter ($_activeFilterCount)',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -536,41 +723,41 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
       );
 
   String _sortLabel(String value) => switch (value) {
-        'updated_desc' => 'Terakhir diperbarui',
-        'updated_asc' => 'Paling lama diperbarui',
-        'created_desc' => 'Laporan terbaru',
-        'sla_due' => 'Tenggat SLA terdekat',
-        _ => 'Prioritas operasional',
+        'updated_desc' => OpsFixI18n.t('Terakhir diperbarui'),
+        'updated_asc' => OpsFixI18n.t('Paling lama diperbarui'),
+        'created_desc' => OpsFixI18n.t('Laporan terbaru'),
+        'sla_due' => OpsFixI18n.t('Tenggat SLA terdekat'),
+        _ => OpsFixI18n.t('Prioritas operasional'),
       };
 
   Widget _sortButton() => PopupMenuButton<String>(
-        tooltip: 'Urutkan tiket',
+        tooltip: OpsFixI18n.t('Urutkan tiket'),
         initialValue: _sort,
         onSelected: (value) {
           if (value == _sort) return;
           setState(() => _sort = value);
           _loadTickets();
         },
-        itemBuilder: (_) => const [
+        itemBuilder: (_) => [
           PopupMenuItem(
             value: 'operational',
-            child: Text('Prioritas operasional'),
+            child: Text(OpsFixI18n.t('Prioritas operasional')),
           ),
           PopupMenuItem(
             value: 'updated_desc',
-            child: Text('Terakhir diperbarui'),
+            child: Text(OpsFixI18n.t('Terakhir diperbarui')),
           ),
           PopupMenuItem(
             value: 'updated_asc',
-            child: Text('Paling lama diperbarui'),
+            child: Text(OpsFixI18n.t('Paling lama diperbarui')),
           ),
           PopupMenuItem(
             value: 'created_desc',
-            child: Text('Laporan terbaru'),
+            child: Text(OpsFixI18n.t('Laporan terbaru')),
           ),
           PopupMenuItem(
             value: 'sla_due',
-            child: Text('Tenggat SLA terdekat'),
+            child: Text(OpsFixI18n.t('Tenggat SLA terdekat')),
           ),
         ],
         child: Container(
@@ -640,8 +827,8 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
   Widget _registryHeader(double availableWidth) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'ADMIN · TICKET REGISTRY',
+          Text(
+            OpsFixI18n.t('ADMIN · TICKET REGISTRY'),
             style: TextStyle(
               color: Color(0xFF6C5CE7),
               fontSize: 12,
@@ -653,9 +840,9 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Semua tiket dalam satu antrean.',
+                  OpsFixI18n.t('Semua tiket dalam satu antrean.'),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -672,7 +859,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
                 child: FilledButton.icon(
                   onPressed: _showManualTicketMessage,
                   icon: const Icon(Icons.add_circle_outline, size: 18),
-                  label: const Text('Tambah'),
+                  label: Text(OpsFixI18n.t('Tambah')),
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF6C5CE7),
                     shape: RoundedRectangleBorder(
@@ -684,8 +871,9 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             ],
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Pantau progres laporan, prioritas penanganan, lokasi, dan teknisi dalam satu antrean.',
+          Text(
+            OpsFixI18n.t(
+                'Pantau progres laporan, prioritas penanganan, lokasi, dan teknisi dalam satu antrean.'),
             style: TextStyle(
               color: Color(0xFF64748B),
               fontSize: 14,
@@ -708,14 +896,16 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                _error ?? 'Tiket tidak dapat dimuat.',
+                _error ?? OpsFixI18n.t('Tiket tidak dapat dimuat.'),
                 style: const TextStyle(
                   color: Color(0xFF9A3412),
                   fontSize: 13,
                 ),
               ),
             ),
-            TextButton(onPressed: _loadTickets, child: const Text('Coba lagi')),
+            TextButton(
+                onPressed: _loadTickets,
+                child: Text(OpsFixI18n.t('Coba lagi'))),
           ],
         ),
       );
@@ -727,7 +917,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
           border: Border.all(color: const Color(0xFFDDE2E7)),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Column(
+        child: Column(
           children: [
             Icon(
               Icons.inbox_outlined,
@@ -736,7 +926,7 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             ),
             SizedBox(height: 10),
             Text(
-              'Tidak ada tiket yang sesuai.',
+              OpsFixI18n.t('Tidak ada tiket yang sesuai.'),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF111827),
@@ -746,7 +936,8 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             ),
             SizedBox(height: 4),
             Text(
-              'Ubah pencarian atau filter untuk melihat antrean lain.',
+              OpsFixI18n.t(
+                  'Ubah pencarian atau filter untuk melihat antrean lain.'),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xFF64748B), fontSize: 12),
             ),
@@ -782,7 +973,10 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
             width: cardWidth,
             child: horizontal
                 ? IntrinsicHeight(child: _horizontalTicketCard(ticket))
-                : _verticalTicketCard(ticket),
+                : _verticalTicketCard(
+                    ticket,
+                    equalized: screenWidth >= 480,
+                  ),
           ),
       ],
     );
@@ -830,6 +1024,10 @@ class _OpsFixAdminTicketsContentState extends State<OpsFixAdminTicketsContent> {
                         _registryHeader(availableWidth),
                         const SizedBox(height: 18),
                         _toolbar(availableWidth, phone),
+                        if (_quickView != null) ...[
+                          const SizedBox(height: 10),
+                          _quickViewChip(),
+                        ],
                         if (_refreshing) ...[
                           const SizedBox(height: 8),
                           const LinearProgressIndicator(minHeight: 2),
@@ -908,9 +1106,9 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
               children: [
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Filter tiket',
+                        OpsFixI18n.t('Filter tiket'),
                         style: TextStyle(
                           color: Color(0xFF111827),
                           fontSize: 20,
@@ -919,7 +1117,7 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
                       ),
                     ),
                     IconButton(
-                      tooltip: 'Tutup',
+                      tooltip: OpsFixI18n.t('Tutup'),
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.close),
                     ),
@@ -930,36 +1128,37 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
                   value: _status,
                   isExpanded: true,
                   decoration: InputDecoration(
-                    labelText: 'Status',
+                    labelText: OpsFixI18n.t('Status'),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  items: const [
-                    DropdownMenuItem(value: '', child: Text('Semua status')),
+                  items: [
+                    DropdownMenuItem(
+                        value: '', child: Text(OpsFixI18n.t('Semua status'))),
                     DropdownMenuItem(
                       value: 'reported',
-                      child: Text('Baru dilaporkan'),
+                      child: Text(OpsFixI18n.t('Baru dilaporkan')),
                     ),
                     DropdownMenuItem(
                       value: 'assigned',
-                      child: Text('Teknisi ditetapkan'),
+                      child: Text(OpsFixI18n.t('Teknisi ditetapkan')),
                     ),
                     DropdownMenuItem(
                       value: 'in_progress',
-                      child: Text('Sedang dikerjakan'),
+                      child: Text(OpsFixI18n.t('Sedang dikerjakan')),
                     ),
                     DropdownMenuItem(
                       value: 'pending_verification',
-                      child: Text('Menunggu verifikasi'),
+                      child: Text(OpsFixI18n.t('Menunggu verifikasi')),
                     ),
                     DropdownMenuItem(
                       value: 'reopened',
-                      child: Text('Dibuka kembali'),
+                      child: Text(OpsFixI18n.t('Dibuka kembali')),
                     ),
                     DropdownMenuItem(
                       value: 'fixed',
-                      child: Text('Selesai'),
+                      child: Text(OpsFixI18n.t('Selesai')),
                     ),
                   ],
                   onChanged: (value) => setState(() => _status = value ?? ''),
@@ -969,20 +1168,24 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
                   value: _priority,
                   isExpanded: true,
                   decoration: InputDecoration(
-                    labelText: 'Prioritas',
+                    labelText: OpsFixI18n.t('Prioritas'),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  items: const [
+                  items: [
                     DropdownMenuItem(
                       value: '',
-                      child: Text('Semua prioritas'),
+                      child: Text(OpsFixI18n.t('Semua prioritas')),
                     ),
-                    DropdownMenuItem(value: 'critical', child: Text('Kritis')),
-                    DropdownMenuItem(value: 'high', child: Text('Tinggi')),
-                    DropdownMenuItem(value: 'medium', child: Text('Sedang')),
-                    DropdownMenuItem(value: 'low', child: Text('Rendah')),
+                    DropdownMenuItem(
+                        value: 'critical', child: Text(OpsFixI18n.t('Kritis'))),
+                    DropdownMenuItem(
+                        value: 'high', child: Text(OpsFixI18n.t('Tinggi'))),
+                    DropdownMenuItem(
+                        value: 'medium', child: Text(OpsFixI18n.t('Sedang'))),
+                    DropdownMenuItem(
+                        value: 'low', child: Text(OpsFixI18n.t('Rendah'))),
                   ],
                   onChanged: (value) => setState(() => _priority = value ?? ''),
                 ),
@@ -992,7 +1195,7 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () => _close(reset: true),
-                        child: const Text('Reset'),
+                        child: Text(OpsFixI18n.t('Reset')),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -1002,7 +1205,7 @@ class _TicketFilterPanelState extends State<_TicketFilterPanel> {
                         style: FilledButton.styleFrom(
                           backgroundColor: const Color(0xFF6C5CE7),
                         ),
-                        child: const Text('Terapkan'),
+                        child: Text(OpsFixI18n.t('Terapkan')),
                       ),
                     ),
                   ],

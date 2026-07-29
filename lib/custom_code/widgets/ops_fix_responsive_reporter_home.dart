@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/custom_code/widgets/ops_fix_reporter_home_content.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -53,23 +62,18 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text(desktop ? 'Beranda pengguna' : 'OpsFix',
+                Text(desktop ? OpsFixI18n.t('Beranda pengguna') : 'OpsFix',
                     style: const TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 22,
                         fontWeight: FontWeight.w600)),
                 if (desktop)
-                  const Text('Pantau laporan dan perangkat lokasi aktif.',
+                  Text(
+                      OpsFixI18n.t(
+                          'Pantau laporan dan perangkat lokasi aktif.'),
                       style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),
               ])),
-          _circleButton(
-              Icons.notifications_none,
-              const Color(0xFF64748B),
-              const Color(0xFFF8FAFC),
-              () => _push(context, 'NotificationsPage')),
-          const SizedBox(width: 8),
-          _circleButton(Icons.person_outline, const Color(0xFF065F46),
-              const Color(0xFFD1FAE5), () => _push(context, 'ProfilePage')),
+          const OpsFixReporterHeaderActions(),
         ]),
       );
 
@@ -111,12 +115,13 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
             color: Colors.white,
             border: Border(top: BorderSide(color: Color(0xFFE5E7EB)))),
         child: Row(children: [
-          _bottomItem(context, Icons.home, 'Beranda', 'homeUserPage',
-              active: true),
           _bottomItem(
-              context, Icons.add_circle_outline, 'Lapor', 'reportIssuePage'),
-          _bottomItem(context, Icons.confirmation_number_outlined, 'Tiket',
-              'myTicketsPage'),
+              context, Icons.home, OpsFixI18n.t('Beranda'), 'homeUserPage',
+              active: true),
+          _bottomItem(context, Icons.add_circle_outline, OpsFixI18n.t('Lapor'),
+              'reportIssuePage'),
+          _bottomItem(context, Icons.confirmation_number_outlined,
+              OpsFixI18n.t('Tiket'), 'myTicketsPage'),
         ]),
       );
 
@@ -151,7 +156,7 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
         color: const Color(0xFF081225),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Row(children: [
+          Row(children: [
             CircleAvatar(
                 radius: 23,
                 backgroundColor: Color(0xFF6C5CE7),
@@ -167,19 +172,20 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
-              Text('Portal pengguna',
+              Text(OpsFixI18n.t('Portal pengguna'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 11))
             ]),
           ]),
           const SizedBox(height: 36),
-          _sideItem(context, Icons.home_outlined, 'Beranda', 'homeUserPage',
+          _sideItem(context, Icons.home_outlined, OpsFixI18n.t('Beranda'),
+              'homeUserPage',
               active: true),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.add_circle_outline, 'Buat laporan',
-              'reportIssuePage'),
+          _sideItem(context, Icons.add_circle_outline,
+              OpsFixI18n.t('Buat laporan'), 'reportIssuePage'),
           const SizedBox(height: 8),
-          _sideItem(context, Icons.confirmation_number_outlined, 'Tiket saya',
-              'myTicketsPage'),
+          _sideItem(context, Icons.confirmation_number_outlined,
+              OpsFixI18n.t('Tiket saya'), 'myTicketsPage'),
           const Spacer(),
           Container(
             padding: const EdgeInsets.all(14),
@@ -189,7 +195,7 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
                 border: Border.all(color: const Color(0xFF253451))),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('LOKASI AKTIF',
+              Text(OpsFixI18n.t('LOKASI AKTIF'),
                   style: TextStyle(
                       color: Color(0xFF70E1CB),
                       fontSize: 10,
@@ -197,7 +203,7 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
               const SizedBox(height: 7),
               Text(
                   FFAppState().currentLocationName.trim().isEmpty
-                      ? 'Belum dipilih'
+                      ? OpsFixI18n.t('Belum dipilih')
                       : FFAppState().currentLocationName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -226,7 +232,7 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
         child: SafeArea(
           child: desktop
               ? Row(children: [
-                  _sidebar(context),
+                  const OpsFixReporterSidebar(activeSection: 'home'),
                   Expanded(
                       child: Column(children: [
                     _header(context, desktop: true),
@@ -236,7 +242,7 @@ class OpsFixResponsiveReporterHome extends StatelessWidget {
               : Column(children: [
                   _header(context, desktop: false),
                   content,
-                  _bottomNav(context)
+                  const OpsFixReporterBottomNav(activeSection: 'home')
                 ]),
         ),
       ),

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixAdminActivityLogContent extends StatefulWidget {
   const OpsFixAdminActivityLogContent({
@@ -31,8 +32,7 @@ class OpsFixAdminActivityLogContent extends StatefulWidget {
 class OpsFixAdminActivityLogContentState
     extends State<OpsFixAdminActivityLogContent> {
   static const _selectFields =
-      'id,event_type,message,reason,actor_name_snapshot,'
-      'actor_role_snapshot,from_status,to_status,created_at';
+      'id,event_type,message,reason,actor_name_snapshot,actor_role_snapshot,from_status,to_status,created_at';
 
   List<Map<String, dynamic>> _events = [];
   bool _loading = true;
@@ -64,7 +64,8 @@ class OpsFixAdminActivityLogContentState
         _loading = false;
         _refreshing = false;
         _events = [];
-        _error = 'Site aktif belum tersedia. Masuk ulang lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Site aktif belum tersedia. Masuk ulang lalu coba lagi.');
       });
       return;
     }
@@ -100,7 +101,8 @@ class OpsFixAdminActivityLogContentState
       setState(() {
         _loading = false;
         _refreshing = false;
-        _error = 'Riwayat aktivitas belum dapat dimuat. Coba lagi.';
+        _error =
+            OpsFixI18n.t('Riwayat aktivitas belum dapat dimuat. Coba lagi.');
       });
     }
   }
@@ -110,28 +112,30 @@ class OpsFixAdminActivityLogContentState
   }
 
   String _status(String value) => switch (value) {
-        'reported' => 'Dilaporkan',
-        'assigned' => 'Ditangani',
-        'in_progress' => 'Sedang dikerjakan',
-        'pending_verification' => 'Menunggu verifikasi',
-        'fixed' => 'Selesai',
-        'closed' => 'Ditutup',
-        'reopened' => 'Dibuka kembali',
-        'rejected' => 'Ditolak',
-        'cancelled' => 'Dibatalkan',
-        _ => value.isEmpty ? 'Belum tersedia' : value.replaceAll('_', ' '),
+        'reported' => OpsFixI18n.t('Dilaporkan'),
+        'assigned' => OpsFixI18n.t('Ditangani'),
+        'in_progress' => OpsFixI18n.t('Sedang dikerjakan'),
+        'pending_verification' => OpsFixI18n.t('Menunggu verifikasi'),
+        'fixed' => OpsFixI18n.t('Selesai'),
+        'closed' => OpsFixI18n.t('Ditutup'),
+        'reopened' => OpsFixI18n.t('Dibuka kembali'),
+        'rejected' => OpsFixI18n.t('Ditolak'),
+        'cancelled' => OpsFixI18n.t('Dibatalkan'),
+        _ => value.isEmpty
+            ? OpsFixI18n.t('Belum tersedia')
+            : value.replaceAll('_', ' '),
       };
 
   String _title(String type) => switch (type) {
-        'ticket_created' => 'Laporan dibuat',
-        'assignment_created' => 'Teknisi ditugaskan',
-        'assignment_accepted' => 'Penugasan diterima',
-        'work_started' => 'Pekerjaan dimulai',
-        'completion_submitted' => 'Hasil perbaikan dikirim',
-        'ticket_verified' => 'Perbaikan diverifikasi',
-        'ticket_reopened' => 'Tiket dibuka kembali',
-        'status_changed' => 'Status tiket diperbarui',
-        _ => 'Aktivitas tiket',
+        'ticket_created' => OpsFixI18n.t('Laporan dibuat'),
+        'assignment_created' => OpsFixI18n.t('Teknisi ditugaskan'),
+        'assignment_accepted' => OpsFixI18n.t('Penugasan diterima'),
+        'work_started' => OpsFixI18n.t('Pekerjaan dimulai'),
+        'completion_submitted' => OpsFixI18n.t('Hasil perbaikan dikirim'),
+        'ticket_verified' => OpsFixI18n.t('Perbaikan diverifikasi'),
+        'ticket_reopened' => OpsFixI18n.t('Tiket dibuka kembali'),
+        'status_changed' => OpsFixI18n.t('Status tiket diperbarui'),
+        _ => OpsFixI18n.t('Aktivitas tiket'),
       };
 
   String _description(Map<String, dynamic> event) {
@@ -139,11 +143,14 @@ class OpsFixAdminActivityLogContentState
     final from = _value(event, 'from_status');
     final to = _value(event, 'to_status');
     if (from.isNotEmpty || to.isNotEmpty) {
-      return 'Status berubah dari ${_status(from)} menjadi ${_status(to)}.';
+      return OpsFixI18n.tf(
+          'Status berubah dari {0} menjadi {1}.', [_status(from), _status(to)]);
     }
     if (message.isNotEmpty) return message;
     final reason = _value(event, 'reason');
-    return reason.isEmpty ? 'Perubahan tercatat pada sistem.' : reason;
+    return reason.isEmpty
+        ? OpsFixI18n.t('Perubahan tercatat pada sistem.')
+        : reason;
   }
 
   DateTime? _dateValue(dynamic raw) {
@@ -152,18 +159,28 @@ class OpsFixAdminActivityLogContentState
 
   String _date(dynamic raw) {
     final date = _dateValue(raw);
-    if (date == null) return 'Waktu tidak tersedia';
+    if (date == null) return OpsFixI18n.t('Waktu tidak tersedia');
     String two(int value) => value.toString().padLeft(2, '0');
-    return '${two(date.day)}/${two(date.month)}/${date.year} · '
-        '${two(date.hour)}:${two(date.minute)}';
+    return '${two(date.day)}/${two(date.month)}/${date.year} · ${two(date.hour)}:${two(date.minute)}';
   }
 
   String _actor(Map<String, dynamic> event) {
     final actor = _value(event, 'actor_name_snapshot');
     final role = _value(event, 'actor_role_snapshot');
-    if (actor.isEmpty) return 'Sistem OpsFix';
-    return role.isEmpty ? actor : '$actor · ${_status(role)}';
+    if (actor.isEmpty) return OpsFixI18n.t('Sistem OpsFix');
+    return role.isEmpty ? actor : '$actor · ${_roleLabel(role)}';
   }
+
+  /// Renders an actor's role. `_status(...)` was being used here, but it maps
+  /// ticket statuses — a role fell through to its default branch and rendered
+  /// the raw database value (`technician`) instead of a label.
+  String _roleLabel(String role) => switch (role.toLowerCase()) {
+        'manager' || 'admin' => OpsFixI18n.t('Pengelola'),
+        'technician' => OpsFixI18n.t('Teknisi lapangan'),
+        'reporter' || 'user' => OpsFixI18n.t('Pelapor'),
+        'system' => OpsFixI18n.t('Sistem'),
+        _ => role.replaceAll('_', ' '),
+      };
 
   _EventVisual _visual(String type) {
     if (type == 'ticket_created') {
@@ -216,128 +233,186 @@ class OpsFixAdminActivityLogContentState
         .length;
   }
 
-  String get _latestEventTime {
-    if (_events.isEmpty) return 'Belum tersedia';
-    return _date(_events.first['created_at']);
+  String _timeOnly(DateTime date) {
+    String two(int value) => value.toString().padLeft(2, '0');
+    return '${two(date.hour)}:${two(date.minute)}';
   }
 
-  Widget _intro() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0B1426),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ADMIN · AUDIT LOG',
-            style: TextStyle(
-              color: Color(0xFFB9B1FF),
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.7,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Setiap perubahan dapat diaudit.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: 7),
-          Text(
-            'Aktivitas diurutkan dari kejadian terbaru pada site aktif.',
-            style: TextStyle(
-              color: Color(0xFFCBD5E1),
-              fontSize: 13,
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    );
+  String _relativeAuditTime(dynamic raw) {
+    final date = _dateValue(raw);
+    if (date == null) return OpsFixI18n.t('Waktu tidak tersedia');
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final eventDay = DateTime(date.year, date.month, date.day);
+    final difference = today.difference(eventDay).inDays;
+    final time = _timeOnly(date);
+    if (difference == 0) {
+      return OpsFixI18n.tf('Hari ini · {0}', [time]);
+    }
+    if (difference == 1) {
+      return OpsFixI18n.tf('Kemarin · {0}', [time]);
+    }
+    String two(int value) => value.toString().padLeft(2, '0');
+    return '${two(date.day)}/${two(date.month)}/${date.year} \u00B7 $time';
   }
+
+  String get _latestEventTime {
+    if (_events.isEmpty) return OpsFixI18n.t('Belum tersedia');
+    return _relativeAuditTime(_events.first['created_at']);
+  }
+
+  Widget _intro() => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0B1426),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xFF192641),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFF334365)),
+              ),
+              child: const Icon(
+                Icons.policy_outlined,
+                color: Color(0xFFB9B1FF),
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    OpsFixI18n.t('ADMIN · AUDIT LOG'),
+                    style: const TextStyle(
+                      color: Color(0xFFB9B1FF),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: .7,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    OpsFixI18n.t('Riwayat aktivitas dapat ditelusuri.'),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      height: 1.15,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    OpsFixI18n.t(
+                      'Pantau perubahan status, penugasan, dan tindakan pengguna pada lokasi aktif.',
+                    ),
+                    style: const TextStyle(
+                      color: Color(0xFFCBD5E1),
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget _summaryFact(
     IconData icon,
+    Color color,
     String label,
     String value, {
     bool compact = false,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(compact ? 13 : 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: const Color(0xFFDDE2E7)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF0EDFF),
-              borderRadius: BorderRadius.circular(11),
+  }) =>
+      Container(
+        height: compact ? null : 108,
+        padding: EdgeInsets.all(compact ? 14 : 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFDDE2E7)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: color.withOpacity(.10),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, size: 21, color: color),
             ),
-            child: Icon(icon, size: 19, color: const Color(0xFF6C5CE7)),
-          ),
-          const SizedBox(width: 11),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 11,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    value,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFF111827),
+                      fontSize: 18,
+                      height: 1.15,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  value,
-                  maxLines: compact ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                  const SizedBox(height: 5),
+                  Text(
+                    label,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFF64748B),
+                      fontSize: 11,
+                      height: 1.25,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 
   Widget _summary(double availableWidth) {
-    final compact = availableWidth < 480;
+    final compact = availableWidth < 560;
     final facts = [
       _summaryFact(
         Icons.receipt_long_outlined,
-        'Aktivitas dimuat',
-        '${_events.length} dari maksimal 100',
+        const Color(0xFF6C5CE7),
+        OpsFixI18n.t('Aktivitas ditampilkan'),
+        '${_events.length}',
         compact: compact,
       ),
       _summaryFact(
         Icons.group_outlined,
-        'Aktor tercatat',
-        '$_actorCount aktor',
+        const Color(0xFF2563EB),
+        OpsFixI18n.t('Aktor yang terlibat'),
+        '$_actorCount',
         compact: compact,
       ),
       _summaryFact(
         Icons.schedule_rounded,
-        'Aktivitas terbaru',
+        const Color(0xFF059669),
+        OpsFixI18n.t('Aktivitas terakhir'),
         _latestEventTime,
         compact: compact,
       ),
@@ -355,22 +430,19 @@ class OpsFixAdminActivityLogContentState
         ],
       );
     }
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: facts[0]),
-        const SizedBox(width: 10),
+        const SizedBox(width: 12),
         Expanded(child: facts[1]),
-        const SizedBox(width: 10),
+        const SizedBox(width: 12),
         Expanded(child: facts[2]),
       ],
     );
   }
 
-  Widget _topSection(double availableWidth) {
-    if (availableWidth < 680) {
-      return Column(
+  Widget _topSection(double availableWidth) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _intro(),
@@ -378,17 +450,6 @@ class OpsFixAdminActivityLogContentState
           _summary(availableWidth),
         ],
       );
-    }
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(flex: 5, child: _intro()),
-        const SizedBox(width: 16),
-        Expanded(flex: 7, child: _summary(availableWidth)),
-      ],
-    );
-  }
 
   Widget _eventIcon(Map<String, dynamic> event, {double size = 38}) {
     final visual = _visual(_value(event, 'event_type'));
@@ -516,8 +577,8 @@ class OpsFixAdminActivityLogContentState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'AKTOR',
+                Text(
+                  OpsFixI18n.t('AKTOR'),
                   style: TextStyle(
                     color: Color(0xFF94A3B8),
                     fontSize: 10,
@@ -565,15 +626,16 @@ class OpsFixAdminActivityLogContentState
           bottom: BorderSide(color: Color(0xFFDDE2E7)),
         ),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Expanded(flex: 3, child: Text('AKTIVITAS', style: style)),
+          Expanded(
+              flex: 3, child: Text(OpsFixI18n.t('AKTIVITAS'), style: style)),
           SizedBox(width: 16),
-          Expanded(flex: 5, child: Text('DETAIL', style: style)),
+          Expanded(flex: 5, child: Text(OpsFixI18n.t('DETAIL'), style: style)),
           SizedBox(width: 16),
-          Expanded(flex: 3, child: Text('AKTOR', style: style)),
+          Expanded(flex: 3, child: Text(OpsFixI18n.t('AKTOR'), style: style)),
           SizedBox(width: 16),
-          Expanded(flex: 2, child: Text('WAKTU', style: style)),
+          Expanded(flex: 2, child: Text(OpsFixI18n.t('WAKTU'), style: style)),
         ],
       ),
     );
@@ -654,7 +716,7 @@ class OpsFixAdminActivityLogContentState
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: const Color(0xFFDDE2E7)),
         ),
-        child: const Column(
+        child: Column(
           children: [
             Icon(
               Icons.history_toggle_off_rounded,
@@ -663,7 +725,7 @@ class OpsFixAdminActivityLogContentState
             ),
             SizedBox(height: 10),
             Text(
-              'Belum ada aktivitas yang tercatat.',
+              OpsFixI18n.t('Belum ada aktivitas yang tercatat.'),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF64748B),
@@ -747,7 +809,7 @@ class OpsFixAdminActivityLogContentState
               ),
               const SizedBox(height: 12),
               Text(
-                _error ?? 'Riwayat aktivitas tidak tersedia.',
+                _error ?? OpsFixI18n.t('Riwayat aktivitas tidak tersedia.'),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF111827),
@@ -758,7 +820,7 @@ class OpsFixAdminActivityLogContentState
               FilledButton.icon(
                 onPressed: refresh,
                 icon: const Icon(Icons.refresh_rounded, size: 18),
-                label: const Text('Coba lagi'),
+                label: Text(OpsFixI18n.t('Coba lagi')),
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFF6C5CE7),
                 ),
@@ -818,8 +880,8 @@ class OpsFixAdminActivityLogContentState
                           ),
                         ],
                         const SizedBox(height: 22),
-                        const Text(
-                          'Riwayat aktivitas',
+                        Text(
+                          OpsFixI18n.t('Riwayat aktivitas'),
                           style: TextStyle(
                             color: Color(0xFF111827),
                             fontSize: 19,
@@ -827,8 +889,9 @@ class OpsFixAdminActivityLogContentState
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Catatan perubahan operasional terbaru.',
+                        Text(
+                          OpsFixI18n.t(
+                              'Catatan perubahan operasional terbaru.'),
                           style: TextStyle(
                             color: Color(0xFF64748B),
                             fontSize: 12,

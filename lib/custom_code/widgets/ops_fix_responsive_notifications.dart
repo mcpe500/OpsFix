@@ -9,12 +9,22 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -40,6 +50,8 @@ class _OpsFixResponsiveNotificationsState
   bool _markingAll = false;
   String? _error;
   List<Map<String, dynamic>> _rows = const [];
+  RealtimeChannel? _channel;
+  Timer? _reloadDebounce;
 
   String get _role => FFAppState().currentUserRole.trim().toLowerCase();
   bool get _isManager => _role == 'manager' || _role == 'admin';
@@ -49,6 +61,38 @@ class _OpsFixResponsiveNotificationsState
   void initState() {
     super.initState();
     _load();
+    _subscribe();
+  }
+
+  void _subscribe() {
+    if (currentUserUid.isEmpty || _channel != null) return;
+    _channel = SupaFlow.client
+        .channel('opsfix-notifications-$currentUserUid')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.all,
+          schema: 'public',
+          table: 'notifications',
+          filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: 'recipient_id',
+            value: currentUserUid,
+          ),
+          callback: (_) {
+            _reloadDebounce?.cancel();
+            _reloadDebounce = Timer(const Duration(milliseconds: 180), _load);
+          },
+        )
+        .subscribe();
+  }
+
+  @override
+  void dispose() {
+    _reloadDebounce?.cancel();
+    final channel = _channel;
+    if (channel != null) {
+      unawaited(SupaFlow.client.removeChannel(channel));
+    }
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -56,12 +100,12 @@ class _OpsFixResponsiveNotificationsState
       var query = SupaFlow.client
           .from('notifications')
           .select(
-              'id,ticket_id,notification_type,title,body,is_read,created_at')
+              'id,ticket_id,route_name,notification_type,title,body,title_id,body_id,title_en,body_en,is_read,created_at')
           .eq('recipient_id', currentUserUid);
       if (FFAppState().currentSiteId.isNotEmpty) {
         query = query.eq('site_id', FFAppState().currentSiteId);
       }
-      final data = await query.order('created_at', ascending: false);
+      final data = await query.order('created_at', ascending: false).limit(100);
       if (!mounted) return;
       setState(() {
         _rows = (data as List)
@@ -75,8 +119,8 @@ class _OpsFixResponsiveNotificationsState
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error =
-            'Pembaruan belum dapat dimuat. Periksa koneksi lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Pembaruan belum dapat dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -88,26 +132,41 @@ class _OpsFixResponsiveNotificationsState
 
   bool _read(Map<String, dynamic> row) => row['is_read'] == true;
 
+  String _localized(
+    Map<String, dynamic> row,
+    String field,
+    String fallback,
+  ) {
+    final language = OpsFixI18n.languageOf(context) == 'en' ? 'en' : 'id';
+    final localized = row['${field}_$language']?.toString().trim() ?? '';
+    if (localized.isNotEmpty) return localized;
+    return _text(row, field, fallback);
+  }
+
   String _time(Map<String, dynamic> row) {
     final parsed = DateTime.tryParse(_text(row, 'created_at', ''))?.toLocal();
-    if (parsed == null) return 'Waktu belum tersedia';
+    if (parsed == null) return OpsFixI18n.t('Waktu belum tersedia');
     final now = DateTime.now();
     final difference = now.difference(parsed);
-    if (difference.inMinutes < 1) return 'Baru saja';
-    if (difference.inMinutes < 60) return '${difference.inMinutes} menit lalu';
-    if (difference.inHours < 24) return '${difference.inHours} jam lalu';
-    if (difference.inDays < 7) return '${difference.inDays} hari lalu';
+    if (difference.inMinutes < 1) return OpsFixI18n.t('Baru saja');
+    if (difference.inMinutes < 60)
+      return OpsFixI18n.tf('{0} menit lalu', [difference.inMinutes]);
+    if (difference.inHours < 24)
+      return OpsFixI18n.tf('{0} jam lalu', [difference.inHours]);
+    if (difference.inDays < 7)
+      return OpsFixI18n.tf('{0} hari lalu', [difference.inDays]);
     return DateFormat('d MMM yyyy · HH:mm', 'id_ID').format(parsed);
   }
 
   IconData _typeIcon(String type) => switch (type) {
-        'assignment' ||
-        'assignment_created' ||
+        'ticket_created' => Icons.confirmation_number_outlined,
+        'assignment_offered' ||
         'assignment_accepted' =>
           Icons.engineering_outlined,
-        'status_changed' || 'ticket_updated' => Icons.sync_outlined,
-        'completion_submitted' || 'fixed' => Icons.check_circle_outline,
-        'ticket_created' => Icons.confirmation_number_outlined,
+        'status_changed' => Icons.sync_outlined,
+        'completion_submitted' || 'ticket_fixed' => Icons.check_circle_outline,
+        'ticket_reopened' => Icons.replay_circle_filled_outlined,
+        'sla_warning' => Icons.timer_outlined,
         _ => Icons.notifications_none,
       };
 
@@ -116,11 +175,14 @@ class _OpsFixResponsiveNotificationsState
       Navigator.of(context).pop();
       return;
     }
-    context.goNamed(_isManager
-        ? 'adminDashboardPage'
-        : _isTechnician
-            ? 'technicianTasksPage'
-            : 'homeUserPage');
+    context.goNamed(
+      _isManager
+          ? 'adminDashboardPage'
+          : _isTechnician
+              ? 'technicianTasksPage'
+              : 'homeUserPage',
+      extra: _opsFixPageFade(),
+    );
   }
 
   Future<void> _markAll() async {
@@ -133,15 +195,16 @@ class _OpsFixResponsiveNotificationsState
         _rows = _rows.map((row) => {...row, 'is_read': true}).toList();
         _markingAll = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Semua notifikasi ditandai sudah dibaca.'),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(OpsFixI18n.t('Semua notifikasi ditandai sudah dibaca.')),
       ));
     } catch (error) {
       debugPrint('Mark all notifications failed: $error');
       if (!mounted) return;
       setState(() {
         _markingAll = false;
-        _error = 'Notifikasi belum dapat diperbarui. Coba kembali.';
+        _error =
+            OpsFixI18n.t('Notifikasi belum dapat diperbarui. Coba kembali.');
       });
     }
   }
@@ -150,8 +213,9 @@ class _OpsFixResponsiveNotificationsState
     final id = _text(row, 'id', '');
     final ticketId = _text(row, 'ticket_id', '');
     if (ticketId.isEmpty) return;
-    try {
-      if (!_read(row) && id.isNotEmpty) {
+
+    if (!_read(row) && id.isNotEmpty) {
+      try {
         await actions.markOpsFixNotificationRead(id);
         if (mounted) {
           setState(() {
@@ -162,27 +226,27 @@ class _OpsFixResponsiveNotificationsState
                 .toList();
           });
         }
+      } catch (error) {
+        debugPrint('Notification read update failed: ${error.runtimeType}');
       }
-      if (!mounted) return;
-      final route = _isManager
-          ? 'adminTicketDetailPage'
-          : _isTechnician
-              ? 'technicianTicketDetailPage'
-              : 'ticketDetailPage';
-      context.pushNamed(
-        route,
-        extra: (_isManager || _isTechnician) ? null : _opsFixReporterFade(),
-        queryParameters: {
-          'ticketId': serializeParam(ticketId, ParamType.String),
-        }.withoutNulls,
-      );
-    } catch (error) {
-      debugPrint('Open notification ticket failed: $error');
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Tiket belum dapat dibuka. Coba kembali.'),
-      ));
     }
+    if (!mounted) return;
+
+    final requestedRoute = _text(row, 'route_name', '');
+    final route = _isManager
+        ? 'adminTicketDetailPage'
+        : _isTechnician
+            ? 'technicianTicketDetailPage'
+            : requestedRoute == 'ReporterLocationTicketsPage'
+                ? 'ReporterLocationTicketsPage'
+                : 'ticketDetailPage';
+    context.pushNamed(
+      route,
+      extra: _opsFixPageFade(),
+      queryParameters: {
+        'ticketId': serializeParam(ticketId, ParamType.String),
+      }.withoutNulls,
+    );
   }
 
   Widget _header({required bool desktop}) {
@@ -196,7 +260,7 @@ class _OpsFixResponsiveNotificationsState
       ),
       child: Row(children: [
         IconButton(
-          tooltip: 'Kembali',
+          tooltip: OpsFixI18n.t('Kembali'),
           onPressed: _back,
           icon: const Icon(Icons.arrow_back, color: Color(0xFF111827)),
           style: IconButton.styleFrom(
@@ -209,7 +273,7 @@ class _OpsFixResponsiveNotificationsState
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Pembaruan',
+              Text(OpsFixI18n.t('Pembaruan'),
                   style: TextStyle(
                       color: Color(0xFF111827),
                       fontSize: 21,
@@ -217,15 +281,16 @@ class _OpsFixResponsiveNotificationsState
               if (desktop)
                 Text(
                     unread == 0
-                        ? 'Semua notifikasi sudah dibaca.'
-                        : '$unread notifikasi belum dibaca.',
+                        ? OpsFixI18n.t('Semua notifikasi sudah dibaca.')
+                        : OpsFixI18n.tf(
+                            '{0} notifikasi belum dibaca.', [unread]),
                     style: const TextStyle(
                         color: Color(0xFF64748B), fontSize: 12)),
             ],
           ),
         ),
         IconButton(
-          tooltip: 'Tandai semua dibaca',
+          tooltip: OpsFixI18n.t('Tandai semua dibaca'),
           onPressed: _markingAll || unread == 0 ? null : _markAll,
           icon: _markingAll
               ? const SizedBox(
@@ -238,14 +303,16 @@ class _OpsFixResponsiveNotificationsState
               backgroundColor: const Color(0xFFF0EDFF),
               minimumSize: const Size(42, 42)),
         ),
+        if (!_isManager && !_isTechnician) ...[
+          const SizedBox(width: 8),
+          const OpsFixReporterHeaderActions(showBell: false),
+        ],
       ]),
     );
   }
 
   Widget _sideItem(IconData icon, String label, String route) => InkWell(
-        onTap: () => context.goNamed(route,
-            extra:
-                (_isManager || _isTechnician) ? null : _opsFixReporterFade()),
+        onTap: () => context.goNamed(route, extra: _opsFixPageFade()),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
@@ -269,18 +336,26 @@ class _OpsFixResponsiveNotificationsState
     }
 
     if (_isManager) {
-      add(Icons.dashboard_outlined, 'Beranda', 'adminDashboardPage');
-      add(Icons.confirmation_number_outlined, 'Tiket', 'adminTicketsPage');
-      add(Icons.view_kanban_outlined, 'Board', 'adminWorkBoardPage');
-      add(Icons.inventory_2_outlined, 'Aset', 'adminAssetsLocationsPage');
-      add(Icons.history_outlined, 'Log', 'adminActivityLogPage');
+      add(Icons.dashboard_outlined, OpsFixI18n.t('Beranda'),
+          'adminDashboardPage');
+      add(Icons.confirmation_number_outlined, OpsFixI18n.t('Tiket'),
+          'adminTicketsPage');
+      add(Icons.view_kanban_outlined, OpsFixI18n.t('Board'),
+          'adminWorkBoardPage');
+      add(Icons.inventory_2_outlined, OpsFixI18n.t('Aset'),
+          'adminAssetsLocationsPage');
+      add(Icons.history_outlined, OpsFixI18n.t('Log'), 'adminActivityLogPage');
     } else if (_isTechnician) {
-      add(Icons.task_alt_outlined, 'Tugas', 'technicianTasksPage');
-      add(Icons.history_outlined, 'Riwayat', 'technicianHistoryPage');
+      add(Icons.task_alt_outlined, OpsFixI18n.t('Tugas'),
+          'technicianTasksPage');
+      add(Icons.history_outlined, OpsFixI18n.t('Riwayat'),
+          'technicianHistoryPage');
     } else {
-      add(Icons.home_outlined, 'Beranda', 'homeUserPage');
-      add(Icons.add_circle_outline, 'Buat laporan', 'reportIssuePage');
-      add(Icons.confirmation_number_outlined, 'Tiket saya', 'myTicketsPage');
+      add(Icons.home_outlined, OpsFixI18n.t('Beranda'), 'homeUserPage');
+      add(Icons.add_circle_outline, OpsFixI18n.t('Buat laporan'),
+          'reportIssuePage');
+      add(Icons.confirmation_number_outlined, OpsFixI18n.t('Tiket saya'),
+          'myTicketsPage');
     }
     return items;
   }
@@ -309,10 +384,10 @@ class _OpsFixResponsiveNotificationsState
                       fontWeight: FontWeight.w700)),
               Text(
                   _isManager
-                      ? 'Portal pengelola'
+                      ? OpsFixI18n.t('Portal admin')
                       : _isTechnician
-                          ? 'Portal teknisi'
-                          : 'Portal pengguna',
+                          ? OpsFixI18n.t('Portal teknisi')
+                          : OpsFixI18n.t('Portal pengguna'),
                   style:
                       const TextStyle(color: Color(0xFF94A3B8), fontSize: 11)),
             ]),
@@ -327,12 +402,12 @@ class _OpsFixResponsiveNotificationsState
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: const Color(0xFF253451)),
             ),
-            child: const Row(children: [
+            child: Row(children: [
               Icon(Icons.notifications_none,
                   color: Color(0xFF70E1CB), size: 20),
               SizedBox(width: 10),
               Expanded(
-                child: Text('Pusat pembaruan akun',
+                child: Text(OpsFixI18n.t('Pusat pembaruan akun'),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -342,6 +417,79 @@ class _OpsFixResponsiveNotificationsState
           ),
         ]),
       );
+
+  Widget _bottomItem(
+    IconData icon,
+    String label,
+    String route,
+  ) =>
+      Expanded(
+        child: InkWell(
+          onTap: () => context.pushNamed(
+            route,
+            extra: _opsFixPageFade(),
+          ),
+          borderRadius: BorderRadius.circular(12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: const Color(0xFF94A3B8), size: 23),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Color(0xFF64748B),
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget _bottomNav() {
+    final items = <Widget>[];
+    void add(IconData icon, String label, String route) {
+      items.add(_bottomItem(icon, label, route));
+    }
+
+    if (_isManager) {
+      add(Icons.dashboard_outlined, OpsFixI18n.t('Beranda'),
+          'adminDashboardPage');
+      add(Icons.confirmation_number_outlined, OpsFixI18n.t('Tiket'),
+          'adminTicketsPage');
+      add(Icons.view_kanban_outlined, OpsFixI18n.t('Board'),
+          'adminWorkBoardPage');
+      add(Icons.inventory_2_outlined, OpsFixI18n.t('Aset'),
+          'adminAssetsLocationsPage');
+      add(Icons.history_outlined, OpsFixI18n.t('Log'), 'adminActivityLogPage');
+    } else if (_isTechnician) {
+      add(Icons.task_alt_outlined, OpsFixI18n.t('Tugas'),
+          'technicianTasksPage');
+      add(Icons.history_outlined, OpsFixI18n.t('Riwayat'),
+          'technicianHistoryPage');
+      add(Icons.person_outline, OpsFixI18n.t('Profil'),
+          'TechnicianProfilePage');
+    } else {
+      add(Icons.home_outlined, OpsFixI18n.t('Beranda'), 'homeUserPage');
+      add(Icons.add_circle_outline, OpsFixI18n.t('Lapor'), 'reportIssuePage');
+      add(Icons.confirmation_number_outlined, OpsFixI18n.t('Tiket'),
+          'myTicketsPage');
+      add(Icons.person_outline, OpsFixI18n.t('Profil'), 'ProfilePage');
+    }
+
+    return Container(
+      height: 72,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: Color(0xFFE5E7EB))),
+      ),
+      child: Row(children: items),
+    );
+  }
 
   Widget _notificationCard(Map<String, dynamic> row) {
     final read = _read(row);
@@ -373,7 +521,8 @@ class _OpsFixResponsiveNotificationsState
             children: [
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Expanded(
-                  child: Text(_text(row, 'title', 'Pembaruan akun'),
+                  child: Text(
+                      _localized(row, 'title', OpsFixI18n.t('Pembaruan akun')),
                       style: TextStyle(
                           color: const Color(0xFF111827),
                           fontSize: 15,
@@ -390,7 +539,9 @@ class _OpsFixResponsiveNotificationsState
                 ],
               ]),
               const SizedBox(height: 5),
-              Text(_text(row, 'body', 'Ada aktivitas terbaru pada akun Anda.'),
+              Text(
+                  _localized(row, 'body',
+                      OpsFixI18n.t('Ada aktivitas terbaru pada akun Anda.')),
                   style: const TextStyle(
                       color: Color(0xFF64748B), fontSize: 13, height: 1.4)),
               const SizedBox(height: 9),
@@ -404,7 +555,7 @@ class _OpsFixResponsiveNotificationsState
                   TextButton.icon(
                     onPressed: () => _openTicket(row),
                     icon: const Icon(Icons.open_in_new, size: 17),
-                    label: const Text('Buka tiket'),
+                    label: Text(OpsFixI18n.t('Buka tiket')),
                     style: TextButton.styleFrom(
                         foregroundColor: const Color(0xFF6C5CE7)),
                   ),
@@ -418,18 +569,18 @@ class _OpsFixResponsiveNotificationsState
 
   Widget _empty() => ListView(
         physics: const AlwaysScrollableScrollPhysics(),
-        children: const [
+        children: [
           SizedBox(height: 100),
           Icon(Icons.notifications_none, color: Color(0xFF94A3B8), size: 50),
           SizedBox(height: 14),
-          Text('Belum ada pembaruan',
+          Text(OpsFixI18n.t('Belum ada pembaruan'),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Color(0xFF111827),
                   fontSize: 17,
                   fontWeight: FontWeight.w600)),
           SizedBox(height: 6),
-          Text('Aktivitas tiket terbaru akan muncul di sini.',
+          Text(OpsFixI18n.t('Aktivitas tiket terbaru akan muncul di sini.'),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xFF64748B), fontSize: 13)),
         ],
@@ -461,7 +612,7 @@ class _OpsFixResponsiveNotificationsState
                   _load();
                 },
                 icon: const Icon(Icons.refresh),
-                label: const Text('Coba lagi'),
+                label: Text(OpsFixI18n.t('Coba lagi')),
               ),
             ),
           ],
@@ -491,14 +642,15 @@ class _OpsFixResponsiveNotificationsState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text('Aktivitas terbaru',
+                Text(OpsFixI18n.t('Aktivitas terbaru'),
                     style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 24,
                         fontWeight: FontWeight.w700)),
                 const SizedBox(height: 5),
-                const Text(
-                    'Pantau perkembangan tiket dan aktivitas terbaru akun Anda.',
+                Text(
+                    OpsFixI18n.t(
+                        'Pantau perkembangan tiket dan aktivitas terbaru akun Anda.'),
                     style: TextStyle(color: Color(0xFF64748B), fontSize: 14)),
                 const SizedBox(height: 18),
                 Expanded(child: _list()),
@@ -519,7 +671,9 @@ class _OpsFixResponsiveNotificationsState
         child: SafeArea(
           child: desktop
               ? Row(children: [
-                  _sidebar(),
+                  _isManager || _isTechnician
+                      ? _sidebar()
+                      : const OpsFixReporterSidebar(),
                   Expanded(
                     child: Column(children: [
                       _header(desktop: true),
@@ -530,6 +684,9 @@ class _OpsFixResponsiveNotificationsState
               : Column(children: [
                   _header(desktop: false),
                   Expanded(child: _content(desktop: false)),
+                  _isManager || _isTechnician
+                      ? _bottomNav()
+                      : const OpsFixReporterBottomNav(),
                 ]),
         ),
       ),

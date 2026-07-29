@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixResponsiveMaintenanceNoteForm extends StatefulWidget {
   const OpsFixResponsiveMaintenanceNoteForm({
@@ -42,11 +43,8 @@ class _OpsFixResponsiveMaintenanceNoteFormState
     super.initState();
     final now = DateTime.now();
     _performedAt = TextEditingController(
-      text: '${now.year.toString().padLeft(4, '0')}-'
-          '${now.month.toString().padLeft(2, '0')}-'
-          '${now.day.toString().padLeft(2, '0')} '
-          '${now.hour.toString().padLeft(2, '0')}:'
-          '${now.minute.toString().padLeft(2, '0')}',
+      text:
+          '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
     );
     _note = TextEditingController();
   }
@@ -59,12 +57,13 @@ class _OpsFixResponsiveMaintenanceNoteFormState
   }
 
   String _messageFor(String code) => switch (code) {
-        'invalid' =>
-          'Periksa jenis, waktu, dan isi catatan. Catatan minimal 3 karakter.',
-        'access_denied' => 'Anda tidak memiliki akses manajer untuk aset ini.',
+        'invalid' => OpsFixI18n.t(
+            'Periksa jenis, waktu, dan isi catatan. Catatan minimal 3 karakter.'),
+        'access_denied' =>
+          OpsFixI18n.t('Anda tidak memiliki akses manajer untuk aset ini.'),
         'network_error' =>
-          'Koneksi gagal. Form tetap terbuka untuk dicoba lagi.',
-        _ => 'Catatan pemeliharaan tidak dapat disimpan.',
+          OpsFixI18n.t('Koneksi gagal. Form tetap terbuka untuk dicoba lagi.'),
+        _ => OpsFixI18n.t('Catatan pemeliharaan tidak dapat disimpan.'),
       };
 
   Future<void> _save() async {
@@ -139,12 +138,12 @@ class _OpsFixResponsiveMaintenanceNoteFormState
   Widget _typeField() => DropdownButtonFormField<String>(
         initialValue: _noteType,
         isExpanded: true,
-        decoration: _decoration('Jenis catatan'),
-        items: const {
-          'inspection': 'Inspeksi',
-          'preventive': 'Preventif',
-          'corrective': 'Korektif',
-          'other': 'Lainnya',
+        decoration: _decoration(OpsFixI18n.t('Jenis catatan')),
+        items: {
+          'inspection': OpsFixI18n.t('Inspeksi'),
+          'preventive': OpsFixI18n.t('Preventif'),
+          'corrective': OpsFixI18n.t('Korektif'),
+          'other': OpsFixI18n.t('Lainnya'),
         }
             .entries
             .map(
@@ -165,7 +164,8 @@ class _OpsFixResponsiveMaintenanceNoteFormState
         controller: _performedAt,
         enabled: !_busy,
         keyboardType: TextInputType.datetime,
-        decoration: _decoration('Waktu pelaksanaan (YYYY-MM-DD HH:mm)'),
+        decoration:
+            _decoration(OpsFixI18n.t('Waktu pelaksanaan (YYYY-MM-DD HH:mm)')),
       );
 
   @override
@@ -216,12 +216,12 @@ class _OpsFixResponsiveMaintenanceNoteFormState
                         ),
                       ),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Tambah catatan pemeliharaan',
+                              OpsFixI18n.t('Tambah catatan pemeliharaan'),
                               style: TextStyle(
                                 color: Color(0xFF111827),
                                 fontSize: 19,
@@ -230,7 +230,8 @@ class _OpsFixResponsiveMaintenanceNoteFormState
                             ),
                             SizedBox(height: 2),
                             Text(
-                              'Catatan tersimpan permanen pada riwayat aset.',
+                              OpsFixI18n.t(
+                                  'Catatan tersimpan permanen pada riwayat aset.'),
                               style: TextStyle(
                                 color: Color(0xFF64748B),
                                 fontSize: 12,
@@ -255,7 +256,8 @@ class _OpsFixResponsiveMaintenanceNoteFormState
                     minLines: 4,
                     maxLines: 7,
                     maxLength: 2000,
-                    decoration: _decoration('Catatan pemeliharaan'),
+                    decoration:
+                        _decoration(OpsFixI18n.t('Catatan pemeliharaan')),
                   ),
                   if (_message != null) ...[
                     const SizedBox(height: 10),
@@ -282,7 +284,7 @@ class _OpsFixResponsiveMaintenanceNoteFormState
                       TextButton(
                         onPressed:
                             _busy ? null : () => Navigator.of(context).pop(),
-                        child: const Text('Batal'),
+                        child: Text(OpsFixI18n.t('Batal')),
                       ),
                       const SizedBox(width: 10),
                       FilledButton.icon(
@@ -307,7 +309,9 @@ class _OpsFixResponsiveMaintenanceNoteFormState
                                 ),
                               )
                             : const Icon(Icons.save_outlined, size: 19),
-                        label: Text(_busy ? 'Menyimpan…' : 'Simpan catatan'),
+                        label: Text(_busy
+                            ? OpsFixI18n.t('Menyimpan…')
+                            : OpsFixI18n.t('Simpan catatan')),
                       ),
                     ],
                   ),

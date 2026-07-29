@@ -15,6 +15,15 @@ import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/ops_fix_responsive_maintenance_note_form.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixAdminAssetDetailContent extends StatefulWidget {
   const OpsFixAdminAssetDetailContent({
@@ -70,7 +79,8 @@ class OpsFixAdminAssetDetailContentState
         _refreshing = false;
         _unit = null;
         _notes = const [];
-        _error = 'Aset tidak valid atau situs aktif belum dipilih.';
+        _error =
+            OpsFixI18n.t('Aset tidak valid atau situs aktif belum dipilih.');
       });
       return;
     }
@@ -83,9 +93,7 @@ class OpsFixAdminAssetDetailContentState
       dynamic query = SupaFlow.client
           .from('maintenance_units')
           .select(
-            'id,site_id,location_id,unit_code,code_sort,name,category_code,'
-            'position_label,component_options,criticality,condition,is_active,'
-            'updated_at',
+            'id,site_id,location_id,unit_code,code_sort,name,category_code,position_label,component_options,criticality,condition,is_active,updated_at',
           )
           .eq('site_id', siteId);
       query = requestedUnitId.isNotEmpty
@@ -99,7 +107,8 @@ class OpsFixAdminAssetDetailContentState
           _refreshing = false;
           _unit = null;
           _notes = const [];
-          _error = 'Aset tidak ditemukan atau tidak dapat diakses.';
+          _error =
+              OpsFixI18n.t('Aset tidak ditemukan atau tidak dapat diakses.');
         });
         return;
       }
@@ -108,8 +117,7 @@ class OpsFixAdminAssetDetailContentState
       final rawNotes = await SupaFlow.client
           .from('maintenance_note_cards_v')
           .select(
-            'id,site_id,location_id,unit_id,author_name,note_type,note,'
-            'performed_at,created_at',
+            'id,site_id,location_id,unit_id,author_name,note_type,note,performed_at,created_at',
           )
           .eq('unit_id', resolvedUnitId)
           .eq('site_id', siteId)
@@ -129,7 +137,8 @@ class OpsFixAdminAssetDetailContentState
       setState(() {
         _loading = false;
         _refreshing = false;
-        _error = 'Data aset gagal dimuat. Periksa koneksi lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Data aset gagal dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -143,30 +152,31 @@ class OpsFixAdminAssetDetailContentState
     context.pushNamed(
       'AdminAssetLocationDetailPage',
       queryParameters: {'locationId': locationId},
+      extra: _opsFixPageFade(),
     );
   }
 
   String _conditionLabel(String value) => switch (value) {
-        'operational' => 'Operasional',
-        'needs_attention' => 'Perlu perhatian',
-        'out_of_service' => 'Tidak beroperasi',
-        'retired' => 'Dipensiunkan',
-        _ => value.trim().isEmpty ? 'Tidak diketahui' : value,
+        'operational' => OpsFixI18n.t('Operasional'),
+        'needs_attention' => OpsFixI18n.t('Perlu perhatian'),
+        'out_of_service' => OpsFixI18n.t('Tidak beroperasi'),
+        'retired' => OpsFixI18n.t('Dipensiunkan'),
+        _ => value.trim().isEmpty ? OpsFixI18n.t('Tidak diketahui') : value,
       };
 
   String _criticalityLabel(String value) => switch (value) {
-        'low' => 'Rendah',
-        'medium' => 'Sedang',
-        'high' => 'Tinggi',
-        _ => value.trim().isEmpty ? 'Tidak diketahui' : value,
+        'low' => OpsFixI18n.t('Rendah'),
+        'medium' => OpsFixI18n.t('Sedang'),
+        'high' => OpsFixI18n.t('Tinggi'),
+        _ => value.trim().isEmpty ? OpsFixI18n.t('Tidak diketahui') : value,
       };
 
   String _noteTypeLabel(String value) => switch (value) {
-        'inspection' => 'Inspeksi',
-        'preventive' => 'Preventif',
-        'corrective' => 'Korektif',
-        'other' => 'Lainnya',
-        _ => 'Catatan',
+        'inspection' => OpsFixI18n.t('Inspeksi'),
+        'preventive' => OpsFixI18n.t('Preventif'),
+        'corrective' => OpsFixI18n.t('Korektif'),
+        'other' => OpsFixI18n.t('Lainnya'),
+        _ => OpsFixI18n.t('Catatan'),
       };
 
   Color _noteTypeColor(String value) => switch (value) {
@@ -181,8 +191,7 @@ class OpsFixAdminAssetDetailContentState
     if (parsed == null) return '-';
     final local = parsed.toLocal();
     String two(int value) => value.toString().padLeft(2, '0');
-    return '${two(local.day)}/${two(local.month)}/${local.year} · '
-        '${two(local.hour)}:${two(local.minute)}';
+    return '${two(local.day)}/${two(local.month)}/${local.year} · ${two(local.hour)}:${two(local.minute)}';
   }
 
   String _safe(dynamic value, {String fallback = '-'}) {
@@ -289,8 +298,8 @@ class OpsFixAdminAssetDetailContentState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Arsipkan aset?',
+                        Text(
+                          OpsFixI18n.t('Arsipkan aset?'),
                           style: TextStyle(
                             color: Color(0xFF111827),
                             fontSize: 19,
@@ -299,8 +308,7 @@ class OpsFixAdminAssetDetailContentState
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${_safe(_unit?['unit_code'])} · '
-                          '${_safe(_unit?['name'])}',
+                          '${_safe(_unit?['unit_code'])} · ${_safe(_unit?['name'])}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -326,10 +334,9 @@ class OpsFixAdminAssetDetailContentState
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: const Color(0xFFFED7AA)),
                 ),
-                child: const Text(
-                  'Aset akan dinonaktifkan. Tiket dan catatan lama tetap '
-                  'tersimpan. Aset dengan tiket terbuka tidak dapat '
-                  'diarsipkan.',
+                child: Text(
+                  OpsFixI18n.t(
+                      'Aset akan dinonaktifkan. Tiket dan catatan lama tetap tersimpan. Aset dengan tiket terbuka tidak dapat diarsipkan.'),
                   style: TextStyle(
                     color: Color(0xFF9A3412),
                     fontSize: 13,
@@ -351,7 +358,7 @@ class OpsFixAdminAssetDetailContentState
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text('Batal'),
+                      child: Text(OpsFixI18n.t('Batal')),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -366,7 +373,7 @@ class OpsFixAdminAssetDetailContentState
                         ),
                       ),
                       icon: const Icon(Icons.archive_outlined, size: 18),
-                      label: const Text('Arsipkan aset'),
+                      label: Text(OpsFixI18n.t('Arsipkan aset')),
                     ),
                   ),
                 ],
@@ -429,20 +436,22 @@ class OpsFixAdminAssetDetailContentState
     if (!mounted) return;
     setState(() => _archiving = false);
     if (code == 'archived') {
-      _snackbar('Aset berhasil diarsipkan.');
+      _snackbar(OpsFixI18n.t('Aset berhasil diarsipkan.'));
       context.pushReplacementNamed(
         'AdminAssetLocationDetailPage',
         queryParameters: {'locationId': _resolvedLocationId},
+        extra: _opsFixPageFade(),
       );
       return;
     }
     _snackbar(
       switch (code) {
-        'has_open_tickets' =>
-          'Aset belum dapat diarsipkan karena masih memiliki tiket terbuka.',
-        'access_denied' =>
-          'Anda tidak memiliki akses manajer untuk mengarsipkan aset ini.',
-        _ => 'Aset gagal diarsipkan. Periksa koneksi lalu coba lagi.',
+        'has_open_tickets' => OpsFixI18n.t(
+            'Aset belum dapat diarsipkan karena masih memiliki tiket terbuka.'),
+        'access_denied' => OpsFixI18n.t(
+            'Anda tidak memiliki akses manajer untuk mengarsipkan aset ini.'),
+        _ => OpsFixI18n.t(
+            'Aset gagal diarsipkan. Periksa koneksi lalu coba lagi.'),
       },
     );
   }
@@ -556,7 +565,7 @@ class OpsFixAdminAssetDetailContentState
               Expanded(
                 child: Text(
                   _safe(unit['position_label'],
-                      fallback: 'Posisi belum ditentukan'),
+                      fallback: OpsFixI18n.t('Posisi belum ditentukan')),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -644,8 +653,8 @@ class OpsFixAdminAssetDetailContentState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Informasi aset',
+          Text(
+            OpsFixI18n.t('Informasi aset'),
             style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 18,
@@ -655,34 +664,34 @@ class OpsFixAdminAssetDetailContentState
           const SizedBox(height: 14),
           _factGrid([
             _fact(
-              'Kategori',
+              OpsFixI18n.t('Kategori'),
               _safe(unit['category_code']),
               Icons.category_outlined,
             ),
             _fact(
-              'Kondisi',
+              OpsFixI18n.t('Kondisi'),
               _conditionLabel(_safe(unit['condition'], fallback: 'unknown')),
               Icons.health_and_safety_outlined,
             ),
             _fact(
-              'Kritikalitas',
+              OpsFixI18n.t('Kritikalitas'),
               _criticalityLabel(
                 _safe(unit['criticality'], fallback: 'unknown'),
               ),
               Icons.priority_high,
             ),
             _fact(
-              'Posisi',
+              OpsFixI18n.t('Posisi'),
               _safe(unit['position_label']),
               Icons.place_outlined,
             ),
             _fact(
-              'Kode unit',
+              OpsFixI18n.t('Kode unit'),
               _safe(unit['unit_code']),
               Icons.tag,
             ),
             _fact(
-              'Komponen',
+              OpsFixI18n.t('Komponen'),
               components.isEmpty ? '-' : components,
               Icons.memory_outlined,
             ),
@@ -699,8 +708,8 @@ class OpsFixAdminAssetDetailContentState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Status sistem',
+          Text(
+            OpsFixI18n.t('Status sistem'),
             style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 18,
@@ -710,17 +719,19 @@ class OpsFixAdminAssetDetailContentState
           const SizedBox(height: 14),
           _factGrid([
             _fact(
-              'Status aset',
-              active ? 'Aset aktif' : 'Aset diarsipkan',
+              OpsFixI18n.t('Status aset'),
+              active
+                  ? OpsFixI18n.t('Aset aktif')
+                  : OpsFixI18n.t('Aset diarsipkan'),
               active ? Icons.check_circle_outline : Icons.archive_outlined,
             ),
             _fact(
-              'Lokasi induk',
-              'QR tersedia pada lokasi',
+              OpsFixI18n.t('Lokasi induk'),
+              OpsFixI18n.t('QR tersedia pada lokasi'),
               Icons.qr_code_2,
             ),
             _fact(
-              'Diperbarui',
+              OpsFixI18n.t('Diperbarui'),
               _formatDate(unit['updated_at']),
               Icons.update,
             ),
@@ -743,7 +754,7 @@ class OpsFixAdminAssetDetailContentState
         ),
       ),
       icon: const Icon(Icons.edit_outlined, size: 18),
-      label: const Text('Edit aset'),
+      label: Text(OpsFixI18n.t('Edit aset')),
     );
     final archive = OutlinedButton.icon(
       onPressed: _archiving ? null : _archiveAsset,
@@ -765,14 +776,15 @@ class OpsFixAdminAssetDetailContentState
               ),
             )
           : const Icon(Icons.archive_outlined, size: 18),
-      label: Text(_archiving ? 'Mengarsipkan…' : 'Hapus'),
+      label: Text(
+          _archiving ? OpsFixI18n.t('Mengarsipkan…') : OpsFixI18n.t('Hapus')),
     );
     return _surface(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Tindakan aset',
+          Text(
+            OpsFixI18n.t('Tindakan aset'),
             style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 17,
@@ -780,8 +792,8 @@ class OpsFixAdminAssetDetailContentState
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'Perbarui informasi atau arsipkan aset dengan aman.',
+          Text(
+            OpsFixI18n.t('Perbarui informasi atau arsipkan aset dengan aman.'),
             style: TextStyle(color: Color(0xFF64748B), fontSize: 12),
           ),
           const SizedBox(height: 14),
@@ -871,7 +883,7 @@ class OpsFixAdminAssetDetailContentState
               const SizedBox(width: 5),
               Expanded(
                 child: Text(
-                  _safe(note['author_name'], fallback: 'Manajer'),
+                  _safe(note['author_name'], fallback: OpsFixI18n.t('Manajer')),
                   style: const TextStyle(
                     color: Color(0xFF64748B),
                     fontSize: 11,
@@ -891,12 +903,12 @@ class OpsFixAdminAssetDetailContentState
           color: const Color(0xFFF0EDFF),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Row(
+        child: Row(
           children: [
             SizedBox(
               width: 112,
               child: Text(
-                'Jenis',
+                OpsFixI18n.t('Jenis'),
                 style: TextStyle(
                   color: Color(0xFF475569),
                   fontSize: 11,
@@ -907,7 +919,7 @@ class OpsFixAdminAssetDetailContentState
             SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Catatan',
+                OpsFixI18n.t('Catatan'),
                 style: TextStyle(
                   color: Color(0xFF475569),
                   fontSize: 11,
@@ -919,7 +931,7 @@ class OpsFixAdminAssetDetailContentState
             SizedBox(
               width: 150,
               child: Text(
-                'Oleh',
+                OpsFixI18n.t('Oleh'),
                 style: TextStyle(
                   color: Color(0xFF475569),
                   fontSize: 11,
@@ -931,7 +943,7 @@ class OpsFixAdminAssetDetailContentState
             SizedBox(
               width: 158,
               child: Text(
-                'Waktu',
+                OpsFixI18n.t('Waktu'),
                 style: TextStyle(
                   color: Color(0xFF475569),
                   fontSize: 11,
@@ -976,7 +988,7 @@ class OpsFixAdminAssetDetailContentState
           SizedBox(
             width: 150,
             child: Text(
-              _safe(note['author_name'], fallback: 'Manajer'),
+              _safe(note['author_name'], fallback: OpsFixI18n.t('Manajer')),
               style: const TextStyle(
                 color: Color(0xFF64748B),
                 fontSize: 12,
@@ -1009,11 +1021,11 @@ class OpsFixAdminAssetDetailContentState
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Pemeliharaan aset',
+                      OpsFixI18n.t('Pemeliharaan aset'),
                       style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 18,
@@ -1022,7 +1034,7 @@ class OpsFixAdminAssetDetailContentState
                     ),
                     SizedBox(height: 3),
                     Text(
-                      'Riwayat append-only untuk unit ini.',
+                      OpsFixI18n.t('Riwayat append-only untuk unit ini.'),
                       style: TextStyle(
                         color: Color(0xFF64748B),
                         fontSize: 12,
@@ -1043,7 +1055,7 @@ class OpsFixAdminAssetDetailContentState
                     ),
                   ),
                   icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Tambah catatan'),
+                  label: Text(OpsFixI18n.t('Tambah catatan')),
                 ),
               ],
             ),
@@ -1059,7 +1071,7 @@ class OpsFixAdminAssetDetailContentState
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: const Color(0xFFE8ECF1)),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
                     Icon(
                       Icons.history_toggle_off,
@@ -1068,7 +1080,7 @@ class OpsFixAdminAssetDetailContentState
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Belum ada catatan pemeliharaan.',
+                      OpsFixI18n.t('Belum ada catatan pemeliharaan.'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF64748B),
@@ -1199,7 +1211,7 @@ class OpsFixAdminAssetDetailContentState
                         backgroundColor: const Color(0xFF6C5CE7),
                       ),
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Coba lagi'),
+                      label: Text(OpsFixI18n.t('Coba lagi')),
                     ),
                   ],
                 ],
@@ -1219,15 +1231,16 @@ class OpsFixAdminAssetDetailContentState
     if (_unit == null) {
       return _feedback(
         icon: Icons.inventory_2_outlined,
-        title: 'Aset tidak tersedia',
-        message: _error ?? 'Aset tidak ditemukan atau tidak dapat diakses.',
+        title: OpsFixI18n.t('Aset tidak tersedia'),
+        message: _error ??
+            OpsFixI18n.t('Aset tidak ditemukan atau tidak dapat diakses.'),
         retry: true,
       );
     }
     if (_error != null) {
       return _feedback(
         icon: Icons.cloud_off_outlined,
-        title: 'Data gagal dimuat',
+        title: OpsFixI18n.t('Data gagal dimuat'),
         message: _error!,
         retry: true,
       );

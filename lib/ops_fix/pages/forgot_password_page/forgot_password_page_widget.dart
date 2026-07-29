@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -326,7 +329,10 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Tautan pemulihan telah dikirim.',
+                                          functions.opsFixLocalizedMessage(
+                                              'Tautan pemulihan telah dikirim.',
+                                              'The recovery link has been sent.',
+                                              FFAppState().appLanguage)!,
                                           style: TextStyle(),
                                         ),
                                         duration: Duration(milliseconds: 4000),

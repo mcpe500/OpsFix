@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixAdminWorkBoardContent extends StatefulWidget {
   const OpsFixAdminWorkBoardContent({
@@ -37,9 +46,7 @@ class OpsFixAdminWorkBoardContentState
     'pending_verification',
   ];
   static const _selectFields =
-      'id,site_id,ticket_code,status,priority,priority_rank,'
-      'target_label_snapshot,location_code_snapshot,'
-      'location_name_snapshot,technician_name_snapshot';
+      'id,site_id,ticket_code,status,affected_count,priority,priority_rank,target_label_snapshot,location_code_snapshot,location_name_snapshot,technician_name_snapshot';
 
   List<Map<String, dynamic>> _tickets = [];
   String _selectedStatus = 'reported';
@@ -48,31 +55,31 @@ class OpsFixAdminWorkBoardContentState
   String? _error;
   int _requestSerial = 0;
 
-  List<_BoardLane> get _lanes => const [
+  List<_BoardLane> get _lanes => [
         _BoardLane(
           status: 'reported',
-          label: 'Baru dilaporkan',
+          label: OpsFixI18n.t('Baru dilaporkan'),
           icon: Icons.campaign_outlined,
           color: Color(0xFF315BEF),
           tint: Color(0xFFEEF2FF),
         ),
         _BoardLane(
           status: 'assigned',
-          label: 'Teknisi ditetapkan',
+          label: OpsFixI18n.t('Teknisi ditetapkan'),
           icon: Icons.person_pin_circle_outlined,
           color: Color(0xFF6C5CE7),
           tint: Color(0xFFF0EDFF),
         ),
         _BoardLane(
           status: 'in_progress',
-          label: 'Sedang dikerjakan',
+          label: OpsFixI18n.t('Sedang dikerjakan'),
           icon: Icons.engineering_outlined,
           color: Color(0xFFD97706),
           tint: Color(0xFFFFF3E0),
         ),
         _BoardLane(
           status: 'pending_verification',
-          label: 'Menunggu verifikasi',
+          label: OpsFixI18n.t('Menunggu verifikasi'),
           icon: Icons.fact_check_outlined,
           color: Color(0xFF059669),
           tint: Color(0xFFE5F7F0),
@@ -103,7 +110,8 @@ class OpsFixAdminWorkBoardContentState
         _loading = false;
         _refreshing = false;
         _tickets = [];
-        _error = 'Lokasi kerja belum dipilih. Masuk ulang lalu coba lagi.';
+        _error = OpsFixI18n.t(
+            'Lokasi kerja belum dipilih. Masuk ulang lalu coba lagi.');
       });
       return;
     }
@@ -139,7 +147,7 @@ class OpsFixAdminWorkBoardContentState
       setState(() {
         _loading = false;
         _refreshing = false;
-        _error = 'Work Board belum dapat dimuat. Coba lagi.';
+        _error = OpsFixI18n.t('Work Board belum dapat dimuat. Coba lagi.');
       });
     }
   }
@@ -154,11 +162,11 @@ class OpsFixAdminWorkBoardContentState
       .toList();
 
   String _priorityLabel(String value) => switch (value.toLowerCase()) {
-        'critical' => 'Kritis',
-        'high' => 'Tinggi',
-        'medium' => 'Sedang',
-        'low' => 'Rendah',
-        _ => 'Belum ditentukan',
+        'critical' => OpsFixI18n.t('Kritis'),
+        'high' => OpsFixI18n.t('Tinggi'),
+        'medium' => OpsFixI18n.t('Sedang'),
+        'low' => OpsFixI18n.t('Rendah'),
+        _ => OpsFixI18n.t('Belum ditentukan'),
       };
 
   Color _priorityColor(String value) => switch (value.toLowerCase()) {
@@ -181,7 +189,9 @@ class OpsFixAdminWorkBoardContentState
     final code = _text(ticket, 'location_code_snapshot', '');
     final name = _text(ticket, 'location_name_snapshot', '');
     final values = [code, name].where((value) => value.isNotEmpty).toList();
-    return values.isEmpty ? 'Lokasi belum tersedia' : values.join(' · ');
+    return values.isEmpty
+        ? OpsFixI18n.t('Lokasi belum tersedia')
+        : values.join(' · ');
   }
 
   void _openTicket(Map<String, dynamic> ticket) {
@@ -190,6 +200,7 @@ class OpsFixAdminWorkBoardContentState
     context.pushNamed(
       'adminTicketDetailPage',
       queryParameters: {'ticketId': id},
+      extra: _opsFixPageFade(),
     );
   }
 
@@ -214,8 +225,8 @@ class OpsFixAdminWorkBoardContentState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'ADMIN · WORK BOARD',
+                  Text(
+                    OpsFixI18n.t('ADMIN · WORK BOARD'),
                     style: TextStyle(
                       color: Color(0xFF70E1CB),
                       fontSize: 11,
@@ -224,8 +235,8 @@ class OpsFixAdminWorkBoardContentState
                     ),
                   ),
                   const SizedBox(height: 7),
-                  const Text(
-                    'Alur pekerjaan aktif',
+                  Text(
+                    OpsFixI18n.t('Alur pekerjaan aktif'),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -234,7 +245,8 @@ class OpsFixAdminWorkBoardContentState
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'Tiket dikelompokkan menurut status dan prioritas.',
+                    OpsFixI18n.t(
+                        'Tiket dikelompokkan menurut status dan prioritas.'),
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.72),
                       fontSize: 13,
@@ -263,8 +275,8 @@ class OpsFixAdminWorkBoardContentState
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const Text(
-                    'TIKET AKTIF',
+                  Text(
+                    OpsFixI18n.t('TIKET AKTIF'),
                     style: TextStyle(
                       color: Color(0xFF9DAAC0),
                       fontSize: 9,
@@ -314,7 +326,8 @@ class OpsFixAdminWorkBoardContentState
               const SizedBox(width: 9),
               Expanded(
                 child: Text(
-                  _text(ticket, 'ticket_code', 'Kode belum tersedia'),
+                  _text(ticket, 'ticket_code',
+                      OpsFixI18n.t('Kode belum tersedia')),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -342,9 +355,33 @@ class OpsFixAdminWorkBoardContentState
               ),
             ],
           ),
+          if ((int.tryParse(ticket['affected_count']?.toString() ?? '') ?? 1) >
+              1) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0EDFF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  OpsFixI18n.tf(
+                      '{0} orang terdampak', [ticket['affected_count']]),
+                  style: const TextStyle(
+                    color: Color(0xFF5B4CE3),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           Text(
-            _text(ticket, 'target_label_snapshot', 'Target belum tersedia'),
+            _text(ticket, 'target_label_snapshot',
+                OpsFixI18n.t('Target belum tersedia')),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -392,7 +429,7 @@ class OpsFixAdminWorkBoardContentState
                   _text(
                     ticket,
                     'technician_name_snapshot',
-                    'Belum ditetapkan',
+                    OpsFixI18n.t('Belum ditetapkan'),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -410,7 +447,7 @@ class OpsFixAdminWorkBoardContentState
             child: OutlinedButton.icon(
               onPressed: () => _openTicket(ticket),
               icon: const Icon(Icons.open_in_new_rounded, size: 16),
-              label: const Text('Buka pekerjaan'),
+              label: Text(OpsFixI18n.t('Buka pekerjaan')),
               style: OutlinedButton.styleFrom(
                 foregroundColor: lane.color,
                 side: BorderSide(color: lane.color),
@@ -437,7 +474,7 @@ class OpsFixAdminWorkBoardContentState
             Icon(lane.icon, color: lane.color, size: 26),
             const SizedBox(height: 9),
             Text(
-              'Belum ada tiket pada tahap ini.',
+              OpsFixI18n.t('Belum ada tiket pada tahap ini.'),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF64748B),
@@ -689,7 +726,7 @@ class OpsFixAdminWorkBoardContentState
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  _error ?? 'Work Board tidak tersedia.',
+                  _error ?? OpsFixI18n.t('Work Board tidak tersedia.'),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xFF111827),
@@ -700,7 +737,7 @@ class OpsFixAdminWorkBoardContentState
                 FilledButton.icon(
                   onPressed: refresh,
                   icon: const Icon(Icons.refresh_rounded, size: 18),
-                  label: const Text('Coba lagi'),
+                  label: Text(OpsFixI18n.t('Coba lagi')),
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF6C5CE7),
                   ),

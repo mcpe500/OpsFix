@@ -10,6 +10,15 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import '/auth/supabase_auth/auth_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixManagerHeaderActions extends StatefulWidget {
   const OpsFixManagerHeaderActions({super.key, this.width, this.height});
@@ -58,7 +67,10 @@ class _OpsFixManagerHeaderActionsState
 
   Future<void> _openProfile() async {
     if (_profileActive) return;
-    await context.pushNamed('AdminProfilePage');
+    await context.pushNamed(
+      'AdminProfilePage',
+      extra: _opsFixPageFade(),
+    );
     await _loadAvatar();
   }
 
@@ -70,23 +82,12 @@ class _OpsFixManagerHeaderActionsState
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Tooltip(
-            message: 'Buka notifikasi',
-            child: IconButton(
-              onPressed: () => context.pushNamed('NotificationsPage'),
-              icon: const Icon(
-                Icons.notifications_none_rounded,
-                color: Color(0xFF64748B),
-              ),
-              style: IconButton.styleFrom(
-                backgroundColor: const Color(0xFFF8FAFC),
-                minimumSize: const Size(42, 42),
-              ),
-            ),
-          ),
+          const OpsFixNotificationBell(),
           const SizedBox(width: 8),
           Tooltip(
-            message: _profileActive ? 'Profil admin' : 'Buka profil admin',
+            message: _profileActive
+                ? OpsFixI18n.t('Profil admin')
+                : OpsFixI18n.t('Buka profil admin'),
             child: Material(
               color: Colors.transparent,
               child: InkWell(

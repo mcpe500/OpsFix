@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixTicketActivityPanel extends StatefulWidget {
   const OpsFixTicketActivityPanel({
@@ -45,7 +46,7 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
     if (ticketId.isEmpty) {
       setState(() {
         _loading = false;
-        _error = 'Tiket belum dipilih.';
+        _error = OpsFixI18n.t('Tiket belum dipilih.');
       });
       return;
     }
@@ -70,7 +71,7 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error = 'Riwayat aktivitas belum dapat dimuat.';
+        _error = OpsFixI18n.t('Riwayat aktivitas belum dapat dimuat.');
       });
     }
   }
@@ -80,31 +81,36 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
     switch (type) {
       case 'created':
       case 'ticket_created':
-        return 'Laporan dibuat';
+        return OpsFixI18n.t('Laporan dibuat');
       case 'assigned':
       case 'technician_assigned':
-        return 'Teknisi ditetapkan';
+        return OpsFixI18n.t('Teknisi ditetapkan');
       case 'status_changed':
-        return 'Status diperbarui';
+        return OpsFixI18n.t('Status diperbarui');
       case 'work_started':
-        return 'Pengerjaan dimulai';
+        return OpsFixI18n.t('Pengerjaan dimulai');
       case 'completed':
       case 'fixed':
-        return 'Pengerjaan selesai';
+        return OpsFixI18n.t('Pengerjaan selesai');
       case 'verified':
-        return 'Hasil diverifikasi';
+        return OpsFixI18n.t('Hasil diverifikasi');
       default:
         final message = event['message']?.toString().trim() ?? '';
-        return message.isNotEmpty ? message : 'Aktivitas tiket';
+        return message.isNotEmpty ? message : OpsFixI18n.t('Aktivitas tiket');
     }
   }
 
   String _formatTime(dynamic raw) {
     final parsed =
         raw is DateTime ? raw : DateTime.tryParse(raw?.toString() ?? '');
-    if (parsed == null) return 'Waktu tidak tersedia';
+    if (parsed == null) return OpsFixI18n.t('Waktu tidak tersedia');
     final local = parsed.toLocal();
-    const months = [
+    // Month abbreviations differ between the two languages (Mei/May,
+    // Agu/Aug, Okt/Oct, Des/Dec). Kept as two const lists and chosen at
+    // render time: routing them through OpsFixI18n would mean demoting the
+    // list to `final`, which freezes it at first access so it could never
+    // follow a language change.
+    const monthsId = [
       'Jan',
       'Feb',
       'Mar',
@@ -118,9 +124,23 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
       'Nov',
       'Des'
     ];
+    const monthsEn = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    final months = OpsFixI18n.isEnglish(context) ? monthsEn : monthsId;
     String two(int value) => value.toString().padLeft(2, '0');
-    return '${local.day} ${months[local.month - 1]} ${local.year}, '
-        '${two(local.hour)}.${two(local.minute)}';
+    return '${local.day} ${months[local.month - 1]} ${local.year}, ${two(local.hour)}.${two(local.minute)}';
   }
 
   @override
@@ -138,7 +158,7 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Riwayat aktivitas',
+            OpsFixI18n.t('Riwayat aktivitas'),
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: const Color(0xFF111827),
                   fontWeight: FontWeight.w700,
@@ -146,7 +166,8 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Perubahan status, penugasan, dan pekerjaan pada tiket ini.',
+            OpsFixI18n.t(
+                'Perubahan status, penugasan, dan pekerjaan pada tiket ini.'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF64748B),
                 ),
@@ -172,8 +193,8 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
                 color: const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Belum ada aktivitas yang tercatat.',
+              child: Text(
+                OpsFixI18n.t('Belum ada aktivitas yang tercatat.'),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Color(0xFF64748B)),
               ),
@@ -209,8 +230,7 @@ class _OpsFixTicketActivityPanelState extends State<OpsFixTicketActivityPanel> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '${_events[index]['actor_name_snapshot'] ?? 'Sistem'} · '
-                          '${_formatTime(_events[index]['created_at'])}',
+                          '${_events[index]['actor_name_snapshot'] ?? OpsFixI18n.t('Sistem')} · ${_formatTime(_events[index]['created_at'])}',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: const Color(0xFF64748B),

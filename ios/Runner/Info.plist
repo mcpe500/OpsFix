@@ -48,7 +48,10 @@
 	<true/>
 
 
-
+	<key>NSCameraUsageDescription</key>
+    <string>Aplikasi ini memerlukan akses ke kamera untuk mengambil foto dan memindai konten.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Aplikasi ini mengakses galeri foto Anda agar Anda dapat memilih dan mengunggah foto.</string>
 
 
 

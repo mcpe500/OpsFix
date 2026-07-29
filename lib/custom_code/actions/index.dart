@@ -31,3 +31,5 @@ export '/custom_code/actions/open_ops_fix_asset_detail.dart'
     show openOpsFixAssetDetail;
 export '/custom_code/actions/open_ops_fix_unit_editor.dart'
     show openOpsFixUnitEditor;
+export '/custom_code/actions/export_ops_fix_location_qrs.dart'
+    show exportOpsFixLocationQrs;

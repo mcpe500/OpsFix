@@ -1,1 +1,2 @@
-
+NSCameraUsageDescription = "This app needs access to your camera to capture photos and scan content.";
+NSPhotoLibraryUsageDescription = "This app accesses your photo library so you can select and upload photos.";

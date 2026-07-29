@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _opsFixReporterFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
@@ -89,14 +98,19 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
       setState(() {
         _processing = false;
         _message = result == 'not_found'
-            ? 'Lokasi tidak ditemukan. Periksa kembali kode atau QR OpsFix.'
+            ? OpsFixI18n.t(
+                'Lokasi tidak ditemukan. Periksa kembali kode atau QR OpsFix.')
             : result == 'forbidden'
-                ? 'Lokasi ini tidak termasuk dalam akses site akun Anda.'
+                ? OpsFixI18n.t(
+                    'Lokasi ini tidak termasuk dalam akses site akun Anda.')
                 : result == 'ambiguous'
-                    ? 'Kode lokasi digunakan di beberapa site. Pindai QR lokasi lengkap.'
+                    ? OpsFixI18n.t(
+                        'Kode lokasi digunakan di beberapa site. Pindai QR lokasi lengkap.')
                     : result == 'unauthenticated'
-                        ? 'Sesi Anda telah berakhir. Silakan masuk kembali.'
-                        : 'Kode tidak dikenali. Gunakan kode atau QR lokasi OpsFix.';
+                        ? OpsFixI18n.t(
+                            'Sesi Anda telah berakhir. Silakan masuk kembali.')
+                        : OpsFixI18n.t(
+                            'Kode tidak dikenali. Gunakan kode atau QR lokasi OpsFix.');
       });
       if (restartCamera && !_cameraUnavailable) await _controller.start();
     } catch (error) {
@@ -104,7 +118,8 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
       if (!mounted) return;
       setState(() {
         _processing = false;
-        _message = 'Belum dapat diproses. Periksa koneksi lalu coba lagi.';
+        _message = OpsFixI18n.t(
+            'Belum dapat diproses. Periksa koneksi lalu coba lagi.');
       });
       if (restartCamera && !_cameraUnavailable) await _controller.start();
     }
@@ -124,7 +139,8 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
     if (_processing) return;
     final value = _codeController.text.trim();
     if (value.isEmpty) {
-      setState(() => _message = 'Masukkan kode lokasi terlebih dahulu.');
+      setState(() =>
+          _message = OpsFixI18n.t('Masukkan kode lokasi terlebih dahulu.'));
       return;
     }
     await _resolve(value, restartCamera: false);
@@ -159,7 +175,9 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            emphasised ? 'Masukkan kode lokasi' : 'atau masukkan kode lokasi',
+            emphasised
+                ? OpsFixI18n.t('Masukkan kode lokasi')
+                : OpsFixI18n.t('atau masukkan kode lokasi'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: emphasised ? 15 : 12,
@@ -176,7 +194,7 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                   textInputAction: TextInputAction.go,
                   onSubmitted: (_) => _submitManualCode(),
                   decoration: InputDecoration(
-                    hintText: 'Contoh: LAB-A',
+                    hintText: OpsFixI18n.t('Contoh: LAB-A'),
                     isDense: true,
                     filled: true,
                     fillColor: Colors.white,
@@ -209,7 +227,7 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                     vertical: 14,
                   ),
                 ),
-                child: const Text('Buka'),
+                child: Text(OpsFixI18n.t('Buka')),
               ),
             ],
           ),
@@ -231,8 +249,8 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
               const Icon(Icons.no_photography_outlined,
                   size: 52, color: Color(0xFF6C5CE7)),
               const SizedBox(height: 16),
-              const Text(
-                'Kamera tidak dapat digunakan',
+              Text(
+                OpsFixI18n.t('Kamera tidak dapat digunakan'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
@@ -241,9 +259,9 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                 ),
               ),
               const SizedBox(height: 9),
-              const Text(
-                'Masukkan kode lokasi secara manual di bawah ini, atau izinkan '
-                'akses kamera dan buka aplikasi melalui HTTPS lalu coba lagi.',
+              Text(
+                OpsFixI18n.t(OpsFixI18n.t(
+                    'Masukkan kode lokasi secara manual di bawah ini, atau izinkan akses kamera dan buka aplikasi melalui HTTPS lalu coba lagi.')),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 13, height: 1.45, color: Color(0xFF64748B)),
@@ -256,14 +274,15 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                 child: OutlinedButton.icon(
                   onPressed: _retryCamera,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Coba kamera lagi'),
+                  label: Text(OpsFixI18n.t('Coba kamera lagi')),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF6C5CE7),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                 ),
               ),
-              TextButton(onPressed: _back, child: const Text('Kembali')),
+              TextButton(
+                  onPressed: _back, child: Text(OpsFixI18n.t('Kembali'))),
             ],
           ),
         ),
@@ -289,9 +308,9 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                         icon: const Icon(Icons.arrow_back,
                             color: Color(0xFF111827)),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Scan QR lokasi',
+                          OpsFixI18n.t('Scan QR lokasi'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -300,7 +319,7 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 48),
+                      const OpsFixReporterHeaderActions(),
                     ],
                   ),
                 ),
@@ -309,8 +328,9 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        const Text(
-                          'Arahkan kamera ke QR yang tersedia di lokasi fasilitas.',
+                        Text(
+                          OpsFixI18n.t(
+                              'Arahkan kamera ke QR yang tersedia di lokasi fasilitas.'),
                           textAlign: TextAlign.center,
                           style:
                               TextStyle(fontSize: 14, color: Color(0xFF64748B)),
@@ -376,8 +396,9 @@ class _OpsFixReporterQrScannerState extends State<OpsFixReporterQrScanner> {
                         AnimatedSwitcher(
                           duration: const Duration(milliseconds: 180),
                           child: _message == null
-                              ? const Text(
-                                  'QR hanya digunakan untuk memilih lokasi laporan.',
+                              ? Text(
+                                  OpsFixI18n.t(
+                                      'QR hanya digunakan untuk memilih lokasi laporan.'),
                                   key: ValueKey('hint'),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(

@@ -15,12 +15,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 Map<String, dynamic> _profileFade() => <String, dynamic>{
       '__transition_info__': const TransitionInfo(
         hasTransition: true,
         transitionType: PageTransitionType.fade,
-        duration: Duration(milliseconds: 180),
+        duration: Duration(milliseconds: 160),
       ),
     };
 
@@ -59,8 +68,8 @@ class _OpsFixResponsiveTechnicianProfileState
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _loadError =
-            'Sesi akun tidak tersedia. Anda tetap dapat keluar dari akun.';
+        _loadError = OpsFixI18n.t(
+            'Sesi akun tidak tersedia. Anda tetap dapat keluar dari akun.');
       });
       return;
     }
@@ -75,7 +84,8 @@ class _OpsFixResponsiveTechnicianProfileState
         _profile = row == null ? null : Map<String, dynamic>.from(row);
         _loading = false;
         _loadError = row == null
-            ? 'Profil teknisi belum tersedia. Identitas sesi tetap dapat digunakan.'
+            ? OpsFixI18n.t(
+                'Profil teknisi belum tersedia. Identitas sesi tetap dapat digunakan.')
             : null;
       });
     } catch (error) {
@@ -83,15 +93,15 @@ class _OpsFixResponsiveTechnicianProfileState
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _loadError =
-            'Profil belum dapat dimuat. Periksa koneksi lalu coba lagi.';
+        _loadError = OpsFixI18n.t(
+            'Profil belum dapat dimuat. Periksa koneksi lalu coba lagi.');
       });
     }
   }
 
   String get _email {
     final value = currentUserEmail.trim();
-    return value.isEmpty ? 'Email belum tersedia' : value;
+    return value.isEmpty ? OpsFixI18n.t('Email belum tersedia') : value;
   }
 
   String get _name {
@@ -109,7 +119,7 @@ class _OpsFixResponsiveTechnicianProfileState
             .join(' ');
       }
     }
-    return 'Teknisi OpsFix';
+    return OpsFixI18n.t('Teknisi OpsFix');
   }
 
   String get _initial {
@@ -119,13 +129,15 @@ class _OpsFixResponsiveTechnicianProfileState
 
   String get _role {
     final value = _profile?['role']?.toString().toLowerCase().trim() ?? '';
-    return value == 'technician' || value.isEmpty ? 'Teknisi lapangan' : value;
+    return value == 'technician' || value.isEmpty
+        ? OpsFixI18n.t('Teknisi lapangan')
+        : value;
   }
 
   String get _status {
     final raw = _profile?['is_active'];
-    if (raw == null) return 'Status belum tersedia';
-    return raw == true ? 'Aktif' : 'Tidak aktif';
+    if (raw == null) return OpsFixI18n.t('Status belum tersedia');
+    return raw == true ? OpsFixI18n.t('Aktif') : OpsFixI18n.t('Tidak aktif');
   }
 
   bool get _active => _profile?['is_active'] == true;
@@ -153,21 +165,21 @@ class _OpsFixResponsiveTechnicianProfileState
           .timeout(const Duration(seconds: 10));
       GoRouter.of(context).clearRedirectLocation();
       if (!mounted) return;
-      context.goNamed('loginPage', extra: _profileFade());
+      context.goNamed('LoginPage', extra: _profileFade());
     } on TimeoutException {
       if (!mounted) return;
       setState(() {
         _loggingOut = false;
-        _logoutError =
-            'Keluar dari akun memerlukan waktu terlalu lama. Coba lagi.';
+        _logoutError = OpsFixI18n.t(
+            'Keluar dari akun memerlukan waktu terlalu lama. Coba lagi.');
       });
     } catch (error) {
       debugPrint('Technician logout failed: $error');
       if (!mounted) return;
       setState(() {
         _loggingOut = false;
-        _logoutError =
-            'Belum dapat keluar dari akun. Periksa koneksi lalu coba lagi.';
+        _logoutError = OpsFixI18n.t(
+            'Belum dapat keluar dari akun. Periksa koneksi lalu coba lagi.');
       });
     }
   }
@@ -190,23 +202,16 @@ class _OpsFixResponsiveTechnicianProfileState
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text('Profil Teknisi',
+                Text(OpsFixI18n.t('Profil Teknisi'),
                     style: TextStyle(
                         fontSize: desktop ? 21 : 20,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF111827))),
                 if (desktop)
-                  const Text('Informasi akun dan akses portal teknisi.',
+                  Text(OpsFixI18n.t('Informasi akun dan akses portal teknisi.'),
                       style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
               ])),
-          if (desktop)
-            IconButton(
-                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text(
-                            'Pembaruan tugas tersedia pada daftar tugas.'))),
-                icon: const Icon(Icons.notifications_none,
-                    color: Color(0xFF111827))),
+          const OpsFixNotificationBell(),
         ]),
       );
 
@@ -232,7 +237,7 @@ class _OpsFixResponsiveTechnicianProfileState
         color: const Color(0xFF081225),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Row(children: [
+          Row(children: [
             CircleAvatar(
                 radius: 23,
                 backgroundColor: Color(0xFF6C5CE7),
@@ -245,14 +250,16 @@ class _OpsFixResponsiveTechnicianProfileState
                       color: Colors.white,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
-              Text('Portal teknisi',
+              Text(OpsFixI18n.t('Portal teknisi'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 11)),
             ]),
           ]),
           const SizedBox(height: 36),
-          _sideItem(Icons.task_alt_outlined, 'Tugas', 'technicianTasksPage'),
+          _sideItem(Icons.task_alt_outlined, OpsFixI18n.t('Tugas'),
+              'technicianTasksPage'),
           const SizedBox(height: 8),
-          _sideItem(Icons.history, 'Riwayat', 'technicianHistoryPage'),
+          _sideItem(
+              Icons.history, OpsFixI18n.t('Riwayat'), 'technicianHistoryPage'),
           const Spacer(),
           Container(
               padding: const EdgeInsets.all(13),
@@ -279,7 +286,7 @@ class _OpsFixResponsiveTechnicianProfileState
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600)),
-                      const Text('Profil teknisi',
+                      Text(OpsFixI18n.t('Profil teknisi'),
                           style: TextStyle(
                               color: Color(0xFF94A3B8), fontSize: 10)),
                     ])),
@@ -287,185 +294,376 @@ class _OpsFixResponsiveTechnicianProfileState
         ]),
       );
 
-  BoxDecoration _cardDecoration({Color color = Colors.white}) => BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFDDE2E7)),
+  Widget _avatar({double size = 84}) => Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: const Color(0xFF6C5CE7),
+          shape: BoxShape.circle,
+          border: Border.all(color: const Color(0x337C6DF2), width: 1),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          _initial,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: size * .36,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       );
 
-  Widget _identityCard() => Container(
+  Widget _identityCard({required bool horizontal}) {
+    final details = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment:
+          horizontal ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      children: [
+        Text(
+          _name,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: horizontal ? TextAlign.start : TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 23,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          currentUserEmail.trim().isEmpty
+              ? OpsFixI18n.t('Email tidak tersedia')
+              : currentUserEmail,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: horizontal ? TextAlign.start : TextAlign.center,
+          style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 13),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: const Color(0xFF17233D),
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Text(
+            _role,
+            style: const TextStyle(
+              color: Color(0xFF99F6E4),
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
+    );
+    return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-          color: const Color(0xFF0B1324),
-          borderRadius: BorderRadius.circular(22)),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        CircleAvatar(
-            radius: 38,
-            backgroundColor: const Color(0xFF6C5CE7),
-            child: Text(_initial,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700))),
-        const SizedBox(height: 13),
-        Text(_name,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w700)),
-        const SizedBox(height: 5),
-        Text(_email,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Color(0xFFB8C1D9), fontSize: 14)),
-        const SizedBox(height: 11),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-                color: const Color(0x2234D399),
-                borderRadius: BorderRadius.circular(20)),
-            child: const Text('Teknisi',
-                style: TextStyle(
-                    color: Color(0xFF6EE7B7),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600))),
-      ]));
+        color: const Color(0xFF0B1426),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: horizontal
+          ? Row(children: [
+              _avatar(),
+              const SizedBox(width: 18),
+              Expanded(child: details),
+            ])
+          : Column(children: [_avatar(), const SizedBox(height: 14), details]),
+    );
+  }
 
-  Widget _infoRow(IconData icon, String label, String value,
-          {Color accent = const Color(0xFF6C5CE7)}) =>
-      Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+  Widget _fact(IconData icon, String label, String value) => Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE6EAF0)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                    color: accent.withOpacity(.1),
-                    borderRadius: BorderRadius.circular(13)),
-                child: Icon(icon, color: accent, size: 20)),
-            const SizedBox(width: 12),
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0EDFF),
+                borderRadius: BorderRadius.circular(11),
+              ),
+              child: Icon(icon, color: const Color(0xFF6C5CE7), size: 20),
+            ),
+            const SizedBox(width: 11),
             Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(label,
                       style: const TextStyle(
-                          fontSize: 11, color: Color(0xFF64748B))),
-                  const SizedBox(height: 2),
-                  Text(value,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF111827),
-                          fontWeight: FontWeight.w500)),
-                ])),
-          ]));
+                          color: Color(0xFF64748B), fontSize: 11)),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFF111827),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
-  Widget _accountCard() => Container(
+  Widget _information({required int columns}) {
+    final facts = [
+      _fact(
+        Icons.mail_outline_rounded,
+        OpsFixI18n.t('Email'),
+        currentUserEmail.trim().isEmpty
+            ? OpsFixI18n.t('Email tidak tersedia')
+            : currentUserEmail,
+      ),
+      _fact(
+        Icons.badge_outlined,
+        OpsFixI18n.t('ID pengguna'),
+        currentUserUid.trim().isEmpty
+            ? OpsFixI18n.t('ID tidak tersedia')
+            : currentUserUid,
+      ),
+      _fact(Icons.manage_accounts_outlined, OpsFixI18n.t('Peran'), _role),
+      _fact(Icons.check_circle_outline_rounded, OpsFixI18n.t('Status akun'),
+          _status),
+    ];
+
+    Widget body;
+    if (columns >= 4) {
+      body = Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(child: facts[0]),
+        const SizedBox(width: 10),
+        Expanded(child: facts[1]),
+        const SizedBox(width: 10),
+        Expanded(child: facts[2]),
+        const SizedBox(width: 10),
+        Expanded(child: facts[3]),
+      ]);
+    } else if (columns >= 2) {
+      body = Column(children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(child: facts[0]),
+          const SizedBox(width: 10),
+          Expanded(child: facts[1]),
+        ]),
+        const SizedBox(height: 10),
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(child: facts[2]),
+          const SizedBox(width: 10),
+          Expanded(child: facts[3]),
+        ]),
+      ]);
+    } else {
+      body = Column(children: [
+        facts[0],
+        const SizedBox(height: 10),
+        facts[1],
+        const SizedBox(height: 10),
+        facts[2],
+        const SizedBox(height: 10),
+        facts[3],
+      ]);
+    }
+
+    return Container(
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFDDE2E7)),
+      ),
       child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text('Informasi akun',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF111827))),
-            const SizedBox(height: 4),
-            _infoRow(Icons.mail_outline, 'Email', _email),
-            const Divider(height: 1),
-            _infoRow(Icons.verified_user_outlined, 'Peran', _role),
-            const Divider(height: 1),
-            _infoRow(Icons.check_circle_outline, 'Status akun', _status,
-                accent: _active
-                    ? const Color(0xFF059669)
-                    : const Color(0xFF64748B)),
-            if (_loadError != null) ...[
-              const SizedBox(height: 12),
-              Container(
-                  padding: const EdgeInsets.all(13),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFFFF7ED),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: const Color(0xFFFED7AA))),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(Icons.info_outline,
-                            color: Color(0xFFEA580C), size: 20),
-                        const SizedBox(width: 9),
-                        Expanded(
-                            child: Text(_loadError!,
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF9A3412),
-                                    height: 1.35))),
-                        IconButton(
-                            onPressed: _loading ? null : _load,
-                            visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.refresh,
-                                color: Color(0xFFEA580C), size: 19)),
-                      ])),
-            ],
-            if (_loading) ...[
-              const SizedBox(height: 12),
-              const LinearProgressIndicator(minHeight: 3),
-            ],
-            if (_logoutError != null) ...[
-              const SizedBox(height: 12),
-              Text(_logoutError!,
-                  style:
-                      const TextStyle(fontSize: 12, color: Color(0xFFB91C1C))),
-            ],
-            const SizedBox(height: 16),
-            FilledButton.icon(
-                onPressed: _loggingOut ? null : _logout,
-                style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFFDC2626),
-                    minimumSize: const Size.fromHeight(52),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14))),
-                icon: _loggingOut
-                    ? const SizedBox(
-                        width: 17,
-                        height: 17,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white))
-                    : const Icon(Icons.logout, size: 20),
-                label:
-                    Text(_loggingOut ? 'Sedang keluar…' : 'Keluar dari akun')),
-          ]));
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(OpsFixI18n.t('Informasi akun'),
+              style: const TextStyle(
+                  color: Color(0xFF111827),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700)),
+          const SizedBox(height: 14),
+          body,
+          if (_loading) ...[
+            const SizedBox(height: 14),
+            const LinearProgressIndicator(minHeight: 3),
+          ],
+          if (_loadError != null) ...[
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF7ED),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(children: [
+                const Icon(Icons.info_outline,
+                    color: Color(0xFFD97706), size: 20),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: Text(_loadError!,
+                      style: const TextStyle(
+                          color: Color(0xFF92400E),
+                          fontSize: 12,
+                          height: 1.35)),
+                ),
+                IconButton(
+                  tooltip: OpsFixI18n.t('Coba lagi'),
+                  onPressed: _loading
+                      ? null
+                      : () {
+                          setState(() {
+                            _loading = true;
+                            _loadError = null;
+                          });
+                          _load();
+                        },
+                  icon: const Icon(Icons.refresh,
+                      color: Color(0xFFD97706), size: 20),
+                ),
+              ]),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 
-  Widget _content({required bool desktop, required bool tablet}) =>
-      SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding:
-              EdgeInsets.fromLTRB(desktop ? 28 : 16, 24, desktop ? 28 : 16, 32),
-          child: Center(
-              child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: desktop ? 1120 : 900),
-            child: desktop || tablet
-                ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Expanded(flex: 5, child: _identityCard()),
-                    const SizedBox(width: 20),
-                    Expanded(flex: 6, child: _accountCard()),
-                  ])
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                        _identityCard(),
-                        const SizedBox(height: 16),
-                        _accountCard(),
-                      ]),
-          )));
+  Widget _session({required bool horizontal}) {
+    final copy = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(OpsFixI18n.t('Sesi akun'),
+            style: const TextStyle(
+                color: Color(0xFF111827),
+                fontSize: 16,
+                fontWeight: FontWeight.w700)),
+        const SizedBox(height: 5),
+        Text(OpsFixI18n.t('Keluar dengan aman dari portal teknisi.'),
+            style: const TextStyle(color: Color(0xFF64748B), fontSize: 12)),
+      ],
+    );
+    final logoutButton = FilledButton.icon(
+      onPressed: _loggingOut ? null : _logout,
+      icon: _loggingOut
+          ? const SizedBox.square(
+              dimension: 16,
+              child: CircularProgressIndicator(
+                  strokeWidth: 2, color: Colors.white),
+            )
+          : const Icon(Icons.logout_rounded, size: 19),
+      label: Text(_loggingOut
+          ? OpsFixI18n.t('Sedang keluar…')
+          : OpsFixI18n.t('Keluar dari akun')),
+      style: FilledButton.styleFrom(
+        backgroundColor: const Color(0xFFDC2626),
+        minimumSize:
+            horizontal ? const Size(210, 48) : const Size.fromHeight(48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+      ),
+    );
+    final action = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_logoutError != null) ...[
+          Text(
+            _logoutError!,
+            style: const TextStyle(fontSize: 12, color: Color(0xFFB91C1C)),
+          ),
+          const SizedBox(height: 10),
+        ],
+        logoutButton,
+      ],
+    );
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFDDE2E7)),
+      ),
+      child: horizontal
+          ? Row(children: [
+              Expanded(child: copy),
+              const SizedBox(width: 18),
+              SizedBox(width: 210, child: action),
+            ])
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [copy, const SizedBox(height: 14), action],
+            ),
+    );
+  }
+
+  Widget _content({required bool desktop, required bool tablet}) {
+    final padding = desktop ? 28.0 : 16.0;
+    return ListView(
+      physics: const ClampingScrollPhysics(),
+      padding: EdgeInsets.fromLTRB(padding, 20, padding, 28),
+      children: [
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: LayoutBuilder(builder: (context, constraints) {
+              final available = constraints.maxWidth;
+              if (available < 480) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _identityCard(horizontal: false),
+                    const SizedBox(height: 14),
+                    _information(columns: 1),
+                    const SizedBox(height: 14),
+                    _session(horizontal: false),
+                  ],
+                );
+              }
+              if (available < 900) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _identityCard(horizontal: true),
+                    const SizedBox(height: 16),
+                    _information(columns: 2),
+                    const SizedBox(height: 16),
+                    _session(horizontal: available >= 600),
+                  ],
+                );
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _identityCard(horizontal: true),
+                  const SizedBox(height: 18),
+                  _information(columns: 4),
+                  const SizedBox(height: 18),
+                  _session(horizontal: true),
+                ],
+              );
+            }),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: const OpsFixLanguageSetting(),
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

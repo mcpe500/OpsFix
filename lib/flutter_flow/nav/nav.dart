@@ -339,6 +339,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           path: ReporterQrScannerPageWidget.routePath,
           requireAuth: true,
           builder: (context, params) => ReporterQrScannerPageWidget(),
+        ),
+        FFRoute(
+          name: ReporterLocationTicketsPageWidget.routeName,
+          path: ReporterLocationTicketsPageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => ReporterLocationTicketsPageWidget(
+            locationId: params.getParam(
+              'locationId',
+              ParamType.String,
+            ),
+            ticketId: params.getParam(
+              'ticketId',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

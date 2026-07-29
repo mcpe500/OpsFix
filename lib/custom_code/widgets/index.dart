@@ -102,3 +102,23 @@ export '/custom_code/widgets/ops_fix_responsive_technician_profile.dart'
     show OpsFixResponsiveTechnicianProfile;
 export '/custom_code/widgets/ops_fix_language_setting.dart'
     show OpsFixLanguageSetting;
+export '/custom_code/widgets/ops_fix_notification_bell.dart'
+    show OpsFixNotificationBell;
+export '/custom_code/widgets/ops_fix_reporter_incident_preview.dart'
+    show OpsFixReporterIncidentPreview;
+export '/custom_code/widgets/ops_fix_responsive_reporter_location_tickets.dart'
+    show OpsFixResponsiveReporterLocationTickets;
+export '/custom_code/widgets/ops_fix_reporter_header_actions.dart'
+    show OpsFixReporterHeaderActions;
+export '/custom_code/widgets/ops_fix_reporter_bottom_nav.dart'
+    show OpsFixReporterBottomNav;
+export '/custom_code/widgets/ops_fix_reporter_sidebar.dart'
+    show OpsFixReporterSidebar;
+export '/custom_code/widgets/ops_fix_responsive_reporter_qr_shell.dart'
+    show OpsFixResponsiveReporterQrShell;
+export '/custom_code/widgets/ops_fix_reporter_ticket_detail_content.dart'
+    show OpsFixReporterTicketDetailContent;
+export '/custom_code/widgets/ops_fix_responsive_reporter_ticket_detail.dart'
+    show OpsFixResponsiveReporterTicketDetail;
+export '/custom_code/widgets/ops_fix_bulk_qr_export_panel.dart'
+    show OpsFixBulkQrExportPanel;

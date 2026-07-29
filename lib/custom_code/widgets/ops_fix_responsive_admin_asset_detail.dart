@@ -12,6 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '/custom_code/widgets/ops_fix_admin_asset_detail_content.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixResponsiveAdminAssetDetail extends StatefulWidget {
   const OpsFixResponsiveAdminAssetDetail({
@@ -39,7 +48,10 @@ class _OpsFixResponsiveAdminAssetDetailState
   final _contentKey = GlobalKey<OpsFixAdminAssetDetailContentState>();
 
   void _go(BuildContext context, String route) {
-    context.pushNamed(route);
+    context.pushNamed(
+      route,
+      extra: _opsFixPageFade(),
+    );
   }
 
   void _back(BuildContext context) {
@@ -52,6 +64,7 @@ class _OpsFixResponsiveAdminAssetDetailState
       context.pushNamed(
         'AdminAssetLocationDetailPage',
         queryParameters: {'locationId': widget.locationId.trim()},
+        extra: _opsFixPageFade(),
       );
     } else if (Navigator.of(context).canPop()) {
       Navigator.of(context).pop();
@@ -83,8 +96,8 @@ class _OpsFixResponsiveAdminAssetDetailState
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Detail Aset',
+                  Text(
+                    OpsFixI18n.t('Detail Aset'),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -94,8 +107,9 @@ class _OpsFixResponsiveAdminAssetDetailState
                     ),
                   ),
                   if (desktop)
-                    const Text(
-                      'Identitas, kondisi, dan riwayat pemeliharaan unit',
+                    Text(
+                      OpsFixI18n.t(
+                          'Identitas, kondisi, dan riwayat pemeliharaan unit'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -170,32 +184,32 @@ class _OpsFixResponsiveAdminAssetDetailState
             _bottomItem(
               context,
               Icons.dashboard_outlined,
-              'Beranda',
+              OpsFixI18n.t('Beranda'),
               'adminDashboardPage',
             ),
             _bottomItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tiket',
+              OpsFixI18n.t('Tiket'),
               'adminTicketsPage',
             ),
             _bottomItem(
               context,
               Icons.view_kanban_outlined,
-              'Board',
+              OpsFixI18n.t('Board'),
               'adminWorkBoardPage',
             ),
             _bottomItem(
               context,
               Icons.inventory_2,
-              'Aset',
+              OpsFixI18n.t('Aset'),
               'adminAssetsLocationsPage',
               active: true,
             ),
             _bottomItem(
               context,
               Icons.history,
-              'Log',
+              OpsFixI18n.t('Log'),
               'adminActivityLogPage',
             ),
           ],
@@ -251,7 +265,7 @@ class _OpsFixResponsiveAdminAssetDetailState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
                   radius: 23,
@@ -278,7 +292,7 @@ class _OpsFixResponsiveAdminAssetDetailState
                       ),
                     ),
                     Text(
-                      'Portal pengelola',
+                      OpsFixI18n.t('Portal admin'),
                       style: TextStyle(
                         color: Color(0xFF94A3B8),
                         fontSize: 11,
@@ -292,28 +306,28 @@ class _OpsFixResponsiveAdminAssetDetailState
             _sideItem(
               context,
               Icons.dashboard_outlined,
-              'Dashboard',
+              OpsFixI18n.t('Dashboard'),
               'adminDashboardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.confirmation_number_outlined,
-              'Tickets',
+              OpsFixI18n.t('Tickets'),
               'adminTicketsPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.view_kanban_outlined,
-              'Work board',
+              OpsFixI18n.t('Work board'),
               'adminWorkBoardPage',
             ),
             const SizedBox(height: 8),
             _sideItem(
               context,
               Icons.inventory_2,
-              'Locations & assets',
+              OpsFixI18n.t('Locations & assets'),
               'adminAssetsLocationsPage',
               active: true,
             ),
@@ -321,7 +335,7 @@ class _OpsFixResponsiveAdminAssetDetailState
             _sideItem(
               context,
               Icons.history,
-              'Activity log',
+              OpsFixI18n.t('Activity log'),
               'adminActivityLogPage',
             ),
             const Spacer(),

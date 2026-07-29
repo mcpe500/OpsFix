@@ -57,16 +57,22 @@ Future<String> resolveOpsFixSession() async {
   }
 
   if (isReporter && selected == null && allowedSites.isNotEmpty) {
-    final ticketRows = await SupaFlow.client
-        .from('tickets')
-        .select('location_id,site_id,created_at')
-        .eq('reporter_id', user.id)
-        .inFilter('site_id', allowedSites)
-        .order('created_at', ascending: false)
-        .limit(1);
-    if (ticketRows.isNotEmpty) {
-      selected = await activeLocation(
-          ticketRows.first['location_id']?.toString() ?? '');
+    for (final siteId in allowedSites) {
+      final raw = await SupaFlow.client.rpc(
+        'list_opsfix_reporter_tickets',
+        params: {'p_site_id': siteId, 'p_limit': 1, 'p_offset': 0},
+      );
+      final response =
+          raw is Map ? Map<String, dynamic>.from(raw) : <String, dynamic>{};
+      final incidents = response['incidents'] is List
+          ? response['incidents'] as List
+          : const <dynamic>[];
+      if (incidents.isNotEmpty) {
+        final incident = Map<String, dynamic>.from(incidents.first as Map);
+        selected =
+            await activeLocation(incident['location_id']?.toString() ?? '');
+        if (selected != null) break;
+      }
     }
   }
 

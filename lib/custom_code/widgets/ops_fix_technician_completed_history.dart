@@ -13,6 +13,15 @@ import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
+
+Map<String, dynamic> _opsFixPageFade() => <String, dynamic>{
+      '__transition_info__': const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 160),
+      ),
+    };
 
 class OpsFixTechnicianCompletedHistory extends StatefulWidget {
   const OpsFixTechnicianCompletedHistory({super.key, this.width, this.height});
@@ -62,7 +71,7 @@ class _OpsFixTechnicianCompletedHistoryState
       if (mounted)
         setState(() {
           _loading = false;
-          _error = 'Riwayat pekerjaan belum dapat dimuat.';
+          _error = OpsFixI18n.t('Riwayat pekerjaan belum dapat dimuat.');
         });
     }
   }
@@ -74,7 +83,7 @@ class _OpsFixTechnicianCompletedHistoryState
 
   String _date(dynamic raw) {
     final value = DateTime.tryParse(raw?.toString() ?? '')?.toLocal();
-    if (value == null) return 'Waktu tidak tersedia';
+    if (value == null) return OpsFixI18n.t('Waktu tidak tersedia');
     String two(int number) => number.toString().padLeft(2, '0');
     return '${two(value.day)}/${two(value.month)}/${value.year} · ${two(value.hour)}:${two(value.minute)}';
   }
@@ -84,6 +93,7 @@ class _OpsFixTechnicianCompletedHistoryState
       'technicianTicketDetailPage',
       queryParameters:
           {'ticketId': serializeParam(id, ParamType.String)}.withoutNulls,
+      extra: _opsFixPageFade(),
     );
   }
 
@@ -100,7 +110,8 @@ class _OpsFixTechnicianCompletedHistoryState
           children: [
             Row(children: [
               Expanded(
-                  child: Text(_text(ticket, 'ticket_code', 'Tiket'),
+                  child: Text(
+                      _text(ticket, 'ticket_code', OpsFixI18n.t('Tiket')),
                       style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -112,8 +123,8 @@ class _OpsFixTechnicianCompletedHistoryState
                     borderRadius: BorderRadius.circular(14)),
                 child: Text(
                   ticket['status']?.toString() == 'closed'
-                      ? 'Ditutup'
-                      : 'Selesai',
+                      ? OpsFixI18n.t('Ditutup')
+                      : OpsFixI18n.t('Selesai'),
                   style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -122,13 +133,17 @@ class _OpsFixTechnicianCompletedHistoryState
               ),
             ]),
             const SizedBox(height: 8),
-            Text(_text(ticket, 'target_label_snapshot', 'Unit fasilitas'),
+            Text(
+                _text(ticket, 'target_label_snapshot',
+                    OpsFixI18n.t('Unit fasilitas')),
                 style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF111827))),
             const SizedBox(height: 4),
-            Text(_text(ticket, 'issue_type_snapshot', 'Gangguan fasilitas'),
+            Text(
+                _text(ticket, 'issue_type_snapshot',
+                    OpsFixI18n.t('Gangguan fasilitas')),
                 style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
             const SizedBox(height: 10),
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -137,7 +152,7 @@ class _OpsFixTechnicianCompletedHistoryState
               const SizedBox(width: 6),
               Expanded(
                   child: Text(
-                      '${_text(ticket, 'location_name_snapshot', 'Lokasi belum tersedia')} · ${_text(ticket, 'unit_code_snapshot', 'Unit belum tersedia')}',
+                      '${_text(ticket, 'location_name_snapshot', OpsFixI18n.t('Lokasi belum tersedia'))} · ${_text(ticket, 'unit_code_snapshot', OpsFixI18n.t('Unit belum tersedia'))}',
                       style: const TextStyle(
                           fontSize: 12, color: Color(0xFF475569)))),
             ]),
@@ -148,7 +163,7 @@ class _OpsFixTechnicianCompletedHistoryState
             OutlinedButton.icon(
               onPressed: () => _open(ticket['id']?.toString() ?? ''),
               icon: const Icon(Icons.arrow_forward, size: 18),
-              label: const Text('Lihat detail'),
+              label: Text(OpsFixI18n.t('Lihat detail')),
             ),
           ],
         ),
@@ -167,13 +182,14 @@ class _OpsFixTechnicianCompletedHistoryState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Riwayat perbaikan',
+            Text(OpsFixI18n.t('Riwayat perbaikan'),
                 style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF111827))),
             const SizedBox(height: 3),
-            const Text('Pekerjaan selesai dan tiket yang telah ditutup.',
+            Text(
+                OpsFixI18n.t('Pekerjaan selesai dan tiket yang telah ditutup.'),
                 style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
             const SizedBox(height: 12),
             const Divider(height: 1),
@@ -186,8 +202,10 @@ class _OpsFixTechnicianCompletedHistoryState
                           child: Text(_error!,
                               style: const TextStyle(color: Color(0xFFDC2626))))
                       : _tickets.isEmpty
-                          ? const Center(
-                              child: Text('Belum ada pekerjaan yang selesai.',
+                          ? Center(
+                              child: Text(
+                                  OpsFixI18n.t(
+                                      'Belum ada pekerjaan yang selesai.'),
                                   style: TextStyle(color: Color(0xFF64748B))))
                           : ListView.separated(
                               padding: EdgeInsets.zero,

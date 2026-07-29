@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +50,28 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
       );
       if (_model.locationEntryResolution == 'ok') {
         if (_model.locationEntryRole == 'manager') {
-          context.goNamed(AdminDashboardPageWidget.routeName);
+          context.goNamed(
+            AdminDashboardPageWidget.routeName,
+            extra: <String, dynamic>{
+              '__transition_info__': TransitionInfo(
+                hasTransition: true,
+                transitionType: PageTransitionType.fade,
+                duration: Duration(milliseconds: 160),
+              ),
+            },
+          );
         } else {
           if (_model.locationEntryRole == 'technician') {
-            context.goNamed(TechnicianTasksPageWidget.routeName);
+            context.goNamed(
+              TechnicianTasksPageWidget.routeName,
+              extra: <String, dynamic>{
+                '__transition_info__': TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 160),
+                ),
+              },
+            );
           } else {
             context.goNamed(
               ReportIssuePageWidget.routeName,
@@ -62,17 +81,36 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                   ParamType.String,
                 ),
               }.withoutNulls,
+              extra: <String, dynamic>{
+                '__transition_info__': TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 160),
+                ),
+              },
             );
           }
         }
       } else {
         if (_model.locationEntryResolution == 'unauthenticated') {
-          context.goNamed(LoginPageWidget.routeName);
+          context.goNamed(
+            LoginPageWidget.routeName,
+            extra: <String, dynamic>{
+              '__transition_info__': TransitionInfo(
+                hasTransition: true,
+                transitionType: PageTransitionType.fade,
+                duration: Duration(milliseconds: 160),
+              ),
+            },
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Lokasi dari QR tidak ditemukan. Pastikan tautan berasal dari OpsFix.',
+                functions.opsFixLocalizedMessage(
+                    'Lokasi dari QR tidak ditemukan. Pastikan tautan berasal dari OpsFix.',
+                    'The QR location was not found. Make sure the link comes from OpsFix.',
+                    FFAppState().appLanguage)!,
                 style: TextStyle(),
               ),
               duration: Duration(milliseconds: 4000),
@@ -247,11 +285,38 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                     );
                     if (_model.sourceManualResolution == 'ok') {
                       if (FFAppState().currentUserRole == 'manager') {
-                        context.goNamed(AdminDashboardPageWidget.routeName);
+                        context.goNamed(
+                          AdminDashboardPageWidget.routeName,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 160),
+                            ),
+                          },
+                        );
                       } else if (FFAppState().currentUserRole == 'technician') {
-                        context.goNamed(TechnicianTasksPageWidget.routeName);
+                        context.goNamed(
+                          TechnicianTasksPageWidget.routeName,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 160),
+                            ),
+                          },
+                        );
                       } else {
-                        context.goNamed(HomeUserPageWidget.routeName);
+                        context.goNamed(
+                          HomeUserPageWidget.routeName,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 160),
+                            ),
+                          },
+                        );
                       }
                     } else if (_model.sourceManualResolution ==
                         'unauthenticated') {
@@ -259,12 +324,24 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                           _model.sourceLocationInput!;
                       safeSetState(() {});
 
-                      context.pushNamed(LoginPageWidget.routeName);
+                      context.pushNamed(
+                        LoginPageWidget.routeName,
+                        extra: <String, dynamic>{
+                          '__transition_info__': TransitionInfo(
+                            hasTransition: true,
+                            transitionType: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 160),
+                          ),
+                        },
+                      );
                     } else if (_model.sourceManualResolution == 'invalid') {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Masukkan kode atau URL lokasi yang valid.',
+                            functions.opsFixLocalizedMessage(
+                                'Masukkan kode atau URL lokasi yang valid.',
+                                'Enter a valid location code or URL.',
+                                FFAppState().appLanguage)!,
                             style: TextStyle(),
                           ),
                           duration: Duration(milliseconds: 4000),
@@ -274,7 +351,10 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Lokasi tidak ditemukan.',
+                            functions.opsFixLocalizedMessage(
+                                'Lokasi tidak ditemukan.',
+                                'Location not found.',
+                                FFAppState().appLanguage)!,
                             style: TextStyle(),
                           ),
                           duration: Duration(milliseconds: 4000),
@@ -301,7 +381,16 @@ class _LocationEntryPageWidgetState extends State<LocationEntryPageWidget> {
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    context.pushNamed(LoginPageWidget.routeName);
+                    context.pushNamed(
+                      LoginPageWidget.routeName,
+                      extra: <String, dynamic>{
+                        '__transition_info__': TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 160),
+                        ),
+                      },
+                    );
                   },
                   text: FFLocalizations.of(context).getText(
                     'hfkt0x32' /* Masuk terlebih dahulu */,

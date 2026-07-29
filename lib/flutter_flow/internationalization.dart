@@ -1899,63 +1899,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
     },
   },
-  // ticketDetailPage
-  {
-    'u3xbj2aa': {
-      'id': 'Detail Tiket',
-      'en': 'Ticket Details',
-    },
-    'okdjsiqh': {
-      'id': 'TICKET TRACKING',
-      'en': 'TICKET TRACKING',
-    },
-    'pi678r9b': {
-      'id': 'Informasi laporan',
-      'en': 'Report information',
-    },
-    'e7no2xuj': {
-      'id': 'Status',
-      'en': 'Status',
-    },
-    '6o4dlirm': {
-      'id': 'Prioritas',
-      'en': 'Priority',
-    },
-    '7kcwrgj5': {
-      'id': 'Unit',
-      'en': 'Unit',
-    },
-    'bgs7jrua': {
-      'id': 'Teknisi',
-      'en': 'Technician',
-    },
-    '4zzhlgf9': {
-      'id': 'Kategori',
-      'en': 'Category',
-    },
-    'viveivea': {
-      'id': 'Verifikasi perbaikan',
-      'en': 'Verify repair',
-    },
-    'kr1brbhj': {
-      'id':
-          'Periksa catatan hasil teknisi. Terima jika masalah selesai, atau buka kembali bila masih bermasalah.',
-      'en':
-          'Review the technician\'s notes. Accept them if the problem is resolved, or reopen them if the issue persists.',
-    },
-    '3y66ojic': {
-      'id': 'Terima',
-      'en': 'Accept',
-    },
-    'n4kb7hzr': {
-      'id': 'Buka lagi',
-      'en': 'Open again',
-    },
-    'idr0j999': {
-      'id': 'Linimasa tiket',
-      'en': 'Ticket timeline',
-    },
-  },
   // LoginPageCopy
   {
     'oh3w0zcr': {
@@ -2189,6 +2132,18 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'rpatgges': {
       'id': 'Continue as guest',
       'en': 'Continue as a guest',
+    },
+    'rzrkg0vs': {
+      'id':
+          'Aplikasi ini memerlukan akses ke kamera untuk mengambil foto dan memindai konten.',
+      'en':
+          'This app needs access to your camera to capture photos and scan content.',
+    },
+    '3xu322m0': {
+      'id':
+          'Aplikasi ini mengakses galeri foto Anda agar Anda dapat memilih dan mengunggah foto.',
+      'en':
+          'This app accesses your photo library so you can select and upload photos.',
     },
     'doggw5qo': {
       'id': '',

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import '/backend/supabase/supabase.dart';
+import '/custom_code/widgets/ops_fix_language_setting.dart';
 
 class OpsFixResponsiveLocationForm extends StatefulWidget {
   const OpsFixResponsiveLocationForm({
@@ -95,7 +96,7 @@ class _OpsFixResponsiveLocationFormState
 
   Future<void> _loadCurrentLocation() async {
     if (widget.locationId.trim().isEmpty || widget.siteId.trim().isEmpty) {
-      setState(() => _message = 'Lokasi tidak dapat dimuat.');
+      setState(() => _message = OpsFixI18n.t('Lokasi tidak dapat dimuat.'));
       return;
     }
     setState(() => _loadingRecord = true);
@@ -103,8 +104,7 @@ class _OpsFixResponsiveLocationFormState
       final row = await SupaFlow.client
           .from('locations')
           .select(
-            'id,site_id,code,name,slug,location_type,building,floor,'
-            'zone_code,description,is_active',
+            'id,site_id,code,name,slug,location_type,building,floor,zone_code,description,is_active',
           )
           .eq('id', widget.locationId)
           .eq('site_id', widget.siteId)
@@ -114,7 +114,8 @@ class _OpsFixResponsiveLocationFormState
       if (row == null) {
         setState(() {
           _loadingRecord = false;
-          _message = 'Lokasi tidak ditemukan atau tidak dapat diakses.';
+          _message =
+              OpsFixI18n.t('Lokasi tidak ditemukan atau tidak dapat diakses.');
         });
         return;
       }
@@ -135,7 +136,7 @@ class _OpsFixResponsiveLocationFormState
       if (!mounted) return;
       setState(() {
         _loadingRecord = false;
-        _message = 'Data lokasi gagal dimuat. Coba lagi.';
+        _message = OpsFixI18n.t('Data lokasi gagal dimuat. Coba lagi.');
       });
     }
   }
@@ -158,13 +159,16 @@ class _OpsFixResponsiveLocationFormState
       .replaceAll(RegExp(r'^-+|-+$'), '');
 
   String _messageFor(String code) => switch (code) {
-        'duplicate_code' => 'Kode sudah digunakan pada situs ini.',
-        'duplicate_slug' => 'Slug QR sudah digunakan. Gunakan kode lain.',
-        'access_denied' => 'Anda tidak memiliki akses manajer untuk data ini.',
-        'invalid' => 'Periksa kembali nilai formulir.',
+        'duplicate_code' =>
+          OpsFixI18n.t('Kode sudah digunakan pada situs ini.'),
+        'duplicate_slug' =>
+          OpsFixI18n.t('Slug QR sudah digunakan. Gunakan kode lain.'),
+        'access_denied' =>
+          OpsFixI18n.t('Anda tidak memiliki akses manajer untuk data ini.'),
+        'invalid' => OpsFixI18n.t('Periksa kembali nilai formulir.'),
         'network_error' =>
-          'Koneksi gagal. Form tetap terbuka untuk dicoba lagi.',
-        _ => 'Operasi tidak dapat diselesaikan.',
+          OpsFixI18n.t('Koneksi gagal. Form tetap terbuka untuk dicoba lagi.'),
+        _ => OpsFixI18n.t('Operasi tidak dapat diselesaikan.'),
       };
 
   Future<void> _save() async {
@@ -261,20 +265,22 @@ class _OpsFixResponsiveLocationFormState
         textInputAction:
             maxLines == 1 ? TextInputAction.next : TextInputAction.newline,
         decoration: _decoration(label),
-        onChanged: label == 'Kode lokasi' ? (_) => setState(() {}) : null,
+        onChanged: label == OpsFixI18n.t('Kode lokasi')
+            ? (_) => setState(() {})
+            : null,
       );
 
   Widget _typeField() => DropdownButtonFormField<String>(
         value: _locationType,
         isExpanded: true,
-        decoration: _decoration('Tipe lokasi'),
-        items: const {
-          'room': 'Ruangan',
-          'corridor': 'Koridor',
-          'toilet': 'Toilet',
-          'parking': 'Parkir',
-          'outdoor': 'Luar ruang',
-          'other': 'Lainnya',
+        decoration: _decoration(OpsFixI18n.t('Tipe lokasi')),
+        items: {
+          'room': OpsFixI18n.t('Ruangan'),
+          'corridor': OpsFixI18n.t('Koridor'),
+          'toilet': OpsFixI18n.t('Toilet'),
+          'parking': OpsFixI18n.t('Parkir'),
+          'outdoor': OpsFixI18n.t('Luar ruang'),
+          'other': OpsFixI18n.t('Lainnya'),
         }
             .entries
             .map(
@@ -354,7 +360,9 @@ class _OpsFixResponsiveLocationFormState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _isEdit ? 'Edit lokasi' : 'Tambah lokasi',
+                              _isEdit
+                                  ? OpsFixI18n.t('Edit lokasi')
+                                  : OpsFixI18n.t('Tambah lokasi'),
                               style: const TextStyle(
                                 color: Color(0xFF111827),
                                 fontSize: 20,
@@ -364,8 +372,10 @@ class _OpsFixResponsiveLocationFormState
                             const SizedBox(height: 2),
                             Text(
                               _isEdit
-                                  ? 'Perbarui informasi lokasi operasional.'
-                                  : 'Daftarkan lokasi operasional baru.',
+                                  ? OpsFixI18n.t(
+                                      'Perbarui informasi lokasi operasional.')
+                                  : OpsFixI18n.t(
+                                      'Daftarkan lokasi operasional baru.'),
                               style: const TextStyle(
                                 color: Color(0xFF64748B),
                                 fontSize: 13,
@@ -375,7 +385,7 @@ class _OpsFixResponsiveLocationFormState
                         ),
                       ),
                       IconButton(
-                        tooltip: 'Tutup',
+                        tooltip: OpsFixI18n.t('Tutup'),
                         onPressed: _busy
                             ? null
                             : () => Navigator.of(context).pop(false),
@@ -399,7 +409,7 @@ class _OpsFixResponsiveLocationFormState
                       children: [
                         _fieldRow(
                           wide,
-                          _textField(_code, 'Kode lokasi'),
+                          _textField(_code, OpsFixI18n.t('Kode lokasi')),
                           _typeField(),
                         ),
                         const SizedBox(height: 10),
@@ -426,10 +436,9 @@ class _OpsFixResponsiveLocationFormState
                               Expanded(
                                 child: Text(
                                   _isEdit
-                                      ? 'Slug QR tetap: '
-                                          '${_slug.isEmpty ? '-' : _slug}'
-                                      : 'Slug QR: '
-                                          '${_slugPreview.isEmpty ? '-' : _slugPreview}',
+                                      ? OpsFixI18n.tf('Slug QR tetap: {0}',
+                                          [_slug.isEmpty ? '-' : _slug])
+                                      : 'Slug QR: ${_slugPreview.isEmpty ? '-' : _slugPreview}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -443,22 +452,22 @@ class _OpsFixResponsiveLocationFormState
                           ),
                         ),
                         const SizedBox(height: 14),
-                        _textField(_name, 'Nama lokasi'),
+                        _textField(_name, OpsFixI18n.t('Nama lokasi')),
                         const SizedBox(height: 14),
                         _fieldRow(
                           wide,
-                          _textField(_building, 'Gedung'),
-                          _textField(_floor, 'Lantai'),
+                          _textField(_building, OpsFixI18n.t('Gedung')),
+                          _textField(_floor, OpsFixI18n.t('Lantai')),
                         ),
                         const SizedBox(height: 14),
                         _textField(
                           _zone,
-                          'Zona (kosong = kode lokasi)',
+                          OpsFixI18n.t('Zona (kosong = kode lokasi)'),
                         ),
                         const SizedBox(height: 14),
                         _textField(
                           _description,
-                          'Deskripsi',
+                          OpsFixI18n.t('Deskripsi'),
                           maxLines: 4,
                         ),
                         if (_message != null) ...[
@@ -517,7 +526,9 @@ class _OpsFixResponsiveLocationFormState
                               )
                             : const Icon(Icons.save_outlined, size: 19),
                         label: Text(
-                          _busy ? 'Menyimpan…' : 'Simpan lokasi',
+                          _busy
+                              ? OpsFixI18n.t('Menyimpan…')
+                              : OpsFixI18n.t('Simpan lokasi'),
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                           ),
