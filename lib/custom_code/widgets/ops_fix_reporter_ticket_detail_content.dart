@@ -443,6 +443,17 @@ class _OpsFixReporterTicketDetailContentState
         ),
       );
 
+  bool _canVerifyAttempt(Map<String, dynamic> attempt) {
+    if (_text(_ticket ?? const <String, dynamic>{}, 'status', '') !=
+            'pending_verification' ||
+        _attempts.isEmpty) {
+      return false;
+    }
+    final attemptId = _text(attempt, 'id', '');
+    final latestId = _text(_attempts.last, 'id', '');
+    return attemptId.isNotEmpty && attemptId == latestId;
+  }
+
   Widget _attemptActions(Map<String, dynamic> attempt, double width) {
     final attemptId = _text(attempt, 'id', '');
     final busy = _busyAttemptId == attemptId;
@@ -533,10 +544,13 @@ class _OpsFixReporterTicketDetailContentState
               ),
             ],
           );
-          final actions = _attemptActions(
-            attempt,
-            horizontal ? 340 : constraints.maxWidth,
-          );
+          final canVerify = _canVerifyAttempt(attempt);
+          final actions = canVerify
+              ? _attemptActions(
+                  attempt,
+                  horizontal ? 340 : constraints.maxWidth,
+                )
+              : null;
           return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -544,23 +558,25 @@ class _OpsFixReporterTicketDetailContentState
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: const Color(0xFFE2E8F0)),
             ),
-            child: horizontal
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: note),
-                      const SizedBox(width: 24),
-                      SizedBox(width: 340, child: actions),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      note,
-                      const SizedBox(height: 13),
-                      actions,
-                    ],
-                  ),
+            child: !canVerify
+                ? note
+                : horizontal
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(child: note),
+                          const SizedBox(width: 24),
+                          SizedBox(width: 340, child: actions!),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          note,
+                          const SizedBox(height: 13),
+                          actions!,
+                        ],
+                      ),
           );
         },
       );

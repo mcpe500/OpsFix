@@ -61,9 +61,7 @@ class OpsFixResponsiveAdminProfile extends StatelessWidget {
                         fontSize: 21,
                         fontWeight: FontWeight.w700)),
                 if (desktop)
-                  Text(
-                      OpsFixI18n.t(
-                          'Identitas akun dan akses portal pengelola.'),
+                  Text(OpsFixI18n.t('Identitas akun dan akses portal admin.'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),

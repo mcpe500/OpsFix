@@ -175,7 +175,7 @@ class OpsFixAdminActivityLogContentState
   /// ticket statuses — a role fell through to its default branch and rendered
   /// the raw database value (`technician`) instead of a label.
   String _roleLabel(String role) => switch (role.toLowerCase()) {
-        'manager' || 'admin' => OpsFixI18n.t('Pengelola'),
+        'manager' || 'admin' => OpsFixI18n.t('Admin'),
         'technician' => OpsFixI18n.t('Teknisi lapangan'),
         'reporter' || 'user' => OpsFixI18n.t('Pelapor'),
         'system' => OpsFixI18n.t('Sistem'),

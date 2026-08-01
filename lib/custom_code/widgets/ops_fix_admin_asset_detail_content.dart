@@ -883,7 +883,7 @@ class OpsFixAdminAssetDetailContentState
               const SizedBox(width: 5),
               Expanded(
                 child: Text(
-                  _safe(note['author_name'], fallback: OpsFixI18n.t('Manajer')),
+                  _safe(note['author_name'], fallback: OpsFixI18n.t('Admin')),
                   style: const TextStyle(
                     color: Color(0xFF64748B),
                     fontSize: 11,
@@ -988,7 +988,7 @@ class OpsFixAdminAssetDetailContentState
           SizedBox(
             width: 150,
             child: Text(
-              _safe(note['author_name'], fallback: OpsFixI18n.t('Manajer')),
+              _safe(note['author_name'], fallback: OpsFixI18n.t('Admin')),
               style: const TextStyle(
                 color: Color(0xFF64748B),
                 fontSize: 12,

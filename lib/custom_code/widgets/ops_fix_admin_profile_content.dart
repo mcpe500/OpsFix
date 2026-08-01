@@ -96,7 +96,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
 
   String get _roleLabel {
     return switch (_text('role', 'manager')) {
-      'manager' => OpsFixI18n.t('Manager'),
+      'manager' || 'admin' => OpsFixI18n.t('Admin'),
       'technician' => OpsFixI18n.t('Teknisi'),
       'reporter' => OpsFixI18n.t('Pelapor'),
       final value => value.replaceAll('_', ' '),
@@ -346,7 +346,7 @@ class _OpsFixAdminProfileContentState extends State<OpsFixAdminProfileContent> {
                 fontSize: 16,
                 fontWeight: FontWeight.w700)),
         SizedBox(height: 5),
-        Text(OpsFixI18n.t('Keluar dengan aman dari portal pengelola.'),
+        Text(OpsFixI18n.t('Keluar dengan aman dari portal admin.'),
             style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),
       ],
     );

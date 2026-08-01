@@ -131,7 +131,7 @@ class _OpsFixBulkQrExportPanelState extends State<OpsFixBulkQrExportPanel> {
     } else {
       _setMessage(
         result == 'access_denied'
-            ? OpsFixI18n.t('Akses manajer ditolak.')
+            ? OpsFixI18n.t('Akses admin ditolak.')
             : result == 'invalid'
                 ? OpsFixI18n.t('Gunakan URL HTTPS yang valid.')
                 : OpsFixI18n.t('URL gagal disimpan. Periksa koneksi.'),

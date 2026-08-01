@@ -143,7 +143,7 @@ class _OpsFixResponsiveLocationQrPanelState
       _message = code == 'invalid'
           ? OpsFixI18n.t('Gunakan URL HTTPS yang valid.')
           : code == 'access_denied'
-              ? OpsFixI18n.t('Akses manajer ditolak.')
+              ? OpsFixI18n.t('Akses admin ditolak.')
               : OpsFixI18n.t('URL gagal disimpan. Periksa koneksi.');
       _messageIsError = true;
     });

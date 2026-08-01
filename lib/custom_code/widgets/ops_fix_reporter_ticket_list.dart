@@ -86,7 +86,7 @@ class _OpsFixReporterTicketListState extends State<OpsFixReporterTicketList> {
           'target_label_snapshot': row['target_label'],
           'issue_type_snapshot': row['issue_type'],
           'location_name_snapshot': row['location_name'],
-          'technician_name_snapshot': null,
+          'technician_name_snapshot': row['technician_name_snapshot'],
         };
       }).toList();
       setState(() {

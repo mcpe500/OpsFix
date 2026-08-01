@@ -128,6 +128,7 @@ class OpsFixI18n {
     'Admin OpsFix': 'OpsFix admin',
     'Akses aman sesuai peran pengguna.': 'Secure access based on user role.',
     'Akses manajer ditolak.': 'Manager access denied.',
+    'Akses admin ditolak.': 'Admin access denied.',
     'Aktif': 'Active',
     'Aktivitas dimuat': 'Activity loaded',
     'Riwayat aktivitas dapat ditelusuri.': 'Operational activity is traceable.',
@@ -407,6 +408,8 @@ class OpsFixI18n {
     'ID tidak tersedia': 'ID unavailable',
     'Identitas akun dan akses portal pengelola.':
         'Account identity and manager portal access.',
+    'Identitas akun dan akses portal admin.':
+        'Account identity and admin portal access.',
     'Identitas, kondisi, dan riwayat pemeliharaan unit':
         'Unit identity, condition, and maintenance history',
     'Informasi akun': 'Account information',
@@ -456,6 +459,8 @@ class OpsFixI18n {
         'Signing out is taking too long. Try again.',
     'Keluar dengan aman dari portal pengelola.':
         'Sign out of the manager portal securely.',
+    'Keluar dengan aman dari portal admin.':
+        'Sign out of the admin portal securely.',
     'Keluar…': 'Signing out…',
     'Kembali': 'Back',
     'Kembali ke daftar lokasi': 'Back to location list',
